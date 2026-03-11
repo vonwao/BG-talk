@@ -2,29 +2,41 @@
 
 ## About SERC
 - **What:** Monthly speaking series — "TED Talk meets a cocktail party"
-- **Run by:** JT Schultheis
+- **Run by:** JT Schultheis (speechmaster@sercseries.org)
 - **Location:** The Hub at Space of Mind, 101 NW 1st Ave, Delray Beach, FL 33444
-- **Format:** Multiple speakers on a theme, dressy, intellectual crowd
+- **Format:** Multiple speakers on a theme, dressy, intellectual crowd, general public
 - **Website:** https://www.sercseries.org/
 - **Past presentations:** https://www.sercseries.org/presentations
 - **Discord:** https://discord.gg/DDUAdbwwW9
-- **Tips for speeches:** https://www.sercseries.org/blog-3-1
+- **Speech tips:** https://www.sercseries.org/blog-3-1
 - **Past themes:** AI, history, engineering, naturalism, money/finance, "Conscious Conversations"
-- **Feb 28, 2026 event:** "Conscious Conversations" — AI innovations, corporate algorithms, music, dreams, lucid dreaming
+- **Talk length:** ~10 minutes
+- **Audience:** General public, curious, educated, somewhat skeptical — NOT a spiritual community event
 
-## Otto's Speaker Bio (draft)
+## Talk Title
+**The Man Who Said You Can Receive Help**
+*The message of Bruno Gröning*
+
+## Summary (for event listing)
+> In postwar Germany, Bruno Gröning drew thousands with a simple but radical message: that human beings can receive help and healing from a higher source. This talk explores his teaching, its roots in older spiritual traditions, and why it still resonates today.
+
+## Speaker Bio
 > 25 years of software engineering. Now I build minds that don't exist yet — but the harder work has always been understanding my own.
 
-## Talk Details
-- **Topic:** TBD — likely AI + spirituality/consciousness
-- **Duration:** TBD
-- **Date:** TBD
-- **Slides/format:** TBD
+## Talk Style
+**Philosophical + Personal hybrid** — NOT a history lecture, NOT a spiritual testimonial
+- Start with the big human question (is healing only physical?)
+- Introduce Bruno Gröning's idea of the Heilstrom
+- Share personal experience in a grounded way
+- Keeps skeptics listening AND believers inspired
+- Avoids sounding dogmatic
 
-## TODO
-- [ ] Confirm topic and angle
-- [ ] Confirm date and talk length
-- [ ] Read SERC's "7 Tips to Make A Successful SERC Speech"
-- [ ] Outline the talk
-- [ ] Build slides
-- [ ] Practice/rehearse
+## Core Thesis
+**Help is available — if we learn how to receive it.**
+
+## Key Decisions Made
+- Title should create curiosity for people who've never heard of Bruno Gröning
+- Bruno Gröning is the *example*, not the *topic* — the topic is the bigger truth
+- Draw parallels to Jesus/older traditions but don't equate them — use "resonance" framing
+- Personal experience included but grounded, not preachy
+- "The Man Who..." format chosen for human storytelling hook

@@ -1,22 +1,27 @@
 # Talk Plan
 
-## Timeline
-- **Event date:** TBD
-- **Talk length:** TBD
-- **Deadline for slides:** TBD
-- **Rehearsal by:** TBD
+## Event
+- **Series:** SERC Series (Delray Beach, FL)
+- **Talk length:** ~10 minutes
+- **Event date:** TBD (next SERC event — need to confirm with JT)
+- **Audience:** General public, educated, curious — NOT a spiritual community
 
 ## Milestones
-1. [ ] Define topic, angle, and core message
-2. [ ] Research — collect stories, data, quotes
-3. [ ] Write outline (structure + key beats)
-4. [ ] Write full script/speaker notes
-5. [ ] Build slides
-6. [ ] Rehearse (record yourself, time it)
-7. [ ] Final polish
+1. [x] Define topic, angle, and core message
+2. [x] Choose title and summary
+3. [x] Write speaker bio
+4. [ ] Confirm event date with SERC organizer
+5. [ ] Research — read SERC speech tips, watch past talks
+6. [ ] Craft the opening hook (most important 30 seconds)
+7. [ ] Figure out how to explain Heilstrom for general audience
+8. [ ] Write full script / speaker notes
+9. [ ] Build slides (if using)
+10. [ ] Rehearse — record yourself, time it, iterate
+11. [ ] Final polish
 
 ## Open Questions
-- What's the topic/theme?
-- Is this for the next SERC, or a future one?
-- How long are SERC talks?
-- Will there be a theme for the event, or speaker's choice?
+- When is the next SERC event?
+- Will there be a theme, or speaker's choice?
+- Are slides expected/optional?
+- What personal story or moment to share on stage?
+- How to explain Heilstrom without losing the audience?
