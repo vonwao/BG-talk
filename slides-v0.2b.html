@@ -6,7 +6,40 @@
 <title>The Man Who Said You Can Receive Help</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.min.css">
+<script src="script-notes.js"></script>
 <style>
+  /* Script panel on the right */
+  #script-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 22%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 2em 1.2em;
+    overflow-y: auto;
+    z-index: 100;
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+  }
+  #script-panel .slide-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 1em;
+    display: block;
+  }
+  /* Push the reveal presentation left to make room */
+  .reveal {
+    width: 78% !important;
+  }
+
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
   :root {
@@ -309,6 +342,10 @@
 </style>
 </head>
 <body>
+<div id="script-panel">
+  <span class="slide-label">Slide 1 of 17</span>
+  <div id="script-text"></div>
+</div>
 <div class="reveal">
 <div class="slides">
 
@@ -462,6 +499,19 @@
     width: 1920,
     height: 1080
   });
+
+  function updateScriptPanel() {
+    var idx = Reveal.getIndices().h;
+    var total = Reveal.getTotalSlides();
+    var label = document.querySelector('#script-panel .slide-label');
+    var text = document.getElementById('script-text');
+    label.textContent = 'Slide ' + (idx + 1) + ' of ' + total;
+    text.textContent = (SCRIPT_NOTES && SCRIPT_NOTES[idx]) || '';
+    document.getElementById('script-panel').scrollTop = 0;
+  }
+
+  Reveal.on('slidechanged', updateScriptPanel);
+  Reveal.on('ready', updateScriptPanel);
 </script>
 </body>
 </html>
