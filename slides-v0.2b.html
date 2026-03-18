@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Man Who Said You Can Receive Help</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+  :root {
+    --r-heading-font: 'Cormorant Garamond', Georgia, serif;
+    --r-main-font: 'Cormorant Garamond', Georgia, serif;
+    --r-heading-color: #1a1a1a;
+    --r-main-color: #1a1a1a;
+  }
+
+  .reveal {
+    font-family: var(--r-main-font);
+  }
+
+  .reveal h1, .reveal h2, .reveal h3 {
+    font-family: var(--r-heading-font);
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  /* Anchor quote slides */
+  .anchor-quote {
+    font-size: 1.8em !important;
+    line-height: 1.5 !important;
+    font-weight: 300 !important;
+    font-style: italic;
+    max-width: 75%;
+    margin: 0 auto;
+    color: #1a1a1a;
+  }
+
+  .anchor-quote em {
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  /* Single word slides */
+  .single-word {
+    font-size: 3em !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.15em;
+    color: #d4af37;
+    text-transform: lowercase;
+  }
+
+  /* Dim text on black */
+  .dim-text {
+    font-size: 1.4em !important;
+    font-weight: 300 !important;
+    font-style: italic;
+    color: #444 !important;
+    max-width: 70%;
+    margin: 0 auto;
+    line-height: 1.6 !important;
+  }
+
+  /* Title slide styling */
+  .title-slide h1 {
+    font-size: 2.2em !important;
+    font-weight: 300 !important;
+    line-height: 1.3 !important;
+    color: #1a1a1a;
+  }
+
+  .title-slide .subtitle {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 1.5em;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* Closing slide */
+  .closing h2 {
+    font-size: 2em !important;
+    font-weight: 300 !important;
+    color: #1a1a1a;
+  }
+
+  .closing p {
+    font-size: 0.85em;
+    color: #999;
+    margin-top: 2em;
+    font-style: italic;
+  }
+
+  /* ============================================
+     CSS-ONLY VISUAL SLIDES
+     ============================================ */
+
+  /* CONSTRAINED / DARK OPENING — tight dark gradients */
+  .visual-constrained {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 40% 40% at 50% 50%, #1a1a2e, #0a0a0f 60%, #000 100%);
+  }
+  .visual-constrained::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 30vh;
+    background: linear-gradient(to bottom, transparent, #333, transparent);
+    opacity: 0.4;
+  }
+
+  /* MACHINE / GRID — rigid geometric pattern */
+  .visual-grid {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #0d0d0d;
+    background-image:
+      linear-gradient(rgba(60, 60, 80, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(60, 60, 80, 0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .visual-grid::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(100, 100, 120, 0.5);
+  }
+  .visual-grid::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 1px solid rgba(100, 100, 120, 0.3);
+  }
+
+  /* SOMETHING MISSING — grid fading with a gap */
+  .visual-grid-broken {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #0d0d0d;
+    background-image:
+      linear-gradient(rgba(60, 60, 80, 0.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(60, 60, 80, 0.25) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .visual-grid-broken::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #0d0d0d 30%, transparent 70%);
+    z-index: 1;
+  }
+  .visual-grid-broken::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(180, 160, 100, 0.3);
+    box-shadow: 0 0 40px 15px rgba(180, 160, 100, 0.08);
+    z-index: 2;
+  }
+
+  /* HEILSTROM — flowing animated gradient */
+  @keyframes heilstrom-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .visual-heilstrom {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      135deg,
+      #0a0a1a,
+      #0d1b2a,
+      #1b3a4b,
+      #2a6496,
+      #d4af37,
+      #f5e6b8,
+      #ffffff,
+      #f5e6b8,
+      #d4af37,
+      #2a6496,
+      #1b3a4b,
+      #0d1b2a,
+      #0a0a1a
+    );
+    background-size: 400% 400%;
+    animation: heilstrom-flow 12s ease-in-out infinite;
+  }
+
+  /* HEILSTROM INTENSE — brighter center */
+  @keyframes heilstrom-radiate {
+    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  .visual-heilstrom-full {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      135deg,
+      #0d1b2a,
+      #1b3a4b,
+      #2a6496,
+      #4a90c4,
+      #d4af37,
+      #f5e6b8,
+      #fff,
+      #f5e6b8,
+      #d4af37,
+      #4a90c4
+    );
+    background-size: 300% 300%;
+    animation: heilstrom-flow 10s ease-in-out infinite;
+  }
+  .visual-heilstrom-full::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+    animation: heilstrom-radiate 6s ease-in-out infinite;
+  }
+
+  /* TRADITIONS — warm ancient gold */
+  .visual-traditions {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, #2a1f0a, #1a150a 60%, #0a0a05 100%);
+  }
+  .visual-traditions::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
+    box-shadow: 0 0 80px 40px rgba(212, 175, 55, 0.06);
+  }
+  .visual-traditions::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.12);
+  }
+
+  /* CLOSING LIGHT — gentle expanding light */
+  @keyframes light-expand {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+  }
+
+  .visual-light {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, #f8f4e8, #faf8f0 40%, #fff 100%);
+  }
+  .visual-light::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
+    animation: light-expand 8s ease-in-out infinite;
+  }
+
+  /* Ensure visual layers sit behind content */
+  .reveal .slides section .visual-layer {
+    z-index: 0;
+  }
+
+  /* Hide Reveal.js progress and controls for cleaner look */
+  .reveal .progress {
+    height: 2px !important;
+    color: rgba(180, 160, 100, 0.4) !important;
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <!-- ==========================================
+       SLIDE 1: TITLE
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade">
+    <div class="title-slide">
+      <h1>The Man Who Said<br>You Can Receive Help</h1>
+      <div class="subtitle">The message of Bruno Gröning</div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 2: VISUAL — Dark, constrained opening
+       (Speaker: "Imagine you're sick...")
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-constrained"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 3: VISUAL — Slightly less constrained
+       (Speaker: "...thousands showed up in Herford...")
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-constrained" style="background: radial-gradient(ellipse 50% 50% at 50% 50%, #1a1a2e, #0f0f18 50%, #000 100%);"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 4: VISUAL — Machine / Grid
+       (Speaker: "We treat the human being as a machine...")
+       ========================================== -->
+  <section data-background-color="#0d0d0d" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-grid"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 5: VISUAL — Grid with gap / something missing
+       (Speaker: "...something is missing from this picture...")
+       ========================================== -->
+  <section data-background-color="#0d0d0d" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-grid-broken"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 6: ANCHOR QUOTE — The central question
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade" data-transition-speed="slow">
+    <p class="anchor-quote">What if help is available<br>from a source we've learned<br>to ignore?</p>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 7: VISUAL — Heilstrom begins (flowing gradient)
+       (Speaker: "He called this force the Heilstrom...")
+       ========================================== -->
+  <section data-background-color="#0a0a1a" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-heilstrom"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 8: SINGLE WORD — Heilstrom
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+    <p class="single-word">Heilstrom</p>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 9: ANCHOR QUOTE — The teaching distilled
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade" data-transition-speed="slow">
+    <p class="anchor-quote">Let go.<br>Turn toward the good.<br>Receive.</p>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 10: VISUAL — Heilstrom full, radiant
+       (Speaker: "People reported extraordinary things...")
+       ========================================== -->
+  <section data-background-color="#0d1b2a" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-heilstrom-full"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 11: VISUAL — Traditions / ancient gold
+       (Speaker: "...echoes of older traditions...")
+       ========================================== -->
+  <section data-background-color="#0a0a05" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-traditions"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 12: BLACK — Personal reflection begins
+       (Speaker: "I should tell you why I'm up here...")
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+  </section>
+
+  <!-- ==========================================
+       SLIDE 13: BLACK — with dim text
+       (Speaker: emotional center of the talk)
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+    <p class="dim-text">I'm telling you what I found.</p>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 14: BLACK — silence
+       (Speaker: pause, let it land)
+       ========================================== -->
+  <section data-background-color="#000" data-transition="fade" data-transition-speed="slow">
+  </section>
+
+  <!-- ==========================================
+       SLIDE 15: ANCHOR QUOTE — Closing message
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade" data-transition-speed="slow">
+    <p class="anchor-quote">Help is available —<br>if we learn how to receive it.</p>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 16: VISUAL — Gentle expanding light
+       (Speaker: "Not that you have to earn it...")
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade" data-transition-speed="slow">
+    <div class="visual-light"></div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 17: CLOSING — Thank you
+       ========================================== -->
+  <section data-background-color="#fff" data-transition="fade" data-transition-speed="slow">
+    <div class="closing">
+      <h2>Thank you</h2>
+      <p>The Circle of Friends of Bruno Gröning<br>bruno-groening.org</p>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'fade',
+    transitionSpeed: 'slow',
+    controls: true,
+    controlsLayout: 'edges',
+    progress: true,
+    center: true,
+    width: 1920,
+    height: 1080
+  });
+</script>
+</body>
+</html>
