@@ -18,8 +18,8 @@
       background: rgba(255, 255, 255, 0.95);
       color: #333;
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: 18px;
-      line-height: 1.7;
+      font-size: 18px; /* base size, overridden by auto-sizing */
+      line-height: 1.6;
       padding: 2em 1.2em;
       overflow-y: auto;
       z-index: 100;
@@ -282,6 +282,23 @@
       backgroundTransition: 'fade'
     });
 
+    function autoSizeText() {
+      var panel = document.getElementById('script-panel');
+      var text = document.getElementById('script-text');
+      if (!text.textContent) return;
+
+      var availableHeight = panel.clientHeight - 60; // room for label + padding
+      var minSize = 16;
+      var maxSize = 42;
+      var size = maxSize;
+
+      text.style.fontSize = size + 'px';
+      while (text.scrollHeight > availableHeight && size > minSize) {
+        size -= 1;
+        text.style.fontSize = size + 'px';
+      }
+    }
+
     function updateScriptPanel() {
       var idx = Reveal.getIndices().h;
       var total = Reveal.getTotalSlides();
@@ -290,10 +307,12 @@
       label.textContent = 'Slide ' + (idx + 1) + ' of ' + total;
       text.textContent = (SCRIPT_NOTES && SCRIPT_NOTES[idx]) || '';
       document.getElementById('script-panel').scrollTop = 0;
+      autoSizeText();
     }
 
     Reveal.on('slidechanged', updateScriptPanel);
     Reveal.on('ready', updateScriptPanel);
+    window.addEventListener('resize', autoSizeText);
   </script>
 </body>
 </html>
