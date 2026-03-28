@@ -10,12 +10,14 @@
 
   :root {
     --bg: #f4efe4;
-    --card: rgba(255, 252, 246, 0.9);
+    --paper: rgba(255, 252, 246, 0.9);
+    --sidebar: rgba(251, 247, 239, 0.94);
     --line: rgba(99, 77, 46, 0.16);
     --text: #251d14;
     --muted: #786347;
     --accent: #8c7650;
     --accent-strong: #5c4727;
+    --accent-soft: rgba(140, 118, 80, 0.12);
     --shadow: 0 16px 48px rgba(61, 48, 28, 0.1);
   }
 
@@ -32,21 +34,28 @@
     font-family: 'Inter', sans-serif;
   }
 
-  .shell {
-    width: min(1200px, calc(100vw - 28px));
+  .app {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 22px;
+    width: min(1440px, calc(100vw - 24px));
     margin: 0 auto;
-    padding: 28px 0 44px;
+    padding: 18px 0 28px;
   }
 
-  .hero {
+  .sidebar {
     position: sticky;
-    top: 0;
-    z-index: 20;
-    margin-bottom: 22px;
-    padding: 22px 24px 18px;
+    top: 14px;
+    align-self: start;
+    max-height: calc(100vh - 28px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 18px 18px;
     border: 1px solid var(--line);
     border-radius: 24px;
-    background: rgba(251, 247, 239, 0.94);
+    background: var(--sidebar);
     backdrop-filter: blur(18px);
     box-shadow: var(--shadow);
   }
@@ -59,208 +68,268 @@
     text-transform: uppercase;
   }
 
-  h1 {
+  .sidebar h1 {
     margin: 0;
-    font: 500 clamp(2.25rem, 4vw, 3.6rem)/0.96 'Cormorant Garamond', serif;
+    font: 500 2.5rem/0.95 'Cormorant Garamond', serif;
   }
 
-  .hero p {
-    margin: 10px 0 0;
-    max-width: 52rem;
+  .sidebar-copy {
+    margin: 8px 0 0;
     color: var(--muted);
+    font-size: 0.95rem;
     line-height: 1.5;
   }
 
-  .toolbar {
-    display: flex;
-    flex-wrap: wrap;
+  .stack {
+    display: grid;
     gap: 10px;
-    margin-top: 16px;
   }
 
-  .toolbar a,
-  .toolbar button {
+  .btn,
+  .picker {
     appearance: none;
-    border: 1px solid rgba(92, 71, 39, 0.18);
-    background: rgba(255, 255, 255, 0.74);
-    color: var(--accent-strong);
+    width: 100%;
     min-height: 42px;
     padding: 0 14px;
-    border-radius: 999px;
+    border: 1px solid rgba(92, 71, 39, 0.18);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--accent-strong);
     font: 500 0.92rem/1 'Inter', sans-serif;
     text-decoration: none;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
   }
 
-  .toolbar button.primary {
+  .btn.primary {
     background: var(--accent);
     color: #fffaf1;
     border-color: var(--accent);
   }
 
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sidebar-section {
+    display: grid;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .section-label {
+    color: var(--muted);
+    font: 600 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
   #status {
-    margin-top: 12px;
     min-height: 1.2em;
     color: var(--muted);
     font-size: 0.92rem;
   }
 
-  .subtoolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    margin-top: 14px;
+  .slide-list {
+    min-height: 0;
+    overflow: auto;
+    padding-right: 4px;
+    display: grid;
+    gap: 6px;
   }
 
-  .subtoolbar select,
-  .subtoolbar button {
-    appearance: none;
-    min-height: 40px;
-    padding: 0 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(92, 71, 39, 0.18);
-    background: rgba(255,255,255,0.74);
-    color: var(--accent-strong);
-    font: 500 0.92rem/1 'Inter', sans-serif;
+  .slide-link {
+    display: grid;
+    gap: 2px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.46);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
   }
 
-  .subtoolbar .mode-indicator {
+  .slide-link.is-active {
+    background: var(--accent-soft);
+    border-color: rgba(140, 118, 80, 0.3);
+  }
+
+  .slide-link-index {
     color: var(--muted);
+    font: 600 10px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .slide-link-title {
     font-size: 0.92rem;
+    line-height: 1.35;
   }
 
-  .jump-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 20px;
+  .editor-pane {
+    min-width: 0;
   }
 
-  .jump-list a {
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(92, 71, 39, 0.14);
-    background: rgba(255,255,255,0.68);
-    color: var(--accent-strong);
-    font: 500 0.82rem/1 'Inter', sans-serif;
-    text-decoration: none;
-  }
-
-  .cards {
-    display: grid;
-    gap: 16px;
-  }
-
-  .card {
-    padding: 20px;
+  .editor-card {
+    min-height: calc(100vh - 36px);
+    padding: 28px;
     border: 1px solid var(--line);
-    border-radius: 22px;
-    background: var(--card);
-    box-shadow: 0 12px 30px rgba(69, 52, 28, 0.08);
+    border-radius: 28px;
+    background: var(--paper);
+    box-shadow: 0 18px 48px rgba(69, 52, 28, 0.08);
   }
 
-  .card.is-target {
-    border-color: rgba(140, 118, 80, 0.42);
-    box-shadow: 0 18px 36px rgba(104, 80, 45, 0.16);
-  }
-
-  .card-head {
+  .editor-meta {
     display: flex;
     flex-wrap: wrap;
+    gap: 12px;
     align-items: baseline;
-    gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
   }
 
-  .card-index {
+  .editor-index {
     color: var(--muted);
     font: 600 11px/1 'Inter', sans-serif;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
-  .card-title {
-    font: 500 1.8rem/1 'Cormorant Garamond', serif;
+  .editor-type {
+    color: #8b734b;
+    font-size: 0.95rem;
   }
 
-  .field-grid {
+  .editor-card h2 {
+    margin: 0;
+    font: 500 clamp(2rem, 4vw, 3.6rem)/0.95 'Cormorant Garamond', serif;
+  }
+
+  .editor-note {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .fields {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 14px;
+    gap: 18px;
+    margin-top: 26px;
   }
 
-  .field {
-    display: flex;
-    flex-direction: column;
+  .field-group {
+    display: grid;
     gap: 8px;
   }
 
-  .field.wide {
-    grid-column: 1 / -1;
-  }
-
-  .field label {
+  .field-group label {
     color: var(--muted);
     font: 600 11px/1 'Inter', sans-serif;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
-  .field textarea,
-  .field input {
+  .field-help {
+    color: #8c7550;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .field-group textarea,
+  .field-group input {
     width: 100%;
     border: 1px solid rgba(92, 71, 39, 0.16);
-    border-radius: 16px;
-    background: rgba(255,255,255,0.78);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.84);
     color: var(--text);
-    font: 400 0.96rem/1.5 'Inter', sans-serif;
-    padding: 12px 14px;
+    font: 400 1rem/1.6 'Inter', sans-serif;
+    padding: 14px 16px;
   }
 
-  .field textarea {
-    min-height: 120px;
+  .field-group textarea {
     resize: vertical;
+    min-height: 180px;
   }
 
-  .field textarea.short {
-    min-height: 84px;
+  .field-group textarea.compact {
+    min-height: 110px;
   }
 
-  .field .preview {
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(248, 243, 232, 0.86);
-    color: #55452d;
+  .field-group textarea.tall {
+    min-height: 320px;
+  }
+
+  .empty-visual {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(245, 239, 226, 0.84);
+    color: #69563a;
     line-height: 1.5;
-    white-space: pre-wrap;
   }
- </style>
+
+  @media (max-width: 980px) {
+    .app {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: static;
+      max-height: none;
+    }
+
+    .editor-card {
+      min-height: auto;
+    }
+  }
+</style>
 </head>
 <body>
-<main class="shell">
-  <section class="hero">
-    <p class="eyebrow">Inline Editor</p>
-    <h1>BG Talk Content</h1>
-    <p>Edit one canonical file and have the deck and audio flow load it directly. If this page is served through the local editor server, save writes straight to disk. Otherwise the fallback is downloading an updated <code>talk-content.js</code>.</p>
-    <div class="toolbar">
-      <button id="save-button" class="primary" type="button">Save To Disk</button>
-      <button id="download-button" type="button">Download File</button>
-      <a id="deck-link" href="slides-v0.3.html">Open Deck</a>
-      <a id="back-link" href="slides-v0.3.html">Return</a>
+<main class="app">
+  <aside class="sidebar">
+    <div>
+      <p class="eyebrow">Inline Editor</p>
+      <h1>BG Talk</h1>
+      <p class="sidebar-copy">Pick a slide on the left. Edit only that slide’s text on the right. Save writes directly to <code>talk-content.js</code>.</p>
     </div>
-    <div class="subtoolbar">
-      <button id="prev-slide" type="button">Prev Slide</button>
-      <button id="next-slide" type="button">Next Slide</button>
-      <select id="slide-select" aria-label="Jump to slide"></select>
-      <button id="toggle-view" type="button">Show All Slides</button>
-      <span id="mode-indicator" class="mode-indicator"></span>
-    </div>
-    <div id="status"></div>
-  </section>
 
-  <nav id="jump-list" class="jump-list"></nav>
-  <section id="cards" class="cards"></section>
+    <div class="stack">
+      <button id="save-button" class="btn primary" type="button">Save To Disk</button>
+      <button id="download-button" class="btn" type="button">Download File</button>
+      <div class="btn-row">
+        <button id="prev-slide" class="btn" type="button">Prev</button>
+        <button id="next-slide" class="btn" type="button">Next</button>
+      </div>
+      <select id="slide-select" class="picker" aria-label="Jump to slide"></select>
+      <a id="deck-link" class="btn" href="slides-v0.3.html">Open Current Slide</a>
+      <a id="back-link" class="btn" href="slides-v0.3.html">Return</a>
+      <div id="status"></div>
+    </div>
+
+    <section class="sidebar-section">
+      <div class="section-label">Slides</div>
+      <div id="slide-list" class="slide-list"></div>
+    </section>
+  </aside>
+
+  <section class="editor-pane">
+    <article class="editor-card">
+      <div class="editor-meta">
+        <div id="editor-index" class="editor-index"></div>
+        <div id="editor-type" class="editor-type"></div>
+      </div>
+      <h2 id="editor-title"></h2>
+      <p id="editor-note" class="editor-note"></p>
+      <div id="editor-fields" class="fields"></div>
+    </article>
+  </section>
 </main>
 
 <script>
@@ -269,11 +338,14 @@
     : { meta: {}, slides: [] };
   var state = JSON.parse(JSON.stringify(sourceContent));
   var query = new URLSearchParams(window.location.search);
-  var targetSlide = Number(query.get('slide') || '0');
+  var currentSlideIndex = Math.max(0, Math.min(state.slides.length - 1, Number(query.get('slide') || '1') - 1));
   var returnUrl = query.get('return') || 'slides-v0.3.html';
-  var focusMode = query.get('view') === 'all' ? false : targetSlide > 0;
 
   document.getElementById('back-link').href = returnUrl;
+
+  function currentSlide() {
+    return state.slides[currentSlideIndex] || {};
+  }
 
   function setStatus(message, isError) {
     var status = document.getElementById('status');
@@ -319,25 +391,47 @@
 
       setStatus('Saved talk-content.js to disk');
     } catch (error) {
-      setStatus('Direct save is unavailable here. Downloading the file instead.', true);
+      setStatus('Direct save unavailable here. Downloading instead.', true);
       downloadContentFile();
     }
   }
 
-  function createField(slide, key, label, options) {
-    var field = document.createElement('div');
-    field.className = 'field' + (options && options.wide ? ' wide' : '');
+  function updateQueryState() {
+    var next = new URLSearchParams(window.location.search);
+    next.set('slide', String(currentSlideIndex + 1));
+    if (returnUrl) {
+      next.set('return', returnUrl);
+    }
+    history.replaceState(null, '', 'editor.html?' + next.toString());
+  }
+
+  function goToSlide(index) {
+    currentSlideIndex = Math.max(0, Math.min(state.slides.length - 1, index));
+    updateQueryState();
+    render();
+  }
+
+  function createTextField(parent, slide, key, label, help, options) {
+    var group = document.createElement('div');
+    group.className = 'field-group';
 
     var labelEl = document.createElement('label');
     labelEl.textContent = label;
-    field.appendChild(labelEl);
+    group.appendChild(labelEl);
+
+    if (help) {
+      var helpEl = document.createElement('div');
+      helpEl.className = 'field-help';
+      helpEl.textContent = help;
+      group.appendChild(helpEl);
+    }
 
     var input = options && options.singleLine
       ? document.createElement('input')
       : document.createElement('textarea');
 
     if (!options || !options.singleLine) {
-      input.className = options && options.short ? 'short' : '';
+      input.className = options && options.className ? options.className : '';
     }
 
     input.value = slide[key] || '';
@@ -345,185 +439,149 @@
       slide[key] = input.value;
       setStatus('Unsaved changes');
     });
-    field.appendChild(input);
-
-    return field;
+    group.appendChild(input);
+    parent.appendChild(group);
   }
 
-  function createPreview(slide) {
-    var field = document.createElement('div');
-    field.className = 'field wide';
+  function createStaticNote(parent, text) {
+    var group = document.createElement('div');
+    group.className = 'field-group';
 
-    var label = document.createElement('label');
-    label.textContent = 'Visible Slide Text';
-    field.appendChild(label);
+    var labelEl = document.createElement('label');
+    labelEl.textContent = 'On-Screen Text';
+    group.appendChild(labelEl);
 
-    var preview = document.createElement('div');
-    preview.className = 'preview';
+    var box = document.createElement('div');
+    box.className = 'empty-visual';
+    box.textContent = text;
+    group.appendChild(box);
+    parent.appendChild(group);
+  }
 
+  function renderVisibleFields(parent, slide) {
     if (slide.type === 'title') {
-      preview.textContent = (slide.title || '') + '\n\n' + (slide.subtitle || '');
-    } else if (slide.type === 'quote') {
-      preview.textContent = '"' + (slide.quote || '') + '"\n— ' + (slide.attribution || '');
-    } else if (slide.type === 'dim') {
-      preview.textContent = slide.text || '';
-    } else if (slide.type === 'closing') {
-      preview.textContent = (slide.title || '') + '\n\n' + (slide.footer || '');
-    } else {
-      preview.textContent = 'Visual-only slide';
+      createTextField(parent, slide, 'title', 'On-Screen Title', 'Use line breaks where you want them to appear on the slide.', { className: 'compact' });
+      createTextField(parent, slide, 'subtitle', 'On-Screen Subtitle', '', { className: 'compact' });
+      return;
     }
 
-    field.appendChild(preview);
-    return field;
+    if (slide.type === 'quote') {
+      createTextField(parent, slide, 'quote', 'On-Screen Quote', 'This is the large quote shown to the audience.', { className: 'compact' });
+      createTextField(parent, slide, 'attribution', 'Attribution', '', { singleLine: true });
+      return;
+    }
+
+    if (slide.type === 'dim') {
+      createTextField(parent, slide, 'text', 'On-Screen Text', '', { className: 'compact' });
+      return;
+    }
+
+    if (slide.type === 'closing') {
+      createTextField(parent, slide, 'title', 'Closing Title', '', { className: 'compact' });
+      createTextField(parent, slide, 'footer', 'Closing Footer', '', { className: 'compact' });
+      return;
+    }
+
+    createStaticNote(parent, 'This slide is visual-only. Edit the spoken text below.');
   }
 
-  function renderCards() {
-    var cards = document.getElementById('cards');
-    var jumpList = document.getElementById('jump-list');
+  function renderSidebar() {
+    var slideList = document.getElementById('slide-list');
     var slideSelect = document.getElementById('slide-select');
-    var toggleView = document.getElementById('toggle-view');
-    var modeIndicator = document.getElementById('mode-indicator');
-    cards.innerHTML = '';
-    jumpList.innerHTML = '';
+    var deckLink = document.getElementById('deck-link');
+    slideList.innerHTML = '';
     slideSelect.innerHTML = '';
 
-    toggleView.textContent = focusMode ? 'Show All Slides' : 'Focus Current Slide';
-    modeIndicator.textContent = focusMode && targetSlide > 0
-      ? 'Focused on slide ' + targetSlide
-      : 'Showing all slides';
-
     state.slides.forEach(function(slide, idx) {
-      var slideNumber = idx + 1;
-      var showSlide = !focusMode || slideNumber === targetSlide;
-
       var option = document.createElement('option');
-      option.value = String(slideNumber);
-      option.textContent = 'Slide ' + slideNumber + ' — ' + (slide.editorLabel || slide.slug || ('Slide ' + slideNumber));
-      if (slideNumber === targetSlide || (!targetSlide && slideNumber === 1)) {
-        option.selected = true;
-      }
+      option.value = String(idx);
+      option.textContent = 'Slide ' + (idx + 1) + ' — ' + (slide.editorLabel || slide.slug || ('Slide ' + (idx + 1)));
+      option.selected = idx === currentSlideIndex;
       slideSelect.appendChild(option);
 
-      var jump = document.createElement('a');
-      jump.href = '#slide-' + slideNumber;
-      jump.textContent = slideNumber + '. ' + (slide.editorLabel || slide.slug || ('Slide ' + slideNumber));
-      jumpList.appendChild(jump);
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'slide-link' + (idx === currentSlideIndex ? ' is-active' : '');
+      button.addEventListener('click', function() {
+        goToSlide(idx);
+      });
 
-      if (!showSlide) {
-        return;
-      }
+      var index = document.createElement('div');
+      index.className = 'slide-link-index';
+      index.textContent = 'Slide ' + (idx + 1);
+      button.appendChild(index);
 
-      var card = document.createElement('article');
-      card.className = 'card' + (slideNumber === targetSlide ? ' is-target' : '');
-      card.id = 'slide-' + slideNumber;
+      var title = document.createElement('div');
+      title.className = 'slide-link-title';
+      title.textContent = slide.editorLabel || slide.slug || ('Slide ' + (idx + 1));
+      button.appendChild(title);
 
-      var head = document.createElement('div');
-      head.className = 'card-head';
-      head.innerHTML = ''
-        + '<div class="card-index">Slide ' + slideNumber + '</div>'
-        + '<div class="card-title">' + (slide.editorLabel || slide.slug || ('Slide ' + slideNumber)) + '</div>';
-      card.appendChild(head);
-
-      var grid = document.createElement('div');
-      grid.className = 'field-grid';
-      grid.appendChild(createPreview(slide));
-
-      if (slide.type === 'title') {
-        grid.appendChild(createField(slide, 'title', 'Title', { short: true }));
-        grid.appendChild(createField(slide, 'subtitle', 'Subtitle', { short: true }));
-      }
-
-      if (slide.type === 'quote') {
-        grid.appendChild(createField(slide, 'quote', 'Quote', { short: true }));
-        grid.appendChild(createField(slide, 'attribution', 'Attribution', { singleLine: true }));
-      }
-
-      if (slide.type === 'dim') {
-        grid.appendChild(createField(slide, 'text', 'Visible Text', { short: true, wide: true }));
-      }
-
-      if (slide.type === 'closing') {
-        grid.appendChild(createField(slide, 'title', 'Closing Title', { short: true }));
-        grid.appendChild(createField(slide, 'footer', 'Footer', { short: true }));
-      }
-
-      grid.appendChild(createField(slide, 'notes', 'Full Notes', { wide: true }));
-      grid.appendChild(createField(slide, 'outline', 'Outline Notes', { wide: true }));
-      grid.appendChild(createField(slide, 'audio', 'Audio Text', { wide: true }));
-      grid.appendChild(createField(slide, 'comment', 'Editor Comment', { wide: true, short: true }));
-
-      card.appendChild(grid);
-      cards.appendChild(card);
+      slideList.appendChild(button);
     });
 
-    if (targetSlide > 0) {
-      setTimeout(function() {
-        var target = document.getElementById('slide-' + targetSlide);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          var firstTextarea = target.querySelector('textarea, input');
-          if (firstTextarea) {
-            firstTextarea.focus();
-          }
-        }
-      }, 100);
+    deckLink.href = 'slides-v0.3.html#/' + currentSlideIndex;
+  }
+
+  function renderEditor() {
+    var slide = currentSlide();
+    var fields = document.getElementById('editor-fields');
+
+    document.getElementById('editor-index').textContent = 'Slide ' + (currentSlideIndex + 1) + ' of ' + state.slides.length;
+    document.getElementById('editor-type').textContent = (slide.editorLabel || slide.slug || '').trim();
+    document.getElementById('editor-title').textContent = slide.editorLabel || slide.slug || ('Slide ' + (currentSlideIndex + 1));
+    document.getElementById('editor-note').textContent = 'Edit the slide text here. Save writes back to talk-content.js, which the deck and audio workflow load directly.';
+
+    fields.innerHTML = '';
+
+    renderVisibleFields(fields, slide);
+    createTextField(fields, slide, 'notes', 'Speaker Notes', 'This is the main rehearsal text shown in the deck notes panel.', { className: 'tall' });
+    createTextField(fields, slide, 'outline', 'Outline Cues', 'Short prompts for rehearsal mode.', { className: 'compact' });
+    createTextField(fields, slide, 'audio', 'Audio Narration', 'Separate wording for ElevenLabs, if you want cleaner spoken rhythm.', { className: 'compact' });
+    createTextField(fields, slide, 'comment', 'Comment', 'Optional note to yourself about this slide.', { className: 'compact' });
+
+    var firstInput = fields.querySelector('textarea, input');
+    if (firstInput) {
+      firstInput.focus();
     }
   }
 
-  function updateQueryState() {
-    var next = new URLSearchParams(window.location.search);
-    if (targetSlide > 0) {
-      next.set('slide', String(targetSlide));
-    } else {
-      next.delete('slide');
-    }
-    if (!focusMode) {
-      next.set('view', 'all');
-    } else {
-      next.delete('view');
-    }
-    if (returnUrl) {
-      next.set('return', returnUrl);
-    }
-    history.replaceState(null, '', 'editor.html?' + next.toString());
-  }
-
-  function goToSlide(slideNumber) {
-    targetSlide = Math.max(1, Math.min(state.slides.length, slideNumber));
-    updateQueryState();
-    renderCards();
+  function render() {
+    renderSidebar();
+    renderEditor();
   }
 
   document.getElementById('save-button').addEventListener('click', saveContentFile);
   document.getElementById('download-button').addEventListener('click', downloadContentFile);
   document.getElementById('prev-slide').addEventListener('click', function() {
-    goToSlide((targetSlide || 1) - 1);
+    goToSlide(currentSlideIndex - 1);
   });
   document.getElementById('next-slide').addEventListener('click', function() {
-    goToSlide((targetSlide || 1) + 1);
+    goToSlide(currentSlideIndex + 1);
   });
   document.getElementById('slide-select').addEventListener('change', function(event) {
     goToSlide(Number(event.target.value));
-  });
-  document.getElementById('toggle-view').addEventListener('click', function() {
-    focusMode = !focusMode;
-    if (!targetSlide) {
-      targetSlide = 1;
-    }
-    updateQueryState();
-    renderCards();
   });
   document.addEventListener('keydown', function(event) {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
       event.preventDefault();
       saveContentFile();
+      return;
+    }
+
+    if (event.target && (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'INPUT')) {
+      return;
+    }
+
+    if (event.key === '[') {
+      goToSlide(currentSlideIndex - 1);
+    }
+
+    if (event.key === ']') {
+      goToSlide(currentSlideIndex + 1);
     }
   });
 
-  if (!targetSlide && state.slides.length) {
-    targetSlide = 1;
-  }
-  renderCards();
+  render();
 </script>
 </body>
 </html>
