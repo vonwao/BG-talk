@@ -34,6 +34,7 @@
 ## Audio Practice / TTS
 - `slides-v0.3-audio.html` redirects to the audio-enabled deck
 - `slides-v0.3.html?audio=1` runs the current deck in auto-narrated mode
+- `audio-preview.html` gives direct in-browser players for generated sample slides
 - `script-audio-v0.3.js` is the canonical narration source for TTS
 - `node generate-audio.mjs` generates slide MP3s into `audio/slides/`
 - `node generate-audio.mjs --slide 1` generates a single test slide
