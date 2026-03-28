@@ -24,7 +24,7 @@ const mimeTypes = {
 };
 
 function resolvePath(requestPath) {
-  const pathname = decodeURIComponent(requestPath === '/' ? '/slides-v0.3.html' : requestPath);
+  const pathname = decodeURIComponent(requestPath === '/' ? '/index.html' : requestPath);
   const resolved = path.normalize(path.join(root, pathname));
   if (!resolved.startsWith(root)) {
     return null;
@@ -91,5 +91,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(port, () => {
   console.log(`BG talk editor server running at http://127.0.0.1:${port}`);
-  console.log('Open http://127.0.0.1:' + port + '/slides-v0.3.html or /editor.html');
+  console.log('Open http://127.0.0.1:' + port + '/ for the hub, or /editor.html for direct editing');
 });
