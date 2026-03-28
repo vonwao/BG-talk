@@ -31,53 +31,86 @@
     font-family: 'Inter', sans-serif;
   }
 
-  main {
-    width: min(980px, calc(100vw - 32px));
+  /* --- Two-column layout --- */
+  .page {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 24px;
+    width: min(1400px, calc(100vw - 32px));
     margin: 0 auto;
-    padding: 48px 0 64px;
+    padding: 36px 0 64px;
+  }
+
+  .left { min-width: 0; }
+
+  /* --- Slide preview (right column) --- */
+  .preview-pane {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
+
+  .preview-frame {
+    width: 420px;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: #000;
+  }
+
+  .preview-frame iframe {
+    width: 1280px;
+    height: 720px;
+    border: none;
+    transform-origin: 0 0;
+    transform: scale(0.328125); /* 420/1280 */
+    pointer-events: none;
   }
 
   /* --- Hero / transport --- */
   .hero {
-    margin-bottom: 28px;
-    padding: 28px 30px 22px;
+    margin-bottom: 20px;
+    padding: 22px 24px 18px;
     border: 1px solid var(--line);
-    border-radius: 28px;
+    border-radius: 22px;
     background: linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,250,241,0.84));
     box-shadow: var(--shadow);
   }
 
   .eyebrow {
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     color: var(--muted);
-    font: 600 12px/1 'Inter', sans-serif;
+    font: 600 11px/1 'Inter', sans-serif;
     letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
   h1 {
     margin: 0;
-    font: 500 clamp(2.4rem, 5vw, 4rem)/0.95 'Cormorant Garamond', serif;
+    font: 500 clamp(1.8rem, 4vw, 2.8rem)/0.95 'Cormorant Garamond', serif;
     letter-spacing: 0.01em;
   }
 
   .transport {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 18px;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
   }
 
   .transport button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 0 20px;
+    height: 38px;
+    padding: 0 16px;
     border: 1px solid rgba(92, 71, 39, 0.22);
     border-radius: 999px;
     color: var(--accent-strong);
-    font: 600 0.9rem/1 'Inter', sans-serif;
+    font: 600 0.85rem/1 'Inter', sans-serif;
     background: rgba(255,255,255,0.72);
     cursor: pointer;
   }
@@ -86,24 +119,30 @@
 
   .transport .now-playing {
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .total-time {
+    margin-left: auto;
+    color: var(--muted);
+    font: 500 0.85rem/1 'Inter', sans-serif;
   }
 
   /* --- Slide list --- */
   .samples {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
 
   .sample {
     display: grid;
-    grid-template-columns: 36px 1fr;
+    grid-template-columns: 32px 1fr auto;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
+    gap: 10px;
+    padding: 8px 14px;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 12px;
     background: var(--paper);
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
@@ -118,178 +157,227 @@
 
   .sample-num {
     color: var(--muted);
-    font: 600 0.8rem/1 'Inter', sans-serif;
+    font: 600 0.75rem/1 'Inter', sans-serif;
     text-align: center;
   }
 
-  .sample-info {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    min-width: 0;
-  }
-
   .sample-title {
-    font: 500 1.05rem/1.2 'Cormorant Garamond', serif;
+    font: 500 1rem/1.2 'Cormorant Garamond', serif;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .sample-status {
-    flex-shrink: 0;
+  .sample-dur {
     color: var(--muted);
-    font-size: 0.78rem;
+    font: 400 0.78rem/1 'Inter', sans-serif;
+    min-width: 36px;
+    text-align: right;
   }
 
-  .sample.playing .sample-status { color: var(--accent-strong); }
+  .sample.playing .sample-dur { color: var(--accent-strong); }
 
   /* Hidden audio element */
   #player { display: none; }
 
-  .note {
-    margin-top: 22px;
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.5;
+  /* --- Responsive: stack on narrow screens --- */
+  @media (max-width: 900px) {
+    .page {
+      grid-template-columns: 1fr;
+    }
+    .preview-pane { position: static; }
+    .preview-frame { width: 100%; }
+    .preview-frame iframe {
+      width: 1280px;
+      height: 720px;
+      transform: scale(calc(min(100vw - 64px, 980px) / 1280));
+    }
   }
 </style>
 </head>
 <body>
-<main>
-  <section class="hero">
-    <p class="eyebrow">Audio Preview</p>
-    <h1 id="hero-title"></h1>
-    <div class="transport">
-      <button id="btn-play">Play All</button>
-      <button id="btn-prev">Prev</button>
-      <button id="btn-next">Next</button>
-      <span class="now-playing" id="now-playing"></span>
+<div class="page">
+  <div class="left">
+    <section class="hero">
+      <p class="eyebrow">Audio Preview</p>
+      <h1 id="hero-title"></h1>
+      <div class="transport">
+        <button id="btn-play">Play All</button>
+        <button id="btn-prev">Prev</button>
+        <button id="btn-next">Next</button>
+        <span class="now-playing" id="now-playing"></span>
+        <span class="total-time" id="total-time"></span>
+      </div>
+    </section>
+
+    <audio id="player"></audio>
+    <section class="samples" id="samples"></section>
+  </div>
+
+  <div class="preview-pane">
+    <div class="preview-frame">
+      <iframe id="slide-iframe" src="slides-v0.3.html#/0"></iframe>
     </div>
-  </section>
+  </div>
+</div>
 
-  <audio id="player"></audio>
-  <section class="samples" id="samples"></section>
+<script src="talk-content.js"></script>
+<script>
+  document.getElementById('hero-title').textContent = TALK_CONTENT.meta.title;
 
-  <script src="talk-content.js"></script>
-  <script>
-    document.getElementById('hero-title').textContent = TALK_CONTENT.meta.title;
+  const player = document.getElementById('player');
+  const container = document.getElementById('samples');
+  const btnPlay = document.getElementById('btn-play');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const nowPlaying = document.getElementById('now-playing');
+  const totalTimeEl = document.getElementById('total-time');
+  const slideIframe = document.getElementById('slide-iframe');
 
-    const player = document.getElementById('player');
-    const container = document.getElementById('samples');
-    const btnPlay = document.getElementById('btn-play');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const nowPlaying = document.getElementById('now-playing');
-
-    // Build slide entries (only those with audio)
-    const entries = [];
-    TALK_CONTENT.slides.forEach((slide, i) => {
-      if (!slide.audio || !slide.audio.trim()) return;
-      const num = String(i + 1).padStart(2, '0');
-      entries.push({
-        index: i,
-        num,
-        slug: slide.slug,
-        label: slide.editorLabel || slide.slug,
-        mp3: `audio/slides/slide-${num}-${slide.slug}.mp3`,
-      });
+  // Build slide entries (only those with audio)
+  const entries = [];
+  TALK_CONTENT.slides.forEach((slide, i) => {
+    if (!slide.audio || !slide.audio.trim()) return;
+    const num = String(i + 1).padStart(2, '0');
+    entries.push({
+      index: i,
+      num,
+      slug: slide.slug,
+      label: slide.editorLabel || slide.slug,
+      mp3: `audio/slides/slide-${num}-${slide.slug}.mp3`,
+      duration: null,
     });
+  });
 
-    // Render compact rows
-    entries.forEach((entry, ei) => {
-      const row = document.createElement('div');
-      row.className = 'sample';
-      row.dataset.ei = ei;
-      row.innerHTML = `
-        <span class="sample-num">${entry.num}</span>
-        <span class="sample-info">
-          <span class="sample-title">${entry.label}</span>
-          <span class="sample-status"></span>
-        </span>
-      `;
-      row.addEventListener('click', () => playIndex(ei));
-      container.appendChild(row);
+  function fmtTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.round(sec % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  // Load durations for all slides, then compute total
+  let durationsLoaded = 0;
+  function updateTotalTime() {
+    const total = entries.reduce((sum, e) => sum + (e.duration || 0), 0);
+    if (total > 0) totalTimeEl.textContent = `Total: ${fmtTime(total)}`;
+  }
+
+  entries.forEach((entry, ei) => {
+    const probe = new Audio();
+    probe.preload = 'metadata';
+    probe.src = entry.mp3;
+    probe.addEventListener('loadedmetadata', () => {
+      entry.duration = probe.duration;
+      const row = container.children[ei];
+      if (row) row.querySelector('.sample-dur').textContent = fmtTime(probe.duration);
+      durationsLoaded++;
+      if (durationsLoaded === entries.length) updateTotalTime();
     });
+    probe.addEventListener('error', () => {
+      durationsLoaded++;
+      const row = container.children[ei];
+      if (row) row.querySelector('.sample-dur').textContent = '—';
+      if (durationsLoaded === entries.length) updateTotalTime();
+    });
+  });
 
-    const rows = container.querySelectorAll('.sample');
-    let currentIndex = -1;
-    let isPlaying = false;
+  // Render compact rows
+  entries.forEach((entry, ei) => {
+    const row = document.createElement('div');
+    row.className = 'sample';
+    row.dataset.ei = ei;
+    row.innerHTML = `
+      <span class="sample-num">${entry.num}</span>
+      <span class="sample-title">${entry.label}</span>
+      <span class="sample-dur">...</span>
+    `;
+    row.addEventListener('click', () => playIndex(ei));
+    container.appendChild(row);
+  });
 
-    function highlightRow(ei) {
-      rows.forEach(r => r.classList.remove('playing'));
-      if (ei >= 0 && ei < rows.length) {
-        rows[ei].classList.add('playing');
-        rows[ei].querySelector('.sample-status').textContent = 'playing';
-        rows[ei].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        nowPlaying.textContent = `${entries[ei].num} — ${entries[ei].label}`;
-      }
+  const rows = container.querySelectorAll('.sample');
+  let currentIndex = -1;
+  let isPlaying = false;
+
+  function showSlide(ei) {
+    slideIframe.src = `slides-v0.3.html#/${entries[ei].index}`;
+  }
+
+  function highlightRow(ei) {
+    rows.forEach(r => r.classList.remove('playing'));
+    if (ei >= 0 && ei < rows.length) {
+      rows[ei].classList.add('playing');
+      rows[ei].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      nowPlaying.textContent = `${entries[ei].num} — ${entries[ei].label}`;
+      showSlide(ei);
     }
+  }
 
-    function clearHighlight() {
-      rows.forEach(r => {
-        r.classList.remove('playing');
-        r.querySelector('.sample-status').textContent = '';
-      });
-      nowPlaying.textContent = '';
+  function clearHighlight() {
+    rows.forEach(r => r.classList.remove('playing'));
+    nowPlaying.textContent = '';
+  }
+
+  function playIndex(ei) {
+    if (ei < 0 || ei >= entries.length) {
+      stop();
+      return;
     }
+    currentIndex = ei;
+    player.src = entries[ei].mp3;
+    player.play();
+    isPlaying = true;
+    btnPlay.textContent = 'Pause';
+    highlightRow(ei);
+  }
 
-    function playIndex(ei) {
-      if (ei < 0 || ei >= entries.length) {
-        stop();
-        return;
-      }
-      currentIndex = ei;
-      player.src = entries[ei].mp3;
-      player.play();
-      isPlaying = true;
-      btnPlay.textContent = 'Pause';
-      highlightRow(ei);
+  function stop() {
+    player.pause();
+    player.removeAttribute('src');
+    isPlaying = false;
+    currentIndex = -1;
+    btnPlay.textContent = 'Play All';
+    clearHighlight();
+  }
+
+  // Auto-advance
+  player.addEventListener('ended', () => {
+    rows[currentIndex].classList.remove('playing');
+    if (currentIndex + 1 < entries.length) {
+      playIndex(currentIndex + 1);
+    } else {
+      stop();
     }
+  });
 
-    function stop() {
-      player.pause();
-      player.removeAttribute('src');
-      isPlaying = false;
-      currentIndex = -1;
-      btnPlay.textContent = 'Play All';
-      clearHighlight();
-    }
-
-    // Auto-advance
-    player.addEventListener('ended', () => {
-      rows[currentIndex].querySelector('.sample-status').textContent = 'done';
-      rows[currentIndex].classList.remove('playing');
-      if (currentIndex + 1 < entries.length) {
-        playIndex(currentIndex + 1);
+  // Transport controls
+  btnPlay.addEventListener('click', () => {
+    if (isPlaying) {
+      if (player.paused) {
+        player.play();
+        btnPlay.textContent = 'Pause';
       } else {
-        stop();
+        player.pause();
+        btnPlay.textContent = 'Resume';
       }
-    });
+    } else {
+      playIndex(currentIndex >= 0 ? currentIndex : 0);
+    }
+  });
 
-    // Transport controls
-    btnPlay.addEventListener('click', () => {
-      if (isPlaying) {
-        if (player.paused) {
-          player.play();
-          btnPlay.textContent = 'Pause';
-        } else {
-          player.pause();
-          btnPlay.textContent = 'Resume';
-        }
-      } else {
-        playIndex(0);
-      }
-    });
+  btnPrev.addEventListener('click', () => {
+    if (currentIndex > 0) playIndex(currentIndex - 1);
+  });
 
-    btnPrev.addEventListener('click', () => {
-      if (currentIndex > 0) playIndex(currentIndex - 1);
-    });
+  btnNext.addEventListener('click', () => {
+    if (currentIndex < entries.length - 1) playIndex(currentIndex + 1);
+  });
 
-    btnNext.addEventListener('click', () => {
-      if (currentIndex < entries.length - 1) playIndex(currentIndex + 1);
-    });
-  </script>
-</main>
+  // Click a row without playing = just preview the slide
+  container.addEventListener('click', (e) => {
+    const row = e.target.closest('.sample');
+    if (row) showSlide(Number(row.dataset.ei));
+  });
+</script>
 </body>
 </html>
