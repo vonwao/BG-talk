@@ -73,8 +73,8 @@ const SLIDE_IMAGE_SELECTIONS = {
     },
     "free-will": {
       "candidateId": "bild44",
-      "focusX": 43,
-      "focusY": 46,
+      "focusX": 32,
+      "focusY": 42,
       "scale": 1,
       "dim": 0.2,
       "tone": "dark"
