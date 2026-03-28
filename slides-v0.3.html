@@ -9,54 +9,149 @@
 <script src="script-notes-v2.js"></script>
 <script src="script-outline-v2.js"></script>
 <style>
+  :root {
+    --panel-width: clamp(320px, 24vw, 420px);
+    --panel-bg: rgba(255, 255, 255, 0.97);
+    --panel-border: #ddd;
+    --panel-text: #333;
+    --panel-accent: #8c7650;
+    --panel-accent-soft: #f5efe4;
+  }
+
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background: #fff;
+  }
+
   /* Script panel on the right */
   #script-panel {
     position: fixed;
     top: 0;
     right: 0;
-    width: 22%;
+    width: var(--panel-width);
     height: 100vh;
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: var(--panel-bg);
+    color: var(--panel-text);
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 18px;
-    line-height: 1.6;
-    padding: 0.6em 1.2em 0.8em;
-    overflow-y: hidden;
+    padding: 0.85rem 1.1rem 0.95rem;
+    overflow: hidden;
     z-index: 100;
-    border-left: 1px solid #ddd;
+    border-left: 1px solid var(--panel-border);
     box-sizing: border-box;
-    white-space: pre-wrap;
+    box-shadow: -10px 0 32px rgba(0, 0, 0, 0.04);
   }
   #script-panel .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.4em;
     flex-shrink: 0;
+    gap: 0.75rem;
   }
   #script-panel .slide-label {
-    font-size: 14px;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #999;
+    white-space: nowrap;
   }
-  #script-panel .mode-label {
-    font-size: 12px;
+  #script-panel .panel-modes {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+  #script-panel .mode-button {
+    appearance: none;
+    border: 1px solid #d7cdb8;
+    background: var(--panel-accent-soft);
+    color: #7a6644;
+    font: 600 10px/1.1 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #b0a080;
+    padding: 0.42rem 0.55rem;
+    border-radius: 999px;
     cursor: pointer;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
   }
-  #script-panel .mode-label:hover {
-    color: #887040;
+  #script-panel .mode-button:hover {
+    border-color: #c7b58f;
+    color: #654f2d;
+  }
+  #script-panel .mode-button.is-active {
+    background: var(--panel-accent);
+    border-color: var(--panel-accent);
+    color: #fffdf8;
   }
   #script-text {
-    overflow-y: hidden;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 0.2rem;
+    white-space: pre-wrap;
+    font-size: 28px;
+    line-height: 1.46;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140, 118, 80, 0.4) transparent;
+  }
+  #script-text.is-outline {
+    line-height: 1.32;
+  }
+  #script-text::-webkit-scrollbar {
+    width: 8px;
+  }
+  #script-text::-webkit-scrollbar-thumb {
+    background: rgba(140, 118, 80, 0.4);
+    border-radius: 999px;
+  }
+  #script-text::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #script-measure {
+    position: fixed;
+    left: -99999px;
+    top: 0;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: pre-wrap;
+    box-sizing: border-box;
   }
   /* Push the reveal presentation left to make room */
   .reveal {
-    width: 78% !important;
+    width: calc(100vw - var(--panel-width)) !important;
+    margin: 0 !important;
+  }
+
+  @media (max-width: 1400px) {
+    :root {
+      --panel-width: clamp(300px, 25vw, 380px);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    :root {
+      --panel-width: clamp(280px, 28vw, 340px);
+    }
+
+    #script-panel {
+      padding-inline: 0.95rem;
+    }
+
+    #script-panel .slide-label {
+      font-size: 0.72rem;
+    }
+
+    #script-panel .mode-button {
+      padding: 0.38rem 0.48rem;
+      font-size: 9px;
+    }
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
@@ -369,10 +464,14 @@
 <div id="script-panel">
   <div class="panel-header">
     <span class="slide-label">Slide 1 of 20</span>
-    <span class="mode-label" id="mode-toggle" title="Press 'O' to toggle">FULL TEXT</span>
+    <div class="panel-modes" role="group" aria-label="Speaker notes mode">
+      <button type="button" class="mode-button is-active" data-mode="full">Full</button>
+      <button type="button" class="mode-button" data-mode="outline">Outline</button>
+    </div>
   </div>
   <div id="script-text"></div>
 </div>
+<div id="script-measure" aria-hidden="true"></div>
 <div class="reveal">
 <div class="slides">
 
@@ -524,23 +623,67 @@
   });
 
   var panelMode = 'full'; // 'full' or 'outline'
+  var sizeFrame = null;
 
   function autoSizeText() {
-    var panel = document.getElementById('script-panel');
-    var header = document.querySelector('#script-panel .panel-header');
     var text = document.getElementById('script-text');
-    if (!text.textContent) return;
+    var measure = document.getElementById('script-measure');
+    var content = text.textContent || '';
+    var lineHeight = panelMode === 'outline' ? '1.32' : '1.46';
+    var minSize = panelMode === 'outline' ? 18 : 20;
+    var maxSize = panelMode === 'outline' ? 34 : 42;
+    var low = minSize;
+    var high = maxSize;
+    var best = minSize;
 
-    var availableHeight = panel.clientHeight - header.offsetHeight - 20;
-    var minSize = 14;
-    var maxSize = 38;
-    var size = maxSize;
+    text.classList.toggle('is-outline', panelMode === 'outline');
+    text.style.lineHeight = lineHeight;
 
-    text.style.fontSize = size + 'px';
-    while (text.scrollHeight > availableHeight && size > minSize) {
-      size -= 1;
-      text.style.fontSize = size + 'px';
+    if (!content.trim()) {
+      text.style.fontSize = '30px';
+      text.scrollTop = 0;
+      return;
     }
+
+    measure.textContent = content;
+    measure.style.width = Math.max(text.clientWidth, 0) + 'px';
+    measure.style.fontFamily = getComputedStyle(text).fontFamily;
+    measure.style.fontWeight = getComputedStyle(text).fontWeight;
+    measure.style.fontStyle = getComputedStyle(text).fontStyle;
+    measure.style.letterSpacing = getComputedStyle(text).letterSpacing;
+    measure.style.wordSpacing = getComputedStyle(text).wordSpacing;
+    measure.style.lineHeight = lineHeight;
+
+    while (low <= high) {
+      var mid = Math.floor((low + high) / 2);
+      measure.style.fontSize = mid + 'px';
+
+      if (measure.scrollHeight <= text.clientHeight) {
+        best = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    text.style.fontSize = best + 'px';
+    while (text.scrollHeight > text.clientHeight + 1 && best > minSize) {
+      best -= 1;
+      text.style.fontSize = best + 'px';
+    }
+
+    text.scrollTop = 0;
+  }
+
+  function queueAutoSize() {
+    if (sizeFrame) {
+      cancelAnimationFrame(sizeFrame);
+    }
+
+    sizeFrame = requestAnimationFrame(function() {
+      sizeFrame = null;
+      autoSizeText();
+    });
   }
 
   function getNotesForSlide(idx) {
@@ -555,27 +698,53 @@
     var total = Reveal.getTotalSlides();
     document.querySelector('#script-panel .slide-label').textContent = 'Slide ' + (idx + 1) + ' of ' + total;
     document.getElementById('script-text').textContent = getNotesForSlide(idx);
-    document.getElementById('script-panel').scrollTop = 0;
-    autoSizeText();
+    syncModeButtons();
+    queueAutoSize();
   }
 
-  function toggleMode() {
-    panelMode = (panelMode === 'full') ? 'outline' : 'full';
-    document.getElementById('mode-toggle').textContent = panelMode === 'full' ? 'FULL TEXT' : 'OUTLINE';
+  function syncModeButtons() {
+    document.querySelectorAll('#script-panel .mode-button').forEach(function(button) {
+      var isActive = button.dataset.mode === panelMode;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  function setMode(mode) {
+    if (mode !== 'full' && mode !== 'outline' || mode === panelMode) {
+      return;
+    }
+
+    panelMode = mode;
     updateScriptPanel();
   }
 
-  document.getElementById('mode-toggle').addEventListener('click', toggleMode);
+  function toggleMode() {
+    setMode(panelMode === 'full' ? 'outline' : 'full');
+  }
+
+  document.querySelectorAll('#script-panel .mode-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      setMode(button.dataset.mode);
+    });
+  });
 
   document.addEventListener('keydown', function(e) {
+    var tagName = e.target && e.target.tagName;
+    if (tagName === 'INPUT' || tagName === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) {
+      return;
+    }
+
     if (e.key === 'o' || e.key === 'O') {
+      e.preventDefault();
       toggleMode();
     }
   });
 
   Reveal.on('slidechanged', updateScriptPanel);
   Reveal.on('ready', updateScriptPanel);
-  window.addEventListener('resize', autoSizeText);
+  window.addEventListener('resize', queueAutoSize);
+  window.addEventListener('load', queueAutoSize);
 </script>
 </body>
 </html>
