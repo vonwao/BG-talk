@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(GIT_DIR=/Users/vonwao/dev/presentations/BG-talk/.git git status 2>&1)",
+      "Bash(git:*)"
+    ]
+  }
+}
