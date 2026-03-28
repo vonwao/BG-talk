@@ -35,13 +35,21 @@
 - `slides-v0.3-audio.html` redirects to the audio-enabled deck
 - `slides-v0.3.html?audio=1` runs the current deck in auto-narrated mode
 - `audio-preview.html` gives direct in-browser players for generated sample slides
-- `script-audio-v0.3.js` is the canonical narration source for TTS
+- `talk-content.js` is now the canonical source of truth for deck text, notes, outline, and audio
 - `node generate-audio.mjs` generates slide MP3s into `audio/slides/`
 - `node generate-audio.mjs --slide 1` generates a single test slide
+- `editor.html` is a lightweight browser editor for the talk content
+- `node editor-server.mjs` runs a tiny local server so `editor.html` can save directly to disk
 - Environment variables:
   - `ELEVENLABS_API_KEY` required
   - `ELEVENLABS_VOICE_ID` optional, defaults to the prior Clawd voice
   - `ELEVENLABS_MODEL_ID` optional, defaults to `eleven_multilingual_v2`
+
+## Editing Workflow
+- Open `http://127.0.0.1:8787/slides-v0.3.html` after running `node editor-server.mjs`
+- Use the `Edit Text` button in the deck, or open `http://127.0.0.1:8787/editor.html`
+- Changes save straight to `talk-content.js`, which the deck and audio generator load directly
+- No regeneration step is required
 
 ## Core Thesis
 **Help is available — if we learn how to receive it.**

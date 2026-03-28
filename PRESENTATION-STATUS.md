@@ -31,10 +31,12 @@ Help is available, if we learn how to receive it.
 Use these as the current source of truth:
 
 - `README.md`
-- `SCRIPT-v2.md`
+- `talk-content.js`
 - `slides-v0.3.html`
-- `script-notes-v2.js`
-- `script-outline-v2.js`
+- `editor.html`
+- `editor-server.mjs`
+- `generate-audio.mjs`
+- `SCRIPT-v2.md`
 - `PRESENTATION-STATUS.md`
 
 ### Supporting / Historical Artifacts
@@ -65,10 +67,12 @@ It currently includes:
 - 20 slides
 - 7 anchor quote slides
 - a right-side speaker panel
-- `Full` mode using `script-notes-v2.js`
-- `Outline` mode using `script-outline-v2.js`
+- `Full` mode using `talk-content.js`
+- `Outline` mode using `talk-content.js`
 - compact cumulative timing in the header
 - larger, more readable header metadata after multiple iterations
+- fixed `Edit Text` link into `editor.html`
+- audio mode and sample-preview workflow driven by the same content file
 
 The notes panel is now materially better than before:
 
@@ -79,7 +83,7 @@ The notes panel is now materially better than before:
 
 ## Current Script State
 
-`SCRIPT-v2.md` is the best current script.
+`SCRIPT-v2.md` is still the best prose draft for speech writing, but `talk-content.js` is now the actual canonical source loaded by the deck and audio tooling.
 
 Its core structure is:
 
@@ -105,6 +109,15 @@ The latest tightening pass did four concrete things:
 - aligned `SCRIPT-v2.md` with the deck / README title
 - tightened speaker-note phrasing in `script-notes-v2.js` and `script-outline-v2.js`
 - gave the closing a clearer payoff to the chosen title and core thesis
+
+### Editing Workflow Shift
+
+The repo no longer requires a regenerate step for ordinary text edits.
+
+- `slides-v0.3.html` reads directly from `talk-content.js`
+- `generate-audio.mjs` reads directly from `talk-content.js`
+- `editor.html` can edit the same content object in-browser
+- `editor-server.mjs` enables direct save-to-disk over localhost
 
 ## Major Decisions Already Made
 

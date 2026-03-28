@@ -5,7 +5,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const SCRIPT_AUDIO = require('./script-audio-v0.3.js');
+const TALK_CONTENT = require('./talk-content.js');
 
 const apiKey = process.env.ELEVENLABS_API_KEY;
 const voiceId = process.env.ELEVENLABS_VOICE_ID || 'bIHbv24MWmeRgasZH58o';
@@ -25,24 +25,24 @@ if (typeof fetch !== 'function') {
   process.exit(1);
 }
 
-if (!Array.isArray(SCRIPT_AUDIO)) {
-  console.error('script-audio-v0.3.js did not export a narration array.');
+if (!TALK_CONTENT || !Array.isArray(TALK_CONTENT.slides)) {
+  console.error('talk-content.js did not export a valid slide list.');
   process.exit(1);
 }
 
-if (requestedSlide !== null && (!Number.isInteger(requestedSlide) || requestedSlide < 1 || requestedSlide > SCRIPT_AUDIO.length)) {
-  console.error(`--slide must be an integer between 1 and ${SCRIPT_AUDIO.length}.`);
+if (requestedSlide !== null && (!Number.isInteger(requestedSlide) || requestedSlide < 1 || requestedSlide > TALK_CONTENT.slides.length)) {
+  console.error(`--slide must be an integer between 1 and ${TALK_CONTENT.slides.length}.`);
   process.exit(1);
 }
 
 await fs.mkdir(outDir, { recursive: true });
 
-for (const [idx, entry] of SCRIPT_AUDIO.entries()) {
+for (const [idx, entry] of TALK_CONTENT.slides.entries()) {
   if (requestedSlide !== null && idx + 1 !== requestedSlide) {
     continue;
   }
 
-  if (!entry || !entry.text || !entry.text.trim()) {
+  if (!entry || !entry.audio || !entry.audio.trim()) {
     continue;
   }
 
@@ -69,7 +69,7 @@ for (const [idx, entry] of SCRIPT_AUDIO.entries()) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      text: entry.text,
+      text: entry.audio,
       model_id: modelId,
       voice_settings: {
         stability: 0.5,
