@@ -647,7 +647,6 @@
   }
 
   function serializeSelections() {
-    state.updatedAt = new Date().toISOString();
     return 'const SLIDE_IMAGE_SELECTIONS = ' + JSON.stringify(state, null, 2) + ';\n\n'
       + "if (typeof window !== 'undefined') {\n"
       + '  window.SLIDE_IMAGE_SELECTIONS = SLIDE_IMAGE_SELECTIONS;\n'
