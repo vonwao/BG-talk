@@ -1,0 +1,138 @@
+// Outline notes v2 — detailed bullet points, not full sentences
+// Mapped to slides-v0.3.html (0-indexed)
+const SCRIPT_OUTLINE = [
+  // Slide 0: Title
+  ``,
+
+  // Slide 1: Opening hook
+  `• "Imagine you're sick" — tried everything, nothing worked
+• Someone says: "there's a man, he just says you can be helped"
+• "That's ridiculous"`,
+
+  // Slide 2: Herford 1949
+  `• Herford, Germany, 1949 — thousands showed up
+• Not gullible — desperate
+• Something happening no one could explain
+• His name: Bruno Gröning`,
+
+  // Slide 3: QUOTE 1 — Identity
+  `QUOTE: "No human being can heal; it is always only the One, God."
+
+• Surprising claim — insisted he was NOT the healer
+• Healing comes from God, not man
+• Not building personality cult — pointing away from himself
+• This one idea = key to everything else`,
+
+  // Slide 4: Transition to healing
+  `• People came because he spoke into pain, sickness, hopelessness
+• Germany 1949 — war over, country in ruins
+• Suffering beyond what medicine could reach
+• A man appears with a message that sounds too simple`,
+
+  // Slide 5: QUOTE 2 — Trust and believe
+  `QUOTE: "Trust and believe, the divine power helps and heals."
+
+• Central healing formula
+• Trust = part of the mechanism, not side issue
+• Heilstrom = "healing stream"
+• Spiritual energy always present, most people cut off from it`,
+
+  // Slide 6: Heilstrom visual
+  `• His teaching in three parts:
+  1. Stop clinging to what's wrong
+  2. Turn toward the good — inner act of trust
+  3. Receive — through openness, not effort
+• Inner stillness allows something to flow in`,
+
+  // Slide 7: QUOTE 3 — No incurable
+  `QUOTE: "There is no incurable."
+
+• "Incurable" = human medical judgment, not limit on divine power
+• People reported healings with no medical explanation
+• Circle of Friends documents these with clinical rigor
+• Not proof — but worth paying attention to`,
+
+  // Slide 8: QUOTE 4 — Cannot be explained
+  `QUOTE: "There is much that cannot be explained, but nothing that cannot happen."
+
+• How he handled skepticism
+• Didn't claim everything is explainable
+• Claimed: explanation ≠ possibility
+• Genuinely interesting philosophical move`,
+
+  // Slide 9: Inner life transition
+  `• Message went beyond healing
+• What struck me: how familiar it felt
+• Echoes older traditions:
+  — "The kingdom of God is within you"
+  — Living water
+• Same pattern across centuries`,
+
+  // Slide 10: QUOTE 5 — Thoughts are energy
+  `QUOTE: "It is so important which thoughts a person accepts, for thoughts are energy."
+
+• Not shallow positive thinking
+• Thoughts = forces that shape spiritual + physical reality
+• Thought-discipline: morally and spiritually decisive
+• Almost like cognitive training + spiritual practice`,
+
+  // Slide 11: QUOTE 6 — Creature of love
+  `QUOTE: "The human being is a creature of love."
+
+• Love → not just emotion, but condition of human life
+• "What is created in love can live only in love"
+• Health, goodness, love = not separate categories
+• His language: immediate, alive, for modern people`,
+
+  // Slide 12: Cosmic stakes
+  `• Harder edge to his teaching
+• Healing sits inside a cosmic drama:
+  — Love vs. destruction
+  — God vs. evil
+  — Freedom vs. passivity
+• "As true as there is the Lord, there is also the Satan"
+• Evil = real opposing force, not metaphor`,
+
+  // Slide 13: QUOTE 7 — Free will
+  `QUOTE: "Man has a sacrosanct free will."
+
+• Free will = great dignity AND great danger
+• Healing cannot be forced on anyone
+• Even divine help doesn't override freedom
+• A person is always choosing what power to receive`,
+
+  // Slide 14: Personal — begins
+  `• Why I'm up here talking about this
+• Software engineer, 25 years building technology, AI systems
+• Logic, systems, code — that's my world
+• But also drawn to: what IS the human being?
+• More to us than materialist framework?`,
+
+  // Slide 15: Personal — emotional center
+  `• Encountered Bruno Gröning's teaching — something rang true
+• Not because told to believe — matched what I'd already sensed
+• Tested it inwardly — found something real
+• Experienced help — quiet, unmistakable
+• "I'm not asking you to take my word for it"
+• → "I'm telling you what I found"`,
+
+  // Slide 16: Pause
+  ``,
+
+  // Slide 17: Closing message
+  `• Core message is breathtakingly simple:
+  → Help is available — if we learn how to receive it
+• That's it. That's the whole thing.
+• Don't have to earn it or be worthy
+• Goodness flowing through the world
+• When a person truly opens — something can change`,
+
+  // Slide 18: Invitation
+  `• A message worth considering
+• Not as dogma, not as religion — just as a possibility
+• Circle of Friends of Bruno Gröning — active worldwide
+• They welcome anyone who wants to learn more`,
+
+  // Slide 19: Closing
+  `Thank you.`,
+];

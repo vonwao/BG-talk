@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.min.css">
 <script src="script-notes-v2.js"></script>
+<script src="script-outline-v2.js"></script>
 <style>
   /* Script panel on the right */
   #script-panel {
@@ -20,20 +21,38 @@
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 18px;
     line-height: 1.6;
-    padding: 2em 1.2em;
-    overflow-y: auto;
+    padding: 0.6em 1.2em 0.8em;
+    overflow-y: hidden;
     z-index: 100;
     border-left: 1px solid #ddd;
     box-sizing: border-box;
     white-space: pre-wrap;
   }
+  #script-panel .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4em;
+    flex-shrink: 0;
+  }
   #script-panel .slide-label {
-    font-size: 11px;
+    font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #999;
-    margin-bottom: 1em;
-    display: block;
+  }
+  #script-panel .mode-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b0a080;
+    cursor: pointer;
+  }
+  #script-panel .mode-label:hover {
+    color: #887040;
+  }
+  #script-text {
+    overflow-y: hidden;
   }
   /* Push the reveal presentation left to make room */
   .reveal {
@@ -348,7 +367,10 @@
 </head>
 <body>
 <div id="script-panel">
-  <span class="slide-label">Slide 1 of 20</span>
+  <div class="panel-header">
+    <span class="slide-label">Slide 1 of 20</span>
+    <span class="mode-label" id="mode-toggle" title="Press 'O' to toggle">FULL TEXT</span>
+  </div>
   <div id="script-text"></div>
 </div>
 <div class="reveal">
@@ -501,14 +523,17 @@
     height: 1080
   });
 
+  var panelMode = 'full'; // 'full' or 'outline'
+
   function autoSizeText() {
     var panel = document.getElementById('script-panel');
+    var header = document.querySelector('#script-panel .panel-header');
     var text = document.getElementById('script-text');
     if (!text.textContent) return;
 
-    var availableHeight = panel.clientHeight - 60;
-    var minSize = 16;
-    var maxSize = 42;
+    var availableHeight = panel.clientHeight - header.offsetHeight - 20;
+    var minSize = 14;
+    var maxSize = 38;
     var size = maxSize;
 
     text.style.fontSize = size + 'px';
@@ -518,16 +543,35 @@
     }
   }
 
+  function getNotesForSlide(idx) {
+    if (panelMode === 'outline') {
+      return (typeof SCRIPT_OUTLINE !== 'undefined' && SCRIPT_OUTLINE[idx]) || '';
+    }
+    return (SCRIPT_NOTES && SCRIPT_NOTES[idx]) || '';
+  }
+
   function updateScriptPanel() {
     var idx = Reveal.getIndices().h;
     var total = Reveal.getTotalSlides();
-    var label = document.querySelector('#script-panel .slide-label');
-    var text = document.getElementById('script-text');
-    label.textContent = 'Slide ' + (idx + 1) + ' of ' + total;
-    text.textContent = (SCRIPT_NOTES && SCRIPT_NOTES[idx]) || '';
+    document.querySelector('#script-panel .slide-label').textContent = 'Slide ' + (idx + 1) + ' of ' + total;
+    document.getElementById('script-text').textContent = getNotesForSlide(idx);
     document.getElementById('script-panel').scrollTop = 0;
     autoSizeText();
   }
+
+  function toggleMode() {
+    panelMode = (panelMode === 'full') ? 'outline' : 'full';
+    document.getElementById('mode-toggle').textContent = panelMode === 'full' ? 'FULL TEXT' : 'OUTLINE';
+    updateScriptPanel();
+  }
+
+  document.getElementById('mode-toggle').addEventListener('click', toggleMode);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'o' || e.key === 'O') {
+      toggleMode();
+    }
+  });
 
   Reveal.on('slidechanged', updateScriptPanel);
   Reveal.on('ready', updateScriptPanel);
