@@ -72,9 +72,9 @@ const TALK_CONTENT = {
       "editorLabel": "Quote 3 — Incurable",
       "quote": "There is no incurable.",
       "attribution": "Bruno Gröning",
-      "notes": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings with no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work says it documents such reports with medical records.",
-      "outline": "• One of his boldest claims: \"incurable\" is a human judgment\n• In his view, it is not a limit on divine power\n• People report extraordinary healings and inner changes\n• Some reports have no medical explanation\n• The community says it documents these cases with medical records",
-      "audio": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings with no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work says it documents such reports with medical records."
+      "notes": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings with no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports with medical records.",
+      "outline": "• One of his boldest claims: \"incurable\" is a human judgment\n• In his view, it is not a limit on divine power\n• People report extraordinary healings and inner changes\n• Some reports have no medical explanation\n• The community documents these cases with medical records",
+      "audio": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings with no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports with medical records."
     },
     {
       "slug": "mystery",

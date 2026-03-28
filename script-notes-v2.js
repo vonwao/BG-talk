@@ -51,7 +51,7 @@ And then — receive. Not through effort or willpower, but through openness. Thr
 
 People reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.
 
-And these weren't treated as just stories — the community that carries on his work says it documents such reports through a medical-scientific review process.`,
+And these weren't treated as just stories — the community that carries on his work documents such reports through a medical-scientific review process.`,
 
   // Slide 8: QUOTE 4 — "There is much that cannot be explained..."
   `This line is important because it shows how he handled skepticism.
