@@ -56,11 +56,23 @@
     flex-shrink: 0;
     gap: 0.75rem;
   }
+  #script-panel .panel-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.16rem;
+    min-width: 0;
+  }
   #script-panel .slide-label {
     font-size: 0.94rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: #8d8d8d;
+    white-space: nowrap;
+  }
+  #script-panel .time-label {
+    font: 600 0.68rem/1.1 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: 0.08em;
+    color: #aa9877;
     white-space: nowrap;
   }
   #script-panel .panel-modes {
@@ -163,6 +175,9 @@
 
     #script-panel .slide-label {
       font-size: 0.84rem;
+    }
+    #script-panel .time-label {
+      font-size: 0.62rem;
     }
 
     #script-panel .mode-button {
@@ -480,7 +495,10 @@
 <body>
 <div id="script-panel">
   <div class="panel-header">
-    <span class="slide-label">Slide 1 of 20</span>
+    <div class="panel-status">
+      <span class="slide-label">Slide 1 of 20</span>
+      <span class="time-label" id="time-label">00:15 / 10:56</span>
+    </div>
     <div class="panel-modes" role="group" aria-label="Speaker notes mode">
       <button type="button" class="mode-button is-active" data-mode="full">Full</button>
       <button type="button" class="mode-button" data-mode="outline">Outline</button>
@@ -641,6 +659,35 @@
 
   var panelMode = 'full'; // 'full' or 'outline'
   var sizeFrame = null;
+  var timingModel = buildTimingModel();
+
+  function countWords(text) {
+    return text && text.trim() ? text.trim().split(/\s+/).length : 0;
+  }
+
+  function formatTime(seconds) {
+    var totalSeconds = Math.max(0, Math.round(seconds));
+    var minutes = Math.floor(totalSeconds / 60);
+    var remainingSeconds = totalSeconds % 60;
+    return String(minutes).padStart(2, '0') + ':' + String(remainingSeconds).padStart(2, '0');
+  }
+
+  function buildTimingModel() {
+    var notes = typeof SCRIPT_NOTES !== 'undefined' ? SCRIPT_NOTES : [];
+    var pauseSeconds = [15, 0, 0, 10, 0, 10, 0, 8, 8, 0, 8, 8, 0, 8, 6, 6, 8, 8, 6, 4];
+    var wordsPerMinute = 125;
+    var runningTotal = 0;
+    var cumulativeBySlide = notes.map(function(note, idx) {
+      var speechSeconds = Math.round((countWords(note || '') / wordsPerMinute) * 60);
+      runningTotal += speechSeconds + (pauseSeconds[idx] || 0);
+      return runningTotal;
+    });
+
+    return {
+      cumulativeBySlide: cumulativeBySlide,
+      totalSeconds: cumulativeBySlide[cumulativeBySlide.length - 1] || 0
+    };
+  }
 
   function renderPanelContent(target, content) {
     target.classList.toggle('is-outline', panelMode === 'outline');
@@ -738,6 +785,7 @@
     var idx = Reveal.getIndices().h;
     var total = Reveal.getTotalSlides();
     document.querySelector('#script-panel .slide-label').textContent = 'Slide ' + (idx + 1) + ' of ' + total;
+    document.getElementById('time-label').textContent = formatTime(timingModel.cumulativeBySlide[idx] || 0) + ' / ' + formatTime(timingModel.totalSeconds);
     renderPanelContent(document.getElementById('script-text'), getNotesForSlide(idx));
     syncModeButtons();
     queueAutoSize();
