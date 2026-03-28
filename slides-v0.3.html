@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.min.css">
 <script src="script-notes-v2.js"></script>
 <script src="script-outline-v2.js"></script>
+<script src="script-audio-v0.3.js"></script>
 <style>
   :root {
     --panel-width: clamp(320px, 24vw, 420px);
@@ -156,6 +157,14 @@
   .reveal {
     width: calc(100vw - var(--panel-width)) !important;
     margin: 0 !important;
+  }
+
+  body.audio-mode #script-panel {
+    display: none;
+  }
+
+  body.audio-mode .reveal {
+    width: 100vw !important;
   }
 
   @media (max-width: 1400px) {
@@ -645,11 +654,16 @@
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.js"></script>
 <script>
+  var audioMode = new URLSearchParams(window.location.search).get('audio') === '1';
+  if (audioMode) {
+    document.body.classList.add('audio-mode');
+  }
+
   Reveal.initialize({
     hash: true,
     transition: 'fade',
     transitionSpeed: 'slow',
-    controls: true,
+    controls: !audioMode,
     controlsLayout: 'edges',
     progress: true,
     center: true,
@@ -812,6 +826,233 @@
     setMode(panelMode === 'full' ? 'outline' : 'full');
   }
 
+  var currentAudio = null;
+  var silentAdvanceTimer = null;
+  var audioEnabled = true;
+  var autoplay = true;
+  var userHasInteracted = false;
+
+  function getAudioEntry(idx) {
+    return (typeof SCRIPT_AUDIO !== 'undefined' && SCRIPT_AUDIO[idx]) || null;
+  }
+
+  function getAudioSource(idx) {
+    var entry = getAudioEntry(idx);
+    if (!entry || !entry.text || !entry.text.trim()) {
+      return '';
+    }
+
+    return 'audio/slides/slide-' + String(idx + 1).padStart(2, '0') + '-' + entry.slug + '.mp3';
+  }
+
+  function clearSilentAdvance() {
+    if (silentAdvanceTimer) {
+      clearTimeout(silentAdvanceTimer);
+      silentAdvanceTimer = null;
+    }
+  }
+
+  function stopCurrentAudio() {
+    clearSilentAdvance();
+
+    if (!currentAudio) {
+      return;
+    }
+
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
+  function updateAudioControls() {
+    var playButton = document.getElementById('ctl-play');
+    var statusEl = document.getElementById('ctl-status');
+    var autoButton = document.getElementById('ctl-auto');
+    if (!playButton) {
+      return;
+    }
+
+    var slideIdx = Reveal.getIndices().h;
+    var total = Reveal.getTotalSlides();
+
+    playButton.innerHTML = currentAudio && !currentAudio.paused ? '&#9208;' : '&#9654;';
+    statusEl.textContent = (slideIdx + 1) + '/' + total;
+    autoButton.style.opacity = autoplay ? '1' : '0.45';
+    autoButton.style.borderColor = autoplay ? '#aa9877' : 'rgba(255,255,255,0.2)';
+  }
+
+  function showStartOverlay() {
+    if (document.getElementById('start-overlay')) {
+      return;
+    }
+
+    var overlay = document.createElement('div');
+    overlay.id = 'start-overlay';
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '10000',
+      background: 'rgba(0,0,0,0.84)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      cursor: 'pointer',
+      color: '#fff'
+    });
+
+    overlay.innerHTML = ''
+      + '<div style="font-size:64px;margin-bottom:18px;">&#9654;</div>'
+      + '<div style="font: 500 20px/1.2 Georgia, serif; opacity:0.9;">Tap to start audio</div>';
+
+    overlay.addEventListener('click', function() {
+      userHasInteracted = true;
+      overlay.remove();
+      playSlideAudio(Reveal.getIndices().h);
+    });
+
+    document.body.appendChild(overlay);
+  }
+
+  function toggleAudioPlayback() {
+    if (!currentAudio) {
+      playSlideAudio(Reveal.getIndices().h);
+      return;
+    }
+
+    if (currentAudio.paused) {
+      currentAudio.play().catch(function() {});
+    } else {
+      currentAudio.pause();
+    }
+
+    updateAudioControls();
+  }
+
+  function createAudioControls() {
+    if (document.getElementById('audio-controls')) {
+      return;
+    }
+
+    var bar = document.createElement('div');
+    bar.id = 'audio-controls';
+    Object.assign(bar.style, {
+      position: 'fixed',
+      bottom: '16px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      background: 'rgba(0,0,0,0.84)',
+      color: '#fff',
+      padding: '8px 6px',
+      borderRadius: '12px',
+      fontFamily: 'Georgia, serif',
+      fontSize: '14px',
+      zIndex: '9999',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px',
+      border: '1px solid rgba(255,255,255,0.15)',
+      backdropFilter: 'blur(8px)',
+      WebkitBackdropFilter: 'blur(8px)'
+    });
+
+    var buttonStyle = ''
+      + 'background:none;border:1px solid rgba(255,255,255,0.2);'
+      + 'color:#fff;border-radius:8px;padding:8px 12px;cursor:pointer;'
+      + 'font-size:16px;font-family:Georgia,serif;min-width:40px;text-align:center;';
+
+    bar.innerHTML = ''
+      + '<button id="ctl-prev" style="' + buttonStyle + '" title="Previous">&#9664;</button>'
+      + '<button id="ctl-play" style="' + buttonStyle + 'min-width:48px;" title="Play or pause">&#9654;</button>'
+      + '<button id="ctl-next" style="' + buttonStyle + '" title="Next">&#9654;&#9615;</button>'
+      + '<span id="ctl-status" style="padding:0 8px;opacity:0.7;font-size:13px;white-space:nowrap;"></span>'
+      + '<button id="ctl-auto" style="' + buttonStyle + 'font-size:13px;" title="Toggle autoplay">auto</button>';
+
+    document.body.appendChild(bar);
+
+    document.getElementById('ctl-prev').addEventListener('click', function(e) {
+      e.stopPropagation();
+      userHasInteracted = true;
+      Reveal.prev();
+    });
+
+    document.getElementById('ctl-next').addEventListener('click', function(e) {
+      e.stopPropagation();
+      userHasInteracted = true;
+      Reveal.next();
+    });
+
+    document.getElementById('ctl-play').addEventListener('click', function(e) {
+      e.stopPropagation();
+      userHasInteracted = true;
+      toggleAudioPlayback();
+    });
+
+    document.getElementById('ctl-auto').addEventListener('click', function(e) {
+      e.stopPropagation();
+      autoplay = !autoplay;
+      updateAudioControls();
+    });
+  }
+
+  function queueSilentAdvance(slideIdx, delay) {
+    clearSilentAdvance();
+    silentAdvanceTimer = setTimeout(function() {
+      silentAdvanceTimer = null;
+      if (autoplay && Reveal.getIndices().h === slideIdx && slideIdx + 1 < Reveal.getTotalSlides()) {
+        Reveal.next();
+      }
+    }, delay);
+  }
+
+  function playSlideAudio(slideIdx) {
+    stopCurrentAudio();
+    updateAudioControls();
+
+    if (!audioEnabled) {
+      return;
+    }
+
+    var entry = getAudioEntry(slideIdx);
+    if (!entry) {
+      return;
+    }
+
+    if (!entry.text || !entry.text.trim()) {
+      if (autoplay && entry.advanceAfterMs) {
+        queueSilentAdvance(slideIdx, entry.advanceAfterMs);
+      }
+      return;
+    }
+
+    currentAudio = new Audio(getAudioSource(slideIdx));
+    currentAudio.addEventListener('ended', function() {
+      var advanceDelay = entry.advanceAfterMs || 800;
+      currentAudio = null;
+      updateAudioControls();
+
+      if (autoplay && slideIdx + 1 < Reveal.getTotalSlides()) {
+        queueSilentAdvance(slideIdx, advanceDelay);
+      }
+    });
+    currentAudio.addEventListener('error', function() {
+      currentAudio = null;
+      updateAudioControls();
+    });
+    currentAudio.play().catch(function() {
+      if (!userHasInteracted) {
+        showStartOverlay();
+      }
+    });
+    updateAudioControls();
+  }
+
+  function initAudioMode() {
+    createAudioControls();
+    updateAudioControls();
+    playSlideAudio(Reveal.getIndices().h);
+  }
+
   document.querySelectorAll('#script-panel .mode-button').forEach(function(button) {
     button.addEventListener('click', function() {
       setMode(button.dataset.mode);
@@ -824,16 +1065,65 @@
       return;
     }
 
-    if (e.key === 'o' || e.key === 'O') {
+    if (audioMode && e.code === 'Space') {
+      e.preventDefault();
+      userHasInteracted = true;
+      if (currentAudio) {
+        toggleAudioPlayback();
+      } else {
+        Reveal.next();
+      }
+      return;
+    }
+
+    if (audioMode && (e.key === 'a' || e.key === 'A')) {
+      e.preventDefault();
+      audioEnabled = !audioEnabled;
+      if (!audioEnabled) {
+        stopCurrentAudio();
+      } else {
+        playSlideAudio(Reveal.getIndices().h);
+      }
+      updateAudioControls();
+      return;
+    }
+
+    if (audioMode && (e.key === 'r' || e.key === 'R')) {
+      e.preventDefault();
+      userHasInteracted = true;
+      playSlideAudio(Reveal.getIndices().h);
+      return;
+    }
+
+    if (!audioMode && (e.key === 'o' || e.key === 'O')) {
       e.preventDefault();
       toggleMode();
     }
   });
 
-  Reveal.on('slidechanged', updateScriptPanel);
-  Reveal.on('ready', updateScriptPanel);
-  window.addEventListener('resize', queueAutoSize);
-  window.addEventListener('load', queueAutoSize);
+  Reveal.on('slidechanged', function(event) {
+    if (audioMode) {
+      playSlideAudio(event.indexh);
+      updateAudioControls();
+      return;
+    }
+
+    updateScriptPanel();
+  });
+
+  Reveal.on('ready', function() {
+    if (audioMode) {
+      initAudioMode();
+      return;
+    }
+
+    updateScriptPanel();
+  });
+
+  if (!audioMode) {
+    window.addEventListener('resize', queueAutoSize);
+    window.addEventListener('load', queueAutoSize);
+  }
 </script>
 </body>
 </html>

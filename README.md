@@ -31,6 +31,16 @@
 - Keeps skeptics listening AND believers inspired
 - Avoids sounding dogmatic
 
+## Audio Practice / TTS
+- `slides-v0.3-audio.html` redirects to the audio-enabled deck
+- `slides-v0.3.html?audio=1` runs the current deck in auto-narrated mode
+- `script-audio-v0.3.js` is the canonical narration source for TTS
+- `node generate-audio.mjs` generates slide MP3s into `audio/slides/`
+- Environment variables:
+  - `ELEVENLABS_API_KEY` required
+  - `ELEVENLABS_VOICE_ID` optional, defaults to the prior Clawd voice
+  - `ELEVENLABS_MODEL_ID` optional, defaults to `eleven_multilingual_v2`
+
 ## Core Thesis
 **Help is available — if we learn how to receive it.**
 
