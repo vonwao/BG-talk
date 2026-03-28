@@ -36,6 +36,7 @@
 - `slides-v0.3.html?audio=1` runs the current deck in auto-narrated mode
 - `script-audio-v0.3.js` is the canonical narration source for TTS
 - `node generate-audio.mjs` generates slide MP3s into `audio/slides/`
+- `node generate-audio.mjs --slide 1` generates a single test slide
 - Environment variables:
   - `ELEVENLABS_API_KEY` required
   - `ELEVENLABS_VOICE_ID` optional, defaults to the prior Clawd voice

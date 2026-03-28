@@ -12,6 +12,8 @@ const voiceId = process.env.ELEVENLABS_VOICE_ID || 'bIHbv24MWmeRgasZH58o';
 const modelId = process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2';
 const outDir = path.join(process.cwd(), 'audio', 'slides');
 const force = process.argv.includes('--force');
+const slideArgIndex = process.argv.indexOf('--slide');
+const requestedSlide = slideArgIndex >= 0 ? Number(process.argv[slideArgIndex + 1]) : null;
 
 if (!apiKey) {
   console.error('Missing ELEVENLABS_API_KEY.');
@@ -28,9 +30,18 @@ if (!Array.isArray(SCRIPT_AUDIO)) {
   process.exit(1);
 }
 
+if (requestedSlide !== null && (!Number.isInteger(requestedSlide) || requestedSlide < 1 || requestedSlide > SCRIPT_AUDIO.length)) {
+  console.error(`--slide must be an integer between 1 and ${SCRIPT_AUDIO.length}.`);
+  process.exit(1);
+}
+
 await fs.mkdir(outDir, { recursive: true });
 
 for (const [idx, entry] of SCRIPT_AUDIO.entries()) {
+  if (requestedSlide !== null && idx + 1 !== requestedSlide) {
+    continue;
+  }
+
   if (!entry || !entry.text || !entry.text.trim()) {
     continue;
   }
