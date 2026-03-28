@@ -16,11 +16,10 @@
     --accent: #8c7650;
     --accent-strong: #5c4727;
     --shadow: 0 24px 80px rgba(70, 54, 28, 0.14);
+    --playing: #f0e8d6;
   }
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -38,6 +37,7 @@
     padding: 48px 0 64px;
   }
 
+  /* --- Hero / transport --- */
   .hero {
     margin-bottom: 28px;
     padding: 28px 30px 22px;
@@ -61,77 +61,91 @@
     letter-spacing: 0.01em;
   }
 
-  .subtitle {
-    margin: 12px 0 0;
-    max-width: 42rem;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .samples {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 18px;
-  }
-
-  .sample {
-    padding: 22px 22px 18px;
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    background: var(--paper);
-    box-shadow: 0 12px 36px rgba(66, 50, 26, 0.08);
-    backdrop-filter: blur(8px);
-  }
-
-  .sample-label {
-    margin: 0 0 6px;
-    color: var(--muted);
-    font: 600 11px/1 'Inter', sans-serif;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  .sample h2 {
-    margin: 0 0 10px;
-    font: 500 2rem/0.95 'Cormorant Garamond', serif;
-  }
-
-  .sample p {
-    margin: 0 0 14px;
-    color: #55452d;
-    line-height: 1.55;
-  }
-
-  audio {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
-  .actions {
+  .transport {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
   }
 
-  .actions a {
+  .transport button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 40px;
-    padding: 0 14px;
-    border: 1px solid rgba(92, 71, 39, 0.18);
+    height: 44px;
+    padding: 0 20px;
+    border: 1px solid rgba(92, 71, 39, 0.22);
     border-radius: 999px;
     color: var(--accent-strong);
-    text-decoration: none;
-    font: 500 0.92rem/1 'Inter', sans-serif;
+    font: 600 0.9rem/1 'Inter', sans-serif;
     background: rgba(255,255,255,0.72);
+    cursor: pointer;
   }
 
-  .actions a:hover {
-    border-color: rgba(92, 71, 39, 0.35);
-    background: rgba(255,255,255,0.95);
+  .transport button:hover { background: rgba(255,255,255,0.95); }
+
+  .transport .now-playing {
+    color: var(--muted);
+    font-size: 0.9rem;
   }
+
+  /* --- Slide list --- */
+  .samples {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sample {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--paper);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .sample:hover { background: var(--playing); }
+
+  .sample.playing {
+    background: var(--playing);
+    border-color: var(--accent);
+  }
+
+  .sample-num {
+    color: var(--muted);
+    font: 600 0.8rem/1 'Inter', sans-serif;
+    text-align: center;
+  }
+
+  .sample-info {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .sample-title {
+    font: 500 1.05rem/1.2 'Cormorant Garamond', serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sample-status {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .sample.playing .sample-status { color: var(--accent-strong); }
+
+  /* Hidden audio element */
+  #player { display: none; }
 
   .note {
     margin-top: 22px;
@@ -139,45 +153,143 @@
     font-size: 0.95rem;
     line-height: 1.5;
   }
- </style>
+</style>
 </head>
 <body>
 <main>
   <section class="hero">
     <p class="eyebrow">Audio Preview</p>
     <h1 id="hero-title"></h1>
-    <p class="subtitle">Quick browser players for generated narration, plus jump links into the full audio-enabled deck.</p>
+    <div class="transport">
+      <button id="btn-play">Play All</button>
+      <button id="btn-prev">Prev</button>
+      <button id="btn-next">Next</button>
+      <span class="now-playing" id="now-playing"></span>
+    </div>
   </section>
 
+  <audio id="player"></audio>
   <section class="samples" id="samples"></section>
+
   <script src="talk-content.js"></script>
   <script>
     document.getElementById('hero-title').textContent = TALK_CONTENT.meta.title;
-    const container = document.getElementById('samples');
-    TALK_CONTENT.slides.forEach((slide, i) => {
-      const num = String(i + 1).padStart(2, '0');
-      const mp3 = `audio/slides/slide-${num}-${slide.slug}.mp3`;
-      const label = slide.editorLabel || slide.slug;
-      const hasAudio = slide.audio && slide.audio.trim();
-      if (!hasAudio) return;
 
-      const article = document.createElement('article');
-      article.className = 'sample';
-      article.innerHTML = `
-        <p class="sample-label">Slide ${i + 1}</p>
-        <h2>${label}</h2>
-        <audio controls preload="metadata" src="${mp3}"></audio>
-        <div class="actions">
-          <a href="${mp3}">Open MP3</a>
-          <a href="slides-v0.3.html?audio=1#/${i}">Open In Audio Deck</a>
-          <a href="editor.html?slide=${i + 1}&return=audio-preview.html">Edit This Slide</a>
-        </div>
+    const player = document.getElementById('player');
+    const container = document.getElementById('samples');
+    const btnPlay = document.getElementById('btn-play');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const nowPlaying = document.getElementById('now-playing');
+
+    // Build slide entries (only those with audio)
+    const entries = [];
+    TALK_CONTENT.slides.forEach((slide, i) => {
+      if (!slide.audio || !slide.audio.trim()) return;
+      const num = String(i + 1).padStart(2, '0');
+      entries.push({
+        index: i,
+        num,
+        slug: slide.slug,
+        label: slide.editorLabel || slide.slug,
+        mp3: `audio/slides/slide-${num}-${slide.slug}.mp3`,
+      });
+    });
+
+    // Render compact rows
+    entries.forEach((entry, ei) => {
+      const row = document.createElement('div');
+      row.className = 'sample';
+      row.dataset.ei = ei;
+      row.innerHTML = `
+        <span class="sample-num">${entry.num}</span>
+        <span class="sample-info">
+          <span class="sample-title">${entry.label}</span>
+          <span class="sample-status"></span>
+        </span>
       `;
-      container.appendChild(article);
+      row.addEventListener('click', () => playIndex(ei));
+      container.appendChild(row);
+    });
+
+    const rows = container.querySelectorAll('.sample');
+    let currentIndex = -1;
+    let isPlaying = false;
+
+    function highlightRow(ei) {
+      rows.forEach(r => r.classList.remove('playing'));
+      if (ei >= 0 && ei < rows.length) {
+        rows[ei].classList.add('playing');
+        rows[ei].querySelector('.sample-status').textContent = 'playing';
+        rows[ei].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        nowPlaying.textContent = `${entries[ei].num} — ${entries[ei].label}`;
+      }
+    }
+
+    function clearHighlight() {
+      rows.forEach(r => {
+        r.classList.remove('playing');
+        r.querySelector('.sample-status').textContent = '';
+      });
+      nowPlaying.textContent = '';
+    }
+
+    function playIndex(ei) {
+      if (ei < 0 || ei >= entries.length) {
+        stop();
+        return;
+      }
+      currentIndex = ei;
+      player.src = entries[ei].mp3;
+      player.play();
+      isPlaying = true;
+      btnPlay.textContent = 'Pause';
+      highlightRow(ei);
+    }
+
+    function stop() {
+      player.pause();
+      player.removeAttribute('src');
+      isPlaying = false;
+      currentIndex = -1;
+      btnPlay.textContent = 'Play All';
+      clearHighlight();
+    }
+
+    // Auto-advance
+    player.addEventListener('ended', () => {
+      rows[currentIndex].querySelector('.sample-status').textContent = 'done';
+      rows[currentIndex].classList.remove('playing');
+      if (currentIndex + 1 < entries.length) {
+        playIndex(currentIndex + 1);
+      } else {
+        stop();
+      }
+    });
+
+    // Transport controls
+    btnPlay.addEventListener('click', () => {
+      if (isPlaying) {
+        if (player.paused) {
+          player.play();
+          btnPlay.textContent = 'Pause';
+        } else {
+          player.pause();
+          btnPlay.textContent = 'Resume';
+        }
+      } else {
+        playIndex(0);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (currentIndex > 0) playIndex(currentIndex - 1);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (currentIndex < entries.length - 1) playIndex(currentIndex + 1);
     });
   </script>
-
-  <p class="note">If the deck link opens without sound at first, click once to satisfy browser autoplay rules, then it will play the slide narration.</p>
 </main>
 </body>
 </html>
