@@ -80,7 +80,12 @@ const SLIDE_IMAGE_SELECTIONS = {
       "tone": "dark"
     },
     "personal": {
-      "candidateId": "bild37"
+      "candidateId": "bild21",
+      "focusX": 21,
+      "focusY": 38,
+      "scale": 1.06,
+      "dim": 0.21,
+      "tone": "dark"
     },
     "found": {
       "candidateId": "bild28",
