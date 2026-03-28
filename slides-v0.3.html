@@ -522,27 +522,15 @@
     z-index: 2;
   }
 
-  .reveal .slides section .slide-photo-frame {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .reveal .slides section .slide-photo-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .reveal .slides section .slide-photo-overlay {
-    position: absolute;
-    inset: 0;
-  }
-
   .reveal .slides section .visual-layer {
     z-index: 0;
+  }
+
+  .reveal .backgrounds .slide-background.has-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--photo-overlay, rgba(0, 0, 0, 0.36));
   }
 
   .reveal .slides section.slide-has-photo .visual-constrained,
@@ -887,35 +875,58 @@
     });
   }
 
-  function ensureSlidePhotoLayer(section) {
-    var frame = section.querySelector('.slide-photo-frame');
-    if (frame) {
-      return frame;
-    }
-
-    frame = document.createElement('div');
-    frame.className = 'slide-photo-frame';
-
-    var image = document.createElement('img');
-    image.className = 'slide-photo-image';
-    image.alt = '';
-
-    var overlay = document.createElement('div');
-    overlay.className = 'slide-photo-overlay';
-
-    frame.appendChild(image);
-    frame.appendChild(overlay);
-    section.insertBefore(frame, section.firstChild || null);
-    return frame;
-  }
-
   function removeSlidePhotoLayer(section) {
-    var frame = section.querySelector('.slide-photo-frame');
-    if (frame) {
-      frame.remove();
-    }
     section.classList.remove('slide-has-photo');
     section.removeAttribute('data-media-tone');
+  }
+
+  function clearRevealBackgroundForSlide(section, idx) {
+    section.removeAttribute('data-background-image');
+    section.removeAttribute('data-background-size');
+    section.removeAttribute('data-background-position');
+
+    var backgrounds = document.querySelectorAll('.reveal .backgrounds .slide-background');
+    var background = backgrounds[idx];
+    if (!background) {
+      return;
+    }
+
+    background.classList.remove('has-photo');
+    background.style.removeProperty('--photo-overlay');
+    background.style.backgroundImage = '';
+    background.style.backgroundSize = '';
+    background.style.backgroundPosition = '';
+    background.style.backgroundRepeat = '';
+    background.style.transform = '';
+    background.style.transformOrigin = '';
+  }
+
+  function applyRevealBackgroundForSlide(section, idx, imageState) {
+    section.setAttribute('data-background-image', imageState.src);
+    section.setAttribute('data-background-size', 'cover');
+    section.setAttribute('data-background-position', (imageState.focusX || 50) + '% ' + (imageState.focusY || 50) + '%');
+
+    var backgrounds = document.querySelectorAll('.reveal .backgrounds .slide-background');
+    var background = backgrounds[idx];
+    if (!background) {
+      return;
+    }
+
+    var tone = imageState.tone === 'light' ? 'light' : 'dark';
+    var dim = typeof imageState.dim === 'number' ? imageState.dim : 0.36;
+
+    background.classList.add('has-photo');
+    background.style.backgroundImage = 'url("' + imageState.src.replace(/"/g, '%22') + '")';
+    background.style.backgroundSize = 'cover';
+    background.style.backgroundPosition = (imageState.focusX || 50) + '% ' + (imageState.focusY || 50) + '%';
+    background.style.backgroundRepeat = 'no-repeat';
+    background.style.transformOrigin = (imageState.focusX || 50) + '% ' + (imageState.focusY || 50) + '%';
+    background.style.transform = 'scale(' + (imageState.scale || 1) + ')';
+    if (tone === 'light') {
+      background.style.setProperty('--photo-overlay', 'rgba(255, 251, 244, ' + dim + ')');
+    } else {
+      background.style.setProperty('--photo-overlay', 'rgba(0, 0, 0, ' + dim + ')');
+    }
   }
 
   function applySlideImages() {
@@ -933,27 +944,14 @@
       var imageState = resolveSlideImageState(slide);
       if (!imageState || imageState.kind !== 'image' || !imageState.src) {
         removeSlidePhotoLayer(section);
+        clearRevealBackgroundForSlide(section, idx);
         return;
       }
-
-      var frame = ensureSlidePhotoLayer(section);
-      var image = frame.querySelector('.slide-photo-image');
-      var overlay = frame.querySelector('.slide-photo-overlay');
       var tone = imageState.tone === 'light' ? 'light' : 'dark';
-      var dim = typeof imageState.dim === 'number' ? imageState.dim : 0.36;
-
-      image.src = imageState.src;
-      image.style.objectPosition = (imageState.focusX || 50) + '% ' + (imageState.focusY || 50) + '%';
-      image.style.transform = 'scale(' + (imageState.scale || 1) + ')';
-
-      if (tone === 'light') {
-        overlay.style.background = 'rgba(255, 251, 244, ' + dim + ')';
-      } else {
-        overlay.style.background = 'rgba(0, 0, 0, ' + dim + ')';
-      }
 
       section.classList.add('slide-has-photo');
       section.setAttribute('data-media-tone', tone);
+      applyRevealBackgroundForSlide(section, idx, imageState);
     });
   }
 
