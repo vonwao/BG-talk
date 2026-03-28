@@ -16,12 +16,10 @@ const SCRIPT_OUTLINE = [
 • His name: Bruno Gröning`,
 
   // Slide 3: QUOTE 1 — Identity
-  `QUOTE: "No human being can heal; it is always only the One, God."
-
-• Surprising claim — insisted he was NOT the healer
+  `• Surprising claim — insisted he was NOT the healer
 • Healing comes from God, not man
-• Not building personality cult — pointing away from himself
-• This one idea = key to everything else`,
+• Not a personality cult — pointing away from himself
+• This one idea is the key to everything else`,
 
   // Slide 4: Transition to healing
   `• People came because he spoke into pain, sickness, hopelessness
@@ -30,32 +28,27 @@ const SCRIPT_OUTLINE = [
 • A man appears with a message that sounds too simple`,
 
   // Slide 5: QUOTE 2 — Trust and believe
-  `QUOTE: "Trust and believe, the divine power helps and heals."
-
-• Central healing formula
+  `• Central healing formula
 • Trust = part of the mechanism, not side issue
 • Heilstrom = "healing stream"
-• Spiritual energy always present, most people cut off from it`,
+• Spiritual energy always present
+• Most people cut off from it`,
 
   // Slide 6: Heilstrom visual
-  `• His teaching in three parts:
-  1. Stop clinging to what's wrong
-  2. Turn toward the good — inner act of trust
-  3. Receive — through openness, not effort
+  `• His teaching in three parts
+• Stop clinging to what's wrong
+• Turn toward the good — inner act of trust
+• Receive — through openness, not effort
 • Inner stillness allows something to flow in`,
 
   // Slide 7: QUOTE 3 — No incurable
-  `QUOTE: "There is no incurable."
-
-• "Incurable" = human medical judgment, not limit on divine power
+  `• "Incurable" = human medical judgment, not limit on divine power
 • People reported healings with no medical explanation
 • Circle of Friends documents these with clinical rigor
 • Not proof — but worth paying attention to`,
 
   // Slide 8: QUOTE 4 — Cannot be explained
-  `QUOTE: "There is much that cannot be explained, but nothing that cannot happen."
-
-• How he handled skepticism
+  `• How he handled skepticism
 • Didn't claim everything is explainable
 • Claimed: explanation ≠ possibility
 • Genuinely interesting philosophical move`,
@@ -63,40 +56,34 @@ const SCRIPT_OUTLINE = [
   // Slide 9: Inner life transition
   `• Message went beyond healing
 • What struck me: how familiar it felt
-• Echoes older traditions:
-  — "The kingdom of God is within you"
-  — Living water
+• Echoes older traditions
+• "The kingdom of God is within you"
+• Living water
 • Same pattern across centuries`,
 
   // Slide 10: QUOTE 5 — Thoughts are energy
-  `QUOTE: "It is so important which thoughts a person accepts, for thoughts are energy."
-
-• Not shallow positive thinking
+  `• Not shallow positive thinking
 • Thoughts = forces that shape spiritual + physical reality
 • Thought-discipline: morally and spiritually decisive
 • Almost like cognitive training + spiritual practice`,
 
   // Slide 11: QUOTE 6 — Creature of love
-  `QUOTE: "The human being is a creature of love."
-
-• Love → not just emotion, but condition of human life
+  `• Love = not just emotion, but condition of human life
 • "What is created in love can live only in love"
 • Health, goodness, love = not separate categories
 • His language: immediate, alive, for modern people`,
 
   // Slide 12: Cosmic stakes
   `• Harder edge to his teaching
-• Healing sits inside a cosmic drama:
-  — Love vs. destruction
-  — God vs. evil
-  — Freedom vs. passivity
+• Healing sits inside a cosmic drama
+• Love vs. destruction
+• God vs. evil
+• Freedom vs. passivity
 • "As true as there is the Lord, there is also the Satan"
 • Evil = real opposing force, not metaphor`,
 
   // Slide 13: QUOTE 7 — Free will
-  `QUOTE: "Man has a sacrosanct free will."
-
-• Free will = great dignity AND great danger
+  `• Free will = great dignity AND great danger
 • Healing cannot be forced on anyone
 • Even divine help doesn't override freedom
 • A person is always choosing what power to receive`,
@@ -120,8 +107,8 @@ const SCRIPT_OUTLINE = [
   ``,
 
   // Slide 17: Closing message
-  `• Core message is breathtakingly simple:
-  → Help is available — if we learn how to receive it
+  `• Core message is breathtakingly simple
+• Help is available — if we learn how to receive it
 • That's it. That's the whole thing.
 • Don't have to earn it or be worthy
 • Goodness flowing through the world

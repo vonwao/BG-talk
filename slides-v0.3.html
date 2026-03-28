@@ -57,10 +57,10 @@
     gap: 0.75rem;
   }
   #script-panel .slide-label {
-    font-size: 0.78rem;
+    font-size: 0.94rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #999;
+    letter-spacing: 0.12em;
+    color: #8d8d8d;
     white-space: nowrap;
   }
   #script-panel .panel-modes {
@@ -73,7 +73,7 @@
     border: 1px solid #d7cdb8;
     background: var(--panel-accent-soft);
     color: #7a6644;
-    font: 600 10px/1.1 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font: 600 9px/1.1 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 0.42rem 0.55rem;
@@ -94,15 +94,32 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
-    padding-right: 0.2rem;
+    padding-right: 0.3rem;
     white-space: pre-wrap;
-    font-size: 28px;
-    line-height: 1.46;
+    font-size: 26px;
+    line-height: 1.42;
     scrollbar-width: thin;
     scrollbar-color: rgba(140, 118, 80, 0.4) transparent;
   }
   #script-text.is-outline {
-    line-height: 1.32;
+    line-height: 1.5;
+    letter-spacing: 0.005em;
+  }
+  #script-text.is-outline,
+  #script-measure.is-outline {
+    white-space: normal;
+  }
+  #script-text .outline-item,
+  #script-measure .outline-item {
+    margin: 0 0 0.42em;
+  }
+  #script-text .outline-item:last-child,
+  #script-measure .outline-item:last-child {
+    margin-bottom: 0;
+  }
+  #script-text .outline-spacer,
+  #script-measure .outline-spacer {
+    height: 0.28em;
   }
   #script-text::-webkit-scrollbar {
     width: 8px;
@@ -145,12 +162,12 @@
     }
 
     #script-panel .slide-label {
-      font-size: 0.72rem;
+      font-size: 0.84rem;
     }
 
     #script-panel .mode-button {
       padding: 0.38rem 0.48rem;
-      font-size: 9px;
+      font-size: 8px;
     }
   }
 
@@ -625,27 +642,51 @@
   var panelMode = 'full'; // 'full' or 'outline'
   var sizeFrame = null;
 
+  function renderPanelContent(target, content) {
+    target.classList.toggle('is-outline', panelMode === 'outline');
+
+    if (panelMode !== 'outline') {
+      target.textContent = content;
+      return;
+    }
+
+    target.innerHTML = '';
+    content.split('\n').forEach(function(line) {
+      if (!line.trim()) {
+        var spacer = document.createElement('div');
+        spacer.className = 'outline-spacer';
+        target.appendChild(spacer);
+        return;
+      }
+
+      var item = document.createElement('div');
+      item.className = 'outline-item';
+      item.textContent = line;
+      target.appendChild(item);
+    });
+  }
+
   function autoSizeText() {
     var text = document.getElementById('script-text');
     var measure = document.getElementById('script-measure');
-    var content = text.textContent || '';
-    var lineHeight = panelMode === 'outline' ? '1.32' : '1.46';
-    var minSize = panelMode === 'outline' ? 18 : 20;
-    var maxSize = panelMode === 'outline' ? 34 : 42;
+    var content = getNotesForSlide(Reveal.getIndices().h) || '';
+    var lineHeight = panelMode === 'outline' ? '1.5' : '1.42';
+    var minSize = panelMode === 'outline' ? 16 : 18;
+    var maxSize = panelMode === 'outline' ? 28 : 36;
     var low = minSize;
     var high = maxSize;
     var best = minSize;
 
-    text.classList.toggle('is-outline', panelMode === 'outline');
+    renderPanelContent(measure, content);
     text.style.lineHeight = lineHeight;
+    measure.style.lineHeight = lineHeight;
 
     if (!content.trim()) {
-      text.style.fontSize = '30px';
+      text.style.fontSize = '26px';
       text.scrollTop = 0;
       return;
     }
 
-    measure.textContent = content;
     measure.style.width = Math.max(text.clientWidth, 0) + 'px';
     measure.style.fontFamily = getComputedStyle(text).fontFamily;
     measure.style.fontWeight = getComputedStyle(text).fontWeight;
@@ -697,7 +738,7 @@
     var idx = Reveal.getIndices().h;
     var total = Reveal.getTotalSlides();
     document.querySelector('#script-panel .slide-label').textContent = 'Slide ' + (idx + 1) + ' of ' + total;
-    document.getElementById('script-text').textContent = getNotesForSlide(idx);
+    renderPanelContent(document.getElementById('script-text'), getNotesForSlide(idx));
     syncModeButtons();
     queueAutoSize();
   }
