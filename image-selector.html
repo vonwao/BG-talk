@@ -501,12 +501,11 @@
     <div>
       <p class="eyebrow">Image Selector</p>
       <h1>BG Talk</h1>
-      <p id="sidebar-copy" class="sidebar-copy">Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.</p>
+      <p id="sidebar-copy" class="sidebar-copy">Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save directly to <code>slide-image-selections.js</code>.</p>
     </div>
 
     <div class="stack">
       <button id="save-button" class="btn primary" type="button">Save Selections</button>
-      <button id="download-button" class="btn" type="button">Download File</button>
       <div class="btn-row">
         <button id="prev-slide" class="btn" type="button">Prev</button>
         <button id="next-slide" class="btn" type="button">Next</button>
@@ -618,20 +617,19 @@
   function configureSaveMode() {
     var sidebarCopy = document.getElementById('sidebar-copy');
     var saveButton = document.getElementById('save-button');
-    var downloadButton = document.getElementById('download-button');
 
     if (directSaveAvailable) {
-      sidebarCopy.innerHTML = 'Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.';
-      saveButton.textContent = 'Save Selections';
-      downloadButton.hidden = false;
+      sidebarCopy.innerHTML = 'Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save directly to <code>slide-image-selections.js</code>.';
+      saveButton.textContent = 'Save To Disk';
+      saveButton.disabled = false;
       setStatus('Local save mode');
       return;
     }
 
-    sidebarCopy.innerHTML = 'This hosted selector is export-only. Adjust the slide image choices here, then download <code>slide-image-selections.js</code> and replace the local file in the repo.';
-    saveButton.textContent = 'Download File';
-    downloadButton.hidden = true;
-    setStatus('Hosted mode: download the updated file', true);
+    sidebarCopy.innerHTML = 'This page is local-only. Open it through the local editor server at <code>http://127.0.0.1:8787/image-selector.html</code> if you want the selections to save in place.';
+    saveButton.textContent = 'Save To Disk';
+    saveButton.disabled = true;
+    setStatus('Local server required for direct save', true);
   }
 
   function updateQueryState() {
@@ -656,20 +654,9 @@
       + '}\n';
   }
 
-  function downloadSelectionsFile() {
-    var blob = new Blob([serializeSelections()], { type: 'application/javascript' });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = 'slide-image-selections.js';
-    link.click();
-    URL.revokeObjectURL(url);
-    setStatus('Downloaded updated slide-image-selections.js');
-  }
-
   async function saveSelectionsFile() {
     if (!directSaveAvailable) {
-      downloadSelectionsFile();
+      setStatus('Open this editor via http://127.0.0.1:8787/image-selector.html to save in place.', true);
       return;
     }
 
@@ -689,8 +676,7 @@
 
       setStatus('Saved slide-image-selections.js to disk');
     } catch (error) {
-      setStatus('Direct save unavailable here. Downloading instead.', true);
-      downloadSelectionsFile();
+      setStatus('Save failed. Make sure the local editor server is running on 127.0.0.1:8787.', true);
     }
   }
 
@@ -962,7 +948,6 @@
   }
 
   document.getElementById('save-button').addEventListener('click', saveSelectionsFile);
-  document.getElementById('download-button').addEventListener('click', downloadSelectionsFile);
   document.getElementById('prev-slide').addEventListener('click', function() {
     goToSlide(currentSlideIndex - 1);
   });
