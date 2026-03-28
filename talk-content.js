@@ -44,9 +44,9 @@ const TALK_CONTENT = {
       "slug": "ruins",
       "type": "visual",
       "editorLabel": "Transition to Healing",
-      "notes": "People didn't come to Bruno Gröning just for ideas. They came because he spoke into pain, sickness, and hopelessness.\n\nGermany 1949. The war's over. The country's in ruins — physically, spiritually, psychologically. People are suffering in ways that go far beyond what medicine can reach.\n\nAnd in the middle of this, a man appears — with a message that sounds almost too simple.",
+      "notes": "People didn't come to Bruno Gröning for philosophy. They came because he spoke into pain, sickness, and hopelessness.\n\nGermany 1949. The war's over. The country's in ruins — physically, spiritually, psychologically. People are suffering in ways that go far beyond what medicine can reach.\n\nAnd in the middle of this, a man appears — with a message that sounds almost too simple.",
       "outline": "• People came because he spoke into pain, sickness, hopelessness\n• Germany 1949 — war over, country in ruins\n• Suffering beyond what medicine could reach\n• A man appears with a message that sounds too simple",
-      "audio": "People didn't come to Bruno Gröning just for ideas. They came because he spoke into pain, sickness, and hopelessness.\n\nGermany 1949. The war's over. The country's in ruins — physically, spiritually, psychologically. People are suffering in ways that go far beyond what medicine can reach.\n\nAnd in the middle of this, a man appears — with a message that sounds almost too simple."
+      "audio": "People didn't come to Bruno Gröning for philosophy. They came because he spoke into pain, sickness, and hopelessness.\n\nGermany 1949. The war's over. The country's in ruins — physically, spiritually, psychologically. People are suffering in ways that go far beyond what medicine can reach.\n\nAnd in the middle of this, a man appears — with a message that sounds almost too simple."
     },
     {
       "slug": "trust",
@@ -62,9 +62,9 @@ const TALK_CONTENT = {
       "slug": "receive",
       "type": "visual",
       "editorLabel": "Receive",
-      "notes": "His teaching wasn't complicated. It came down to a few things.\n\nStop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\nTurn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through a kind of inner stillness that allows something to flow in.",
+      "notes": "His teaching wasn't complicated. It came down to a few things:\n\n1st. Stop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\n2nd. Turn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through an inner stillness that allows something to flow in.",
       "outline": "• His teaching in three parts\n• Stop clinging to what's wrong\n• Turn toward the good — inner act of trust\n• Receive — through openness, not effort\n• Inner stillness allows something to flow in",
-      "audio": "His teaching wasn't complicated. It came down to a few things.\n\nStop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\nTurn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through a kind of inner stillness that allows something to flow in."
+      "audio": "His teaching wasn't complicated. It came down to a few things:\n\n1st. Stop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\n2nd. Turn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through an inner stillness that allows something to flow in."
     },
     {
       "slug": "incurable",
@@ -72,9 +72,9 @@ const TALK_CONTENT = {
       "editorLabel": "Quote 3 — Incurable",
       "quote": "There is no incurable.",
       "attribution": "Bruno Gröning",
-      "notes": "This is one of his most provocative claims. In his view, \"incurable\" was a human medical judgment — not a limit on divine power.\n\nPeople reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific review process.",
+      "notes": "This is one of his most provocative claims. In his view, \"incurable\" was a human medical judgment — not a limit on divine power.\n\nPeople reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific community process.",
       "outline": "• \"Incurable\" = human medical judgment, not limit on divine power\n• People reported healings with no medical explanation\n• Community says cases are reviewed medically/scientifically\n• Not proof\n• Still worth attention",
-      "audio": "This is one of his most provocative claims. In his view, \"incurable\" was a human medical judgment — not a limit on divine power.\n\nPeople reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific review process."
+      "audio": "This is one of his most provocative claims. In his view, \"incurable\" was a human medical judgment — not a limit on divine power.\n\nPeople reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific community process."
     },
     {
       "slug": "mystery",
@@ -136,9 +136,9 @@ const TALK_CONTENT = {
       "slug": "personal",
       "type": "blank",
       "editorLabel": "Personal Reflection",
-      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, AI systems. Logic, systems, code. That's my world.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework.",
+      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my professional world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework.",
       "outline": "• Why I'm up here talking about this\n• Software engineer, 25 years building technology, AI systems\n• Logic, systems, code — that's my world\n• But also drawn to: what IS the human being?\n• More to us than materialist framework?",
-      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, AI systems. Logic, systems, code. That's my world.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework."
+      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my professional world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework."
     },
     {
       "slug": "found",
