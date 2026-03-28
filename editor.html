@@ -105,6 +105,31 @@
     font-size: 0.92rem;
   }
 
+  .subtoolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 14px;
+  }
+
+  .subtoolbar select,
+  .subtoolbar button {
+    appearance: none;
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(92, 71, 39, 0.18);
+    background: rgba(255,255,255,0.74);
+    color: var(--accent-strong);
+    font: 500 0.92rem/1 'Inter', sans-serif;
+  }
+
+  .subtoolbar .mode-indicator {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
   .jump-list {
     display: flex;
     flex-wrap: wrap;
@@ -224,6 +249,13 @@
       <a id="deck-link" href="slides-v0.3.html">Open Deck</a>
       <a id="back-link" href="slides-v0.3.html">Return</a>
     </div>
+    <div class="subtoolbar">
+      <button id="prev-slide" type="button">Prev Slide</button>
+      <button id="next-slide" type="button">Next Slide</button>
+      <select id="slide-select" aria-label="Jump to slide"></select>
+      <button id="toggle-view" type="button">Show All Slides</button>
+      <span id="mode-indicator" class="mode-indicator"></span>
+    </div>
     <div id="status"></div>
   </section>
 
@@ -232,10 +264,14 @@
 </main>
 
 <script>
-  var state = JSON.parse(JSON.stringify(TALK_CONTENT || { meta: {}, slides: [] }));
+  var sourceContent = (window.TALK_CONTENT && Array.isArray(window.TALK_CONTENT.slides))
+    ? window.TALK_CONTENT
+    : { meta: {}, slides: [] };
+  var state = JSON.parse(JSON.stringify(sourceContent));
   var query = new URLSearchParams(window.location.search);
   var targetSlide = Number(query.get('slide') || '0');
   var returnUrl = query.get('return') || 'slides-v0.3.html';
+  var focusMode = query.get('view') === 'all' ? false : targetSlide > 0;
 
   document.getElementById('back-link').href = returnUrl;
 
@@ -247,10 +283,10 @@
 
   function serializeTalkContent() {
     return 'const TALK_CONTENT = ' + JSON.stringify(state, null, 2) + ';\n\n'
-      + 'if (typeof window !== \\'undefined\\') {\n'
+      + "if (typeof window !== 'undefined') {\n"
       + '  window.TALK_CONTENT = TALK_CONTENT;\n'
       + '}\n\n'
-      + 'if (typeof module !== \\'undefined\\' && module.exports) {\n'
+      + "if (typeof module !== 'undefined' && module.exports) {\n"
       + '  module.exports = TALK_CONTENT;\n'
       + '}\n';
   }
@@ -344,16 +380,38 @@
   function renderCards() {
     var cards = document.getElementById('cards');
     var jumpList = document.getElementById('jump-list');
+    var slideSelect = document.getElementById('slide-select');
+    var toggleView = document.getElementById('toggle-view');
+    var modeIndicator = document.getElementById('mode-indicator');
     cards.innerHTML = '';
     jumpList.innerHTML = '';
+    slideSelect.innerHTML = '';
+
+    toggleView.textContent = focusMode ? 'Show All Slides' : 'Focus Current Slide';
+    modeIndicator.textContent = focusMode && targetSlide > 0
+      ? 'Focused on slide ' + targetSlide
+      : 'Showing all slides';
 
     state.slides.forEach(function(slide, idx) {
       var slideNumber = idx + 1;
+      var showSlide = !focusMode || slideNumber === targetSlide;
+
+      var option = document.createElement('option');
+      option.value = String(slideNumber);
+      option.textContent = 'Slide ' + slideNumber + ' — ' + (slide.editorLabel || slide.slug || ('Slide ' + slideNumber));
+      if (slideNumber === targetSlide || (!targetSlide && slideNumber === 1)) {
+        option.selected = true;
+      }
+      slideSelect.appendChild(option);
 
       var jump = document.createElement('a');
       jump.href = '#slide-' + slideNumber;
       jump.textContent = slideNumber + '. ' + (slide.editorLabel || slide.slug || ('Slide ' + slideNumber));
       jumpList.appendChild(jump);
+
+      if (!showSlide) {
+        return;
+      }
 
       var card = document.createElement('article');
       card.className = 'card' + (slideNumber === targetSlide ? ' is-target' : '');
@@ -412,8 +470,49 @@
     }
   }
 
+  function updateQueryState() {
+    var next = new URLSearchParams(window.location.search);
+    if (targetSlide > 0) {
+      next.set('slide', String(targetSlide));
+    } else {
+      next.delete('slide');
+    }
+    if (!focusMode) {
+      next.set('view', 'all');
+    } else {
+      next.delete('view');
+    }
+    if (returnUrl) {
+      next.set('return', returnUrl);
+    }
+    history.replaceState(null, '', 'editor.html?' + next.toString());
+  }
+
+  function goToSlide(slideNumber) {
+    targetSlide = Math.max(1, Math.min(state.slides.length, slideNumber));
+    updateQueryState();
+    renderCards();
+  }
+
   document.getElementById('save-button').addEventListener('click', saveContentFile);
   document.getElementById('download-button').addEventListener('click', downloadContentFile);
+  document.getElementById('prev-slide').addEventListener('click', function() {
+    goToSlide((targetSlide || 1) - 1);
+  });
+  document.getElementById('next-slide').addEventListener('click', function() {
+    goToSlide((targetSlide || 1) + 1);
+  });
+  document.getElementById('slide-select').addEventListener('change', function(event) {
+    goToSlide(Number(event.target.value));
+  });
+  document.getElementById('toggle-view').addEventListener('click', function() {
+    focusMode = !focusMode;
+    if (!targetSlide) {
+      targetSlide = 1;
+    }
+    updateQueryState();
+    renderCards();
+  });
   document.addEventListener('keydown', function(event) {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
       event.preventDefault();
@@ -421,6 +520,9 @@
     }
   });
 
+  if (!targetSlide && state.slides.length) {
+    targetSlide = 1;
+  }
   renderCards();
 </script>
 </body>
