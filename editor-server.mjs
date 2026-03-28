@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const contentFile = path.join(root, 'talk-content.js');
+const imageSelectionsFile = path.join(root, 'slide-image-selections.js');
 const port = Number(process.env.PORT || '8787');
 
 const mimeTypes = {
@@ -43,6 +44,24 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         await fs.writeFile(contentFile, body, 'utf8');
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ ok: true }));
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ ok: false, error: error.message }));
+      }
+    });
+    return;
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/save-slide-image-selections') {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+      try {
+        await fs.writeFile(imageSelectionsFile, body, 'utf8');
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({ ok: true }));
       } catch (error) {

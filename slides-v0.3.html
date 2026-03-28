@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.min.css">
 <script src="talk-content.js"></script>
+<script src="slide-image-options.js"></script>
+<script src="slide-image-selections.js"></script>
 <style>
   :root {
     --panel-width: clamp(320px, 24vw, 420px);
@@ -510,8 +512,96 @@
   }
 
   /* Ensure visual layers sit behind content */
+  .reveal .slides section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reveal .slides section > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .reveal .slides section .slide-photo-frame {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .reveal .slides section .slide-photo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .reveal .slides section .slide-photo-overlay {
+    position: absolute;
+    inset: 0;
+  }
+
   .reveal .slides section .visual-layer {
     z-index: 0;
+  }
+
+  .reveal .slides section.slide-has-photo .visual-constrained,
+  .reveal .slides section.slide-has-photo .visual-opening,
+  .reveal .slides section.slide-has-photo .visual-light-emerging,
+  .reveal .slides section.slide-has-photo .visual-heilstrom,
+  .reveal .slides section.slide-has-photo .visual-heilstrom-warm,
+  .reveal .slides section.slide-has-photo .visual-contrast,
+  .reveal .slides section.slide-has-photo .visual-light,
+  .reveal .slides section.slide-has-photo .visual-dawn {
+    display: none !important;
+  }
+
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="quote"] .anchor-quote,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="title"] .title-slide h1,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="title"] .title-slide .subtitle,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="dim"] .dim-text,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="closing"] .closing h2,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="closing"] .closing p {
+    color: #fffaf1 !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  }
+
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="quote"] .anchor-quote .attribution {
+    color: rgba(255, 250, 241, 0.78);
+  }
+
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="quote"] .anchor-quote,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="title"] .title-slide h1,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="title"] .title-slide .subtitle,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="dim"] .dim-text,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="closing"] .closing h2,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="closing"] .closing p {
+    color: #1c1712 !important;
+    text-shadow: none;
+  }
+
+  .reveal .slides section.slide-has-photo[data-slide-type="quote"] .anchor-quote,
+  .reveal .slides section.slide-has-photo[data-slide-type="title"] .title-slide,
+  .reveal .slides section.slide-has-photo[data-slide-type="dim"] .dim-text,
+  .reveal .slides section.slide-has-photo[data-slide-type="closing"] .closing {
+    padding: 1.4rem 1.8rem;
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 44px rgba(14, 11, 8, 0.12);
+  }
+
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="quote"] .anchor-quote,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="title"] .title-slide,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="dim"] .dim-text,
+  .reveal .slides section.slide-has-photo[data-media-tone="dark"][data-slide-type="closing"] .closing {
+    background: rgba(13, 10, 8, 0.24);
+  }
+
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="quote"] .anchor-quote,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="title"] .title-slide,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="dim"] .dim-text,
+  .reveal .slides section.slide-has-photo[data-media-tone="light"][data-slide-type="closing"] .closing {
+    background: rgba(255, 251, 244, 0.52);
   }
 
   /* Hide Reveal.js progress and controls for cleaner look */
@@ -747,6 +837,126 @@
     return escapeHtml(text || '').replace(/\n/g, '<br>');
   }
 
+  function getImageOptionState() {
+    return (typeof SLIDE_IMAGE_OPTIONS !== 'undefined' && SLIDE_IMAGE_OPTIONS) || { defaults: {}, slides: {} };
+  }
+
+  function getImageSelectionState() {
+    return (typeof SLIDE_IMAGE_SELECTIONS !== 'undefined' && SLIDE_IMAGE_SELECTIONS) || { slides: {} };
+  }
+
+  function getImagePlanForSlide(slide) {
+    var options = getImageOptionState();
+    return slide && slide.slug && options.slides ? options.slides[slide.slug] || null : null;
+  }
+
+  function getImageCandidateMeta(plan, candidateId) {
+    if (!plan || !plan.candidates) {
+      return null;
+    }
+
+    var candidate = plan.candidates.find(function(entry) {
+      return entry.candidateId === candidateId;
+    });
+    if (!candidate) {
+      return null;
+    }
+
+    var library = (typeof SLIDE_IMAGE_LIBRARY !== 'undefined' && SLIDE_IMAGE_LIBRARY) || {};
+    return Object.assign({}, library[candidate.candidateId] || {}, candidate);
+  }
+
+  function resolveSlideImageState(slide) {
+    var plan = getImagePlanForSlide(slide);
+    if (!plan || !plan.candidates || !plan.candidates.length) {
+      return null;
+    }
+
+    var options = getImageOptionState();
+    var selections = getImageSelectionState();
+    var stored = selections.slides && selections.slides[slide.slug] ? selections.slides[slide.slug] : {};
+    var firstCandidateId = plan.candidates[0].candidateId;
+    var candidateId = stored.candidateId || firstCandidateId;
+    var candidate = getImageCandidateMeta(plan, candidateId) || getImageCandidateMeta(plan, firstCandidateId);
+    if (!candidate) {
+      return null;
+    }
+
+    return Object.assign({}, options.defaults || {}, candidate.defaults || {}, stored, candidate, {
+      candidateId: candidate.candidateId || candidateId
+    });
+  }
+
+  function ensureSlidePhotoLayer(section) {
+    var frame = section.querySelector('.slide-photo-frame');
+    if (frame) {
+      return frame;
+    }
+
+    frame = document.createElement('div');
+    frame.className = 'slide-photo-frame';
+
+    var image = document.createElement('img');
+    image.className = 'slide-photo-image';
+    image.alt = '';
+
+    var overlay = document.createElement('div');
+    overlay.className = 'slide-photo-overlay';
+
+    frame.appendChild(image);
+    frame.appendChild(overlay);
+    section.insertBefore(frame, section.firstChild || null);
+    return frame;
+  }
+
+  function removeSlidePhotoLayer(section) {
+    var frame = section.querySelector('.slide-photo-frame');
+    if (frame) {
+      frame.remove();
+    }
+    section.classList.remove('slide-has-photo');
+    section.removeAttribute('data-media-tone');
+  }
+
+  function applySlideImages() {
+    var sections = document.querySelectorAll('.slides > section');
+
+    getTalkSlides().forEach(function(slide, idx) {
+      var section = sections[idx];
+      if (!section) {
+        return;
+      }
+
+      section.setAttribute('data-slide-type', slide.type || 'visual');
+      section.setAttribute('data-slide-slug', slide.slug || ('slide-' + idx));
+
+      var imageState = resolveSlideImageState(slide);
+      if (!imageState || imageState.kind !== 'image' || !imageState.src) {
+        removeSlidePhotoLayer(section);
+        return;
+      }
+
+      var frame = ensureSlidePhotoLayer(section);
+      var image = frame.querySelector('.slide-photo-image');
+      var overlay = frame.querySelector('.slide-photo-overlay');
+      var tone = imageState.tone === 'light' ? 'light' : 'dark';
+      var dim = typeof imageState.dim === 'number' ? imageState.dim : 0.36;
+
+      image.src = imageState.src;
+      image.style.objectPosition = (imageState.focusX || 50) + '% ' + (imageState.focusY || 50) + '%';
+      image.style.transform = 'scale(' + (imageState.scale || 1) + ')';
+
+      if (tone === 'light') {
+        overlay.style.background = 'rgba(255, 251, 244, ' + dim + ')';
+      } else {
+        overlay.style.background = 'rgba(0, 0, 0, ' + dim + ')';
+      }
+
+      section.classList.add('slide-has-photo');
+      section.setAttribute('data-media-tone', tone);
+    });
+  }
+
   function applyVisibleContent() {
     var sections = document.querySelectorAll('.slides > section');
 
@@ -793,6 +1003,8 @@
         }
       }
     });
+
+    applySlideImages();
   }
 
   function renderPanelContent(target, content) {

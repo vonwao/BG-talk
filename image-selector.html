@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BG Talk Image Selector</title>
+<script src="talk-content.js"></script>
+<script src="slide-image-options.js"></script>
+<script src="slide-image-selections.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #f5efe3;
+    --panel: rgba(252, 247, 239, 0.92);
+    --paper: rgba(255, 252, 247, 0.86);
+    --line: rgba(94, 72, 39, 0.14);
+    --text: #251d14;
+    --muted: #766249;
+    --accent: #8c7650;
+    --accent-strong: #5c4727;
+    --accent-soft: rgba(140, 118, 80, 0.12);
+    --shadow: 0 18px 48px rgba(61, 48, 28, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    background:
+      radial-gradient(circle at top, rgba(224, 201, 154, 0.28), transparent 34%),
+      linear-gradient(180deg, #fbf7f1 0%, var(--bg) 56%, #ecdfcb 100%);
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 22px;
+    width: min(1660px, calc(100vw - 24px));
+    margin: 0 auto;
+    padding: 18px 0 28px;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 14px;
+    align-self: start;
+    max-height: calc(100vh - 28px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 18px 18px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--panel);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font: 700 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .sidebar h1 {
+    margin: 0;
+    font: 500 2.4rem/0.95 'Cormorant Garamond', serif;
+  }
+
+  .sidebar-copy {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+
+  .stack {
+    display: grid;
+    gap: 10px;
+  }
+
+  .btn,
+  .picker,
+  .tone-picker {
+    appearance: none;
+    width: 100%;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(92, 71, 39, 0.18);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--accent-strong);
+    font: 500 0.92rem/1 'Inter', sans-serif;
+    text-decoration: none;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .btn.primary {
+    background: var(--accent);
+    color: #fffaf1;
+    border-color: var(--accent);
+  }
+
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sidebar-section {
+    display: grid;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .section-label {
+    color: var(--muted);
+    font: 700 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  #status {
+    min-height: 1.2em;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .slide-list {
+    min-height: 0;
+    overflow: auto;
+    padding-right: 4px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .slide-link {
+    display: grid;
+    gap: 3px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.46);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .slide-link.is-active {
+    background: var(--accent-soft);
+    border-color: rgba(140, 118, 80, 0.32);
+  }
+
+  .slide-link-index {
+    color: var(--muted);
+    font: 700 10px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .slide-link-title {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .slide-link-choice {
+    color: #8b734b;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .editor-pane {
+    min-width: 0;
+  }
+
+  .editor-card {
+    min-height: calc(100vh - 36px);
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--paper);
+    box-shadow: 0 18px 48px rgba(69, 52, 28, 0.08);
+  }
+
+  .editor-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .editor-index {
+    color: var(--muted);
+    font: 700 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .editor-type {
+    color: #8b734b;
+    font-size: 0.95rem;
+  }
+
+  .editor-card h2 {
+    margin: 0;
+    font: 500 clamp(2rem, 4vw, 3.5rem)/0.95 'Cormorant Garamond', serif;
+  }
+
+  .editor-note {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.5;
+    max-width: 70ch;
+  }
+
+  .grid {
+    display: grid;
+    gap: 22px;
+    margin-top: 28px;
+  }
+
+  .preview-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 380px);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .preview-panel,
+  .controls-panel,
+  .candidate-panel {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    border: 1px solid rgba(94, 72, 39, 0.12);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .panel-title {
+    color: var(--muted);
+    font: 700 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .preview-stage {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(140deg, #0d0b10 0%, #1e1a25 45%, #0a090c 100%);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .preview-stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center center;
+  }
+
+  .preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .preview-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 250, 243, 0.85);
+    text-align: center;
+    padding: 24px;
+    background:
+      radial-gradient(circle at center, rgba(244, 226, 183, 0.16), transparent 30%),
+      linear-gradient(140deg, #111017 0%, #221c28 50%, #121117 100%);
+  }
+
+  .preview-placeholder strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .preview-copy {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 48px 58px;
+    text-align: center;
+    color: #fffaf1;
+    z-index: 2;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .preview-copy.quote {
+    font: 500 clamp(1.4rem, 2.6vw, 2.4rem)/1.34 'Cormorant Garamond', serif;
+  }
+
+  .preview-copy.quote small {
+    display: block;
+    margin-top: 16px;
+    font: 600 0.88rem/1 'Inter', sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 250, 243, 0.76);
+  }
+
+  .preview-copy.title {
+    gap: 12px;
+    align-content: center;
+  }
+
+  .preview-copy.title strong {
+    display: block;
+    font: 500 clamp(2rem, 4vw, 3.6rem)/0.98 'Cormorant Garamond', serif;
+  }
+
+  .preview-copy.title span,
+  .preview-copy.closing span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(255, 250, 243, 0.78);
+    font-style: italic;
+  }
+
+  .preview-copy.dim strong {
+    font: 500 clamp(1.5rem, 2.9vw, 2.4rem)/1.2 'Cormorant Garamond', serif;
+  }
+
+  .preview-meta {
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 0.94rem;
+  }
+
+  .control-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .slider-row,
+  .tone-row {
+    display: grid;
+    gap: 8px;
+  }
+
+  .slider-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font: 700 11px/1 'Inter', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .slider-row input[type="range"] {
+    width: 100%;
+  }
+
+  .candidate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  .candidate-card {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid rgba(94, 72, 39, 0.14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.82);
+    cursor: pointer;
+    transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  }
+
+  .candidate-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(92, 71, 39, 0.24);
+    box-shadow: 0 12px 28px rgba(69, 52, 28, 0.08);
+  }
+
+  .candidate-card.is-selected {
+    border-color: rgba(140, 118, 80, 0.36);
+    background: rgba(249, 244, 235, 0.98);
+    box-shadow: 0 14px 30px rgba(69, 52, 28, 0.1);
+  }
+
+  .candidate-thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #e8ddc8;
+  }
+
+  .candidate-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .candidate-thumb.placeholder {
+    display: grid;
+    place-items: center;
+    color: #fffaf2;
+    text-align: center;
+    padding: 12px;
+    background:
+      radial-gradient(circle at center, rgba(255, 230, 182, 0.14), transparent 34%),
+      linear-gradient(140deg, #17151c 0%, #292230 100%);
+  }
+
+  .candidate-priority {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(16, 12, 8, 0.68);
+    color: #fff8ec;
+    font: 700 10px/1 'Inter', sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .candidate-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .candidate-caption,
+  .candidate-rationale {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .candidate-rationale {
+    color: #5f4d31;
+  }
+
+  .note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 1100px) {
+    .app {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: static;
+      max-height: none;
+    }
+
+    .editor-card {
+      min-height: auto;
+    }
+
+    .preview-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <aside class="sidebar">
+    <div>
+      <p class="eyebrow">Image Selector</p>
+      <h1>BG Talk</h1>
+      <p class="sidebar-copy">Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.</p>
+    </div>
+
+    <div class="stack">
+      <button id="save-button" class="btn primary" type="button">Save Selections</button>
+      <button id="download-button" class="btn" type="button">Download File</button>
+      <div class="btn-row">
+        <button id="prev-slide" class="btn" type="button">Prev</button>
+        <button id="next-slide" class="btn" type="button">Next</button>
+      </div>
+      <select id="slide-select" class="picker" aria-label="Jump to slide"></select>
+      <a id="deck-link" class="btn" href="slides-v0.3.html">Open Current Slide</a>
+      <a class="btn" href="bruno-gallery-guide.html">Open Gallery Guide</a>
+      <div id="status"></div>
+    </div>
+
+    <section class="sidebar-section">
+      <div class="section-label">Slides</div>
+      <div id="slide-list" class="slide-list"></div>
+    </section>
+  </aside>
+
+  <section class="editor-pane">
+    <article class="editor-card">
+      <div class="editor-meta">
+        <div id="editor-index" class="editor-index"></div>
+        <div id="editor-type" class="editor-type"></div>
+      </div>
+      <h2 id="editor-title"></h2>
+      <p id="editor-note" class="editor-note"></p>
+
+      <div class="grid">
+        <section class="preview-layout">
+          <div class="preview-panel">
+            <div class="panel-title">Slide Preview</div>
+            <div id="preview-stage" class="preview-stage"></div>
+            <div id="preview-meta" class="preview-meta"></div>
+          </div>
+
+          <div class="controls-panel">
+            <div class="panel-title">Fit Controls</div>
+            <div id="control-grid" class="control-grid"></div>
+            <div class="note">These controls only apply when an image option is selected. They use the same full-bleed cover logic the deck uses, so this is where you handle cropping and awkward framing.</div>
+          </div>
+        </section>
+
+        <section class="candidate-panel">
+          <div class="panel-title">Candidate Stack</div>
+          <div id="candidate-grid" class="candidate-grid"></div>
+        </section>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script>
+  var talkSlides = (window.TALK_CONTENT && Array.isArray(window.TALK_CONTENT.slides)) ? window.TALK_CONTENT.slides : [];
+  var imageLibrary = window.SLIDE_IMAGE_LIBRARY || {};
+  var imageOptions = window.SLIDE_IMAGE_OPTIONS || { defaults: {}, slides: {} };
+  var sourceSelections = window.SLIDE_IMAGE_SELECTIONS || { slides: {} };
+  var state = JSON.parse(JSON.stringify(sourceSelections));
+  if (!state.slides) {
+    state.slides = {};
+  }
+
+  var query = new URLSearchParams(window.location.search);
+  var currentSlideIndex = Math.max(0, Math.min(talkSlides.length - 1, Number(query.get('slide') || '1') - 1));
+
+  function currentSlide() {
+    return talkSlides[currentSlideIndex] || {};
+  }
+
+  function getPlan(slide) {
+    return imageOptions.slides[slide.slug] || null;
+  }
+
+  function getCandidateMeta(plan, candidateId) {
+    if (!plan) {
+      return null;
+    }
+    var candidate = (plan.candidates || []).find(function(entry) {
+      return entry.candidateId === candidateId;
+    });
+    if (!candidate) {
+      return null;
+    }
+    var base = imageLibrary[candidate.candidateId] || null;
+    return Object.assign({}, base || {}, candidate);
+  }
+
+  function buildDefaultSelection(slide) {
+    var plan = getPlan(slide);
+    var firstCandidate = plan && plan.candidates && plan.candidates[0];
+    var resolved = getCandidateMeta(plan, firstCandidate ? firstCandidate.candidateId : 'keep-current') || { candidateId: 'keep-current' };
+    var defaults = Object.assign({}, imageOptions.defaults || {}, resolved.defaults || {});
+    return Object.assign({
+      candidateId: resolved.candidateId || 'keep-current'
+    }, defaults);
+  }
+
+  function ensureSelection(slide) {
+    if (!state.slides[slide.slug]) {
+      state.slides[slide.slug] = buildDefaultSelection(slide);
+    }
+    return state.slides[slide.slug];
+  }
+
+  function setStatus(message, isError) {
+    var status = document.getElementById('status');
+    status.textContent = message;
+    status.style.color = isError ? '#9b2c2c' : '#786347';
+  }
+
+  function updateQueryState() {
+    var next = new URLSearchParams(window.location.search);
+    next.set('slide', String(currentSlideIndex + 1));
+    history.replaceState(null, '', 'image-selector.html?' + next.toString());
+  }
+
+  function goToSlide(index) {
+    currentSlideIndex = Math.max(0, Math.min(talkSlides.length - 1, index));
+    updateQueryState();
+    render();
+  }
+
+  function serializeSelections() {
+    state.updatedAt = new Date().toISOString();
+    return 'const SLIDE_IMAGE_SELECTIONS = ' + JSON.stringify(state, null, 2) + ';\n\n'
+      + "if (typeof window !== 'undefined') {\n"
+      + '  window.SLIDE_IMAGE_SELECTIONS = SLIDE_IMAGE_SELECTIONS;\n'
+      + '}\n\n'
+      + "if (typeof module !== 'undefined' && module.exports) {\n"
+      + '  module.exports = SLIDE_IMAGE_SELECTIONS;\n'
+      + '}\n';
+  }
+
+  function downloadSelectionsFile() {
+    var blob = new Blob([serializeSelections()], { type: 'application/javascript' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'slide-image-selections.js';
+    link.click();
+    URL.revokeObjectURL(url);
+    setStatus('Downloaded updated slide-image-selections.js');
+  }
+
+  async function saveSelectionsFile() {
+    var payload = serializeSelections();
+    try {
+      var response = await fetch('/api/save-slide-image-selections', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/javascript'
+        },
+        body: payload
+      });
+
+      if (!response.ok) {
+        throw new Error('save failed');
+      }
+
+      setStatus('Saved slide-image-selections.js to disk');
+    } catch (error) {
+      setStatus('Direct save unavailable here. Downloading instead.', true);
+      downloadSelectionsFile();
+    }
+  }
+
+  function applyCandidateSelection(candidateId) {
+    var slide = currentSlide();
+    var plan = getPlan(slide);
+    var candidate = getCandidateMeta(plan, candidateId);
+    if (!candidate) {
+      return;
+    }
+
+    state.slides[slide.slug] = Object.assign({
+      candidateId: candidateId
+    }, imageOptions.defaults || {}, candidate.defaults || {}, {
+      candidateId: candidateId
+    });
+
+    setStatus('Unsaved image changes');
+    render();
+  }
+
+  function updateSelectionField(key, value) {
+    var slide = currentSlide();
+    var selection = ensureSelection(slide);
+    selection[key] = value;
+    setStatus('Unsaved image changes');
+    renderPreview();
+    renderSidebar();
+  }
+
+  function escapeHtml(text) {
+    return String(text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function multilineToHtml(text) {
+    return escapeHtml(text || '').replace(/\n/g, '<br>');
+  }
+
+  function buildPreviewCopy(slide, tone) {
+    var textStyle = tone === 'light'
+      ? ' style="color:#1c1712;text-shadow:none;"'
+      : '';
+    var mutedStyle = tone === 'light'
+      ? ' style="color:rgba(28,23,18,0.72);"'
+      : '';
+
+    if (slide.type === 'title') {
+      return '<div class="preview-copy title"' + textStyle + '><div><strong>' + multilineToHtml(slide.title || '') + '</strong><span' + mutedStyle + '>' + multilineToHtml(slide.subtitle || '') + '</span></div></div>';
+    }
+
+    if (slide.type === 'quote') {
+      return '<div class="preview-copy quote"' + textStyle + '><div>&ldquo;' + multilineToHtml(slide.quote || '') + '&rdquo;<small' + mutedStyle + '>&mdash; ' + escapeHtml(slide.attribution || '') + '</small></div></div>';
+    }
+
+    if (slide.type === 'dim') {
+      return '<div class="preview-copy dim"' + textStyle + '><div><strong>' + multilineToHtml(slide.text || '') + '</strong></div></div>';
+    }
+
+    if (slide.type === 'closing') {
+      return '<div class="preview-copy closing"' + textStyle + '><div><strong>' + multilineToHtml(slide.title || '') + '</strong><span' + mutedStyle + '>' + multilineToHtml(slide.footer || '') + '</span></div></div>';
+    }
+
+    return '';
+  }
+
+  function renderPreview() {
+    var slide = currentSlide();
+    var plan = getPlan(slide);
+    var selection = ensureSelection(slide);
+    var candidate = getCandidateMeta(plan, selection.candidateId);
+    var previewStage = document.getElementById('preview-stage');
+    var previewMeta = document.getElementById('preview-meta');
+    var tone = selection.tone === 'light' ? 'light' : 'dark';
+    var copy = buildPreviewCopy(slide, tone);
+
+    if (!candidate || candidate.kind === 'system') {
+      previewStage.innerHTML = '<div class="preview-placeholder"><div><strong>Current slide design</strong><div>This slide will keep the existing abstract or text-only treatment in the deck.</div></div></div>' + copy;
+      previewMeta.innerHTML = '<strong>Current choice:</strong> Keep current design<br><strong>Why:</strong> ' + escapeHtml(candidate && candidate.rationale ? candidate.rationale : 'No image selected for this slide.');
+      renderControls();
+      return;
+    }
+
+    previewStage.innerHTML = ''
+      + '<img src="' + candidate.src + '" alt="' + escapeHtml(candidate.caption || candidate.label || '') + '"'
+      + ' style="object-position:' + selection.focusX + '% ' + selection.focusY + '%; transform: scale(' + selection.scale + ');">'
+      + '<div class="preview-overlay" style="background: ' + (tone === 'light'
+        ? 'rgba(255, 251, 244, ' + selection.dim + ')'
+        : 'rgba(0, 0, 0, ' + selection.dim + ')') + ';"></div>'
+      + copy;
+
+    previewMeta.innerHTML = ''
+      + '<strong>Current choice:</strong> ' + escapeHtml(candidate.label || selection.candidateId) + ' — ' + escapeHtml(candidate.caption || '') + '<br>'
+      + '<strong>Rationale:</strong> ' + escapeHtml(candidate.rationale || '');
+    renderControls();
+  }
+
+  function renderControls() {
+    var slide = currentSlide();
+    var plan = getPlan(slide);
+    var selection = ensureSelection(slide);
+    var candidate = getCandidateMeta(plan, selection.candidateId);
+    var disabled = !candidate || candidate.kind === 'system';
+    var wrap = document.getElementById('control-grid');
+
+    function slider(label, key, min, max, step, formatter) {
+      var outer = document.createElement('div');
+      outer.className = 'slider-row';
+
+      var head = document.createElement('div');
+      head.className = 'slider-head';
+      head.innerHTML = '<span>' + label + '</span><span>' + formatter(selection[key]) + '</span>';
+      outer.appendChild(head);
+
+      var input = document.createElement('input');
+      input.type = 'range';
+      input.min = String(min);
+      input.max = String(max);
+      input.step = String(step);
+      input.value = String(selection[key]);
+      input.disabled = disabled;
+      input.addEventListener('input', function(event) {
+        updateSelectionField(key, Number(event.target.value));
+      });
+      outer.appendChild(input);
+      return outer;
+    }
+
+    function toneControl() {
+      var outer = document.createElement('div');
+      outer.className = 'tone-row';
+
+      var head = document.createElement('div');
+      head.className = 'slider-head';
+      head.innerHTML = '<span>Text Tone</span><span>' + (selection.tone || 'dark') + '</span>';
+      outer.appendChild(head);
+
+      var select = document.createElement('select');
+      select.className = 'tone-picker';
+      select.disabled = disabled;
+      ['dark', 'light'].forEach(function(value) {
+        var option = document.createElement('option');
+        option.value = value;
+        option.textContent = value === 'dark' ? 'Dark overlay / light text' : 'Light overlay / dark text';
+        option.selected = value === selection.tone;
+        select.appendChild(option);
+      });
+      select.addEventListener('change', function(event) {
+        updateSelectionField('tone', event.target.value);
+      });
+      outer.appendChild(select);
+      return outer;
+    }
+
+    function resetButton() {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn';
+      button.textContent = 'Reset Fit To Recommended';
+      button.disabled = disabled;
+      button.addEventListener('click', function() {
+        applyCandidateSelection(selection.candidateId);
+      });
+      return button;
+    }
+
+    wrap.innerHTML = '';
+    wrap.appendChild(slider('Focus X', 'focusX', 0, 100, 1, function(value) { return Math.round(value) + '%'; }));
+    wrap.appendChild(slider('Focus Y', 'focusY', 0, 100, 1, function(value) { return Math.round(value) + '%'; }));
+    wrap.appendChild(slider('Scale', 'scale', 1, 1.6, 0.01, function(value) { return Number(value).toFixed(2) + 'x'; }));
+    wrap.appendChild(slider('Dim', 'dim', 0, 0.8, 0.01, function(value) { return Math.round(Number(value) * 100) + '%'; }));
+    wrap.appendChild(toneControl());
+    wrap.appendChild(resetButton());
+  }
+
+  function renderCandidates() {
+    var slide = currentSlide();
+    var plan = getPlan(slide);
+    var selection = ensureSelection(slide);
+    var grid = document.getElementById('candidate-grid');
+
+    if (!plan || !plan.candidates || !plan.candidates.length) {
+      grid.innerHTML = '<div class="note">No image plan has been defined for this slide yet.</div>';
+      return;
+    }
+
+    grid.innerHTML = '';
+    plan.candidates.forEach(function(entry) {
+      var candidate = getCandidateMeta(plan, entry.candidateId);
+      var card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'candidate-card' + (selection.candidateId === entry.candidateId ? ' is-selected' : '');
+      card.addEventListener('click', function() {
+        applyCandidateSelection(entry.candidateId);
+      });
+
+      var thumb;
+      if (candidate && candidate.kind === 'image') {
+        thumb = '<div class="candidate-thumb"><img src="' + candidate.src + '" alt="' + escapeHtml(candidate.caption || candidate.label || '') + '"><div class="candidate-priority">Priority ' + entry.priority + '</div></div>';
+      } else {
+        thumb = '<div class="candidate-thumb placeholder"><div><strong>Current design</strong><div>abstract or text-only</div></div><div class="candidate-priority">Priority ' + entry.priority + '</div></div>';
+      }
+
+      card.innerHTML = ''
+        + thumb
+        + '<div><h3>' + escapeHtml(candidate && candidate.label ? candidate.label : entry.candidateId) + '</h3></div>'
+        + '<p class="candidate-caption">' + escapeHtml(candidate && candidate.caption ? candidate.caption : 'Use the current slide design.') + '</p>'
+        + '<p class="candidate-rationale">' + escapeHtml(entry.rationale || '') + '</p>';
+      grid.appendChild(card);
+    });
+  }
+
+  function renderSidebar() {
+    var slideList = document.getElementById('slide-list');
+    var slideSelect = document.getElementById('slide-select');
+    var deckLink = document.getElementById('deck-link');
+    slideList.innerHTML = '';
+    slideSelect.innerHTML = '';
+
+    talkSlides.forEach(function(slide, idx) {
+      var selection = ensureSelection(slide);
+      var plan = getPlan(slide);
+      var candidate = getCandidateMeta(plan, selection.candidateId);
+      var candidateLabel = candidate && candidate.label ? candidate.label : 'Keep current design';
+
+      var option = document.createElement('option');
+      option.value = String(idx);
+      option.textContent = 'Slide ' + (idx + 1) + ' — ' + (slide.editorLabel || slide.slug || ('Slide ' + (idx + 1)));
+      option.selected = idx === currentSlideIndex;
+      slideSelect.appendChild(option);
+
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'slide-link' + (idx === currentSlideIndex ? ' is-active' : '');
+      button.addEventListener('click', function() {
+        goToSlide(idx);
+      });
+
+      button.innerHTML = ''
+        + '<div class="slide-link-index">Slide ' + (idx + 1) + '</div>'
+        + '<div class="slide-link-title">' + escapeHtml(slide.editorLabel || slide.slug || ('Slide ' + (idx + 1))) + '</div>'
+        + '<div class="slide-link-choice">' + escapeHtml(candidateLabel) + '</div>';
+
+      slideList.appendChild(button);
+    });
+
+    deckLink.href = 'slides-v0.3.html#/' + currentSlideIndex;
+  }
+
+  function renderHeader() {
+    var slide = currentSlide();
+    var plan = getPlan(slide);
+    document.getElementById('editor-index').textContent = 'Slide ' + (currentSlideIndex + 1) + ' of ' + talkSlides.length;
+    document.getElementById('editor-type').textContent = slide.editorLabel || slide.slug || '';
+    document.getElementById('editor-title').textContent = (plan && plan.label) || slide.editorLabel || slide.slug || ('Slide ' + (currentSlideIndex + 1));
+    document.getElementById('editor-note').textContent = (plan && plan.description)
+      || 'Choose one of the candidates below, then tune crop and dim until the framing works inside the 16:9 presentation.';
+  }
+
+  function render() {
+    renderHeader();
+    renderSidebar();
+    renderPreview();
+    renderCandidates();
+  }
+
+  document.getElementById('save-button').addEventListener('click', saveSelectionsFile);
+  document.getElementById('download-button').addEventListener('click', downloadSelectionsFile);
+  document.getElementById('prev-slide').addEventListener('click', function() {
+    goToSlide(currentSlideIndex - 1);
+  });
+  document.getElementById('next-slide').addEventListener('click', function() {
+    goToSlide(currentSlideIndex + 1);
+  });
+  document.getElementById('slide-select').addEventListener('change', function(event) {
+    goToSlide(Number(event.target.value));
+  });
+  document.addEventListener('keydown', function(event) {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      saveSelectionsFile();
+      return;
+    }
+
+    if (event.key === '[') {
+      goToSlide(currentSlideIndex - 1);
+    }
+
+    if (event.key === ']') {
+      goToSlide(currentSlideIndex + 1);
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
