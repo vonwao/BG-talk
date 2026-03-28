@@ -35,7 +35,7 @@ And in the middle of this, a man appears — with a message that sounds almost t
 
 For Gröning, healing was not technique. It was receptivity. Trust was not a side issue — it was part of the mechanism.
 
-He called this force the Heilstrom — the "healing stream." Think of it as a current of goodness, a spiritual energy that is always present but that most people have cut themselves off from.`,
+He called this force the Heilstrom — the "healing stream." A current of goodness that is always present, but that most people have cut themselves off from.`,
 
   // Slide 6: Heilstrom visual — opening up
   `His teaching wasn't complicated. It came down to a few things:
@@ -51,7 +51,7 @@ And then — receive. Not through effort or willpower, but through openness. Thr
 
 People reported extraordinary things. Healings that had no medical explanation. Changes that seemed to come from the inside out.
 
-And these weren't just stories — the community that carries on his work today has a medical-scientific group that documents these reports with the rigor of clinical case studies.`,
+And these weren't treated as just stories — the community that carries on his work says it documents such reports through a medical-scientific review process.`,
 
   // Slide 8: QUOTE 4 — "There is much that cannot be explained..."
   `This line is important because it shows how he handled skepticism.
@@ -63,30 +63,30 @@ Now — I'm not standing here to tell you that's proof. But I think it's worth p
   // Slide 9: Warm Heilstrom visual — inner life transition
   `Bruno Gröning's message went beyond miraculous healing.
 
-When I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because so much of what he said reminded me of things I'd encountered in much older traditions.
+When I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because parts of it echoed much older spiritual traditions.
 
-Jesus said, "The kingdom of God is within you." He spoke of living water — a spiritual force that flows through those who are open to it. The pattern is the same.`,
+The kingdom within. Living water. Grace as something received rather than manufactured. The pattern is the same.`,
 
   // Slide 10: QUOTE 5 — "It is so important which thoughts..."
-  `This is crucial to understanding him. Thoughts, for Gröning, were not just mental events — they were forces with real effect.
+  `This is crucial to understanding him. Thoughts, for Gröning, were not just mental events. They were forces.
 
-He taught that what a person inwardly receives shapes their life. Your thoughts form your life, the way you live it.
+He taught that what a person inwardly receives and repeats begins to shape life.
 
-In his view, thought-discipline was not optional or merely psychological — it was morally and spiritually decisive. That sounds almost like cognitive training mixed with spiritual practice.`,
+In his view, thought-discipline was not optional or merely psychological. It was morally and spiritually decisive.`,
 
   // Slide 11: QUOTE 6 — "The human being is a creature of love."
-  `This is one of the most beautiful summaries of his view of the human being. Human life, in his view, is grounded in love — not just morality or biology.
+  `This is one of the most beautiful summaries of his view of the human being.
 
-What is created in love can live only in love. Love is not decoration. It is the sustaining principle of life.
+What is created in love can live only in love. Love is not decoration. It is the condition of life.
 
-What Gröning seemed to do was express this again in language that felt immediate and alive for modern people. Not theology. Not doctrine. Just: turn away from the bad, open yourself to the good, and let the healing stream in.`,
+Health, goodness, and love belong together. Turn away from the bad, open yourself to the good, and let the healing stream in.`,
 
   // Slide 12: Sharp contrast visual — cosmic stakes
-  `But there is a harder edge to his teaching. What makes Bruno Gröning powerful is not just that he spoke about healing.
+  `And this is where the tone changes.
 
-It is that he placed healing inside a cosmic drama: love against destruction, God against evil, freedom against passivity.
+He placed healing inside a cosmic drama: love against destruction, God against evil, freedom against passivity.
 
-He said: "As true as it is that there is the Lord, there is also the Satan." He did not treat evil as metaphor. He treated it as a real opposing force.`,
+He said: "As true as it is that there is the Lord, there is also the Satan." He did not treat evil as a metaphor. He treated it as a real opposing force.`,
 
   // Slide 13: QUOTE 7 — "Man has a sacrosanct free will."
   `For Gröning, free will was the great dignity of the human being — but also the reason people can turn away from divine order.
@@ -113,16 +113,16 @@ I'm not asking you to take my word for it. I'm just telling you what I found.`,
   ``,
 
   // Slide 17: Gentle light — closing message
-  `The core of Bruno Gröning's message is breathtakingly simple:
+  `Bruno Gröning was compelling not just because he spoke about healing.
 
-Help is available — if we learn how to receive it.
+It was because he said the human being is open. Open to thought. Open to love. Open to destruction. And perhaps open to grace.
 
-That's it. That's the whole thing.
+That makes his message larger than the story of one unusual man.
 
-Not that you have to earn it. Not that you have to be worthy of it. Not that you need a special teacher or a special tradition. Just that there is a goodness flowing through this world, and that when a person opens themselves to it — really opens — something can begin to change.`,
+The man said you can receive help. The deeper claim was that help is available — if we learn how to receive it.`,
 
   // Slide 18: Expanding light
-  `I think that's a message worth considering. Not as dogma. Not as religion. Just as a possibility.
+  `I think that's worth considering. Not as dogma. Not as religion. Just as a possibility.
 
 And if it interests you — if something in this resonated tonight — the Circle of Friends of Bruno Gröning is active around the world, and they welcome anyone who wants to learn more.`,
 

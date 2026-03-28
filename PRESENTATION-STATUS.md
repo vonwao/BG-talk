@@ -97,6 +97,15 @@ This version is stronger than the earlier script because it combines:
 - intellectual seriousness
 - a less preachy speaker stance
 
+### Most Recent Pass
+
+The latest tightening pass did four concrete things:
+
+- locked the title to `The Man Who Said You Can Receive Help`
+- aligned `SCRIPT-v2.md` with the deck / README title
+- tightened speaker-note phrasing in `script-notes-v2.js` and `script-outline-v2.js`
+- gave the closing a clearer payoff to the chosen title and core thesis
+
 ## Major Decisions Already Made
 
 ### Framing
@@ -174,18 +183,20 @@ This did not emerge as a small styling preference. It showed up repeatedly and f
 
 This likely generalizes beyond this repo and should influence future interfaces and decks.
 
+## Recent Decision
+
+### Title Is Locked
+
+Use `The Man Who Said You Can Receive Help` as the canonical title across:
+
+- deck title slide
+- script title
+- README summary
+- event listing
+
 ## Important Open Issues
 
-### 1. Title Is Not Fully Resolved
-
-There is currently a mismatch:
-
-- `README.md` and the deck use `The Man Who Said You Can Receive Help`
-- `SCRIPT-v2.md` uses `More Than a Healer`
-
-This should be resolved explicitly rather than drifting.
-
-### 2. The Script Still Needs Spoken-Performance Tightening
+### 1. The Script Still Needs Spoken-Performance Tightening
 
 The script is strong structurally, but it has not yet gone through a disciplined rehearsal-driven tightening pass.
 
@@ -196,13 +207,13 @@ Likely areas for improvement:
 - pacing in section 3
 - title / opening / closing coherence
 
-### 3. Timing Is Estimated, Not Fully Rehearsed
+### 2. Timing Is Estimated, Not Fully Rehearsed
 
 The cumulative timer in `slides-v0.3.html` is useful, but it is still an estimate based on note length and assumed pauses.
 
 It is not yet a rehearsal-validated timing model.
 
-### 4. Event Logistics Are Still Incomplete
+### 3. Event Logistics Are Still Incomplete
 
 Still unresolved:
 
@@ -212,22 +223,7 @@ Still unresolved:
 
 ## Recommended Next Steps
 
-### Priority 1: Lock The Title
-
-Decide explicitly between:
-
-- `The Man Who Said You Can Receive Help`
-- `More Than a Healer`
-- or a third title / subtitle combination
-
-This affects:
-
-- deck title slide
-- script title
-- README summary
-- event listing
-
-### Priority 2: Do A Slide-By-Slide Speaking Pass
+### Priority 1: Do A Slide-By-Slide Speaking Pass
 
 Work directly through:
 
@@ -242,7 +238,7 @@ Goals:
 - reduce any wording that sounds over-written
 - make every slide transition feel intentional
 
-### Priority 3: Rehearse Once And Mark Friction
+### Priority 2: Rehearse Once And Mark Friction
 
 Do one real timed run and mark:
 
@@ -251,7 +247,7 @@ Do one real timed run and mark:
 - places where the audience slide and spoken text feel disconnected
 - where the notes panel is still too dense or not cue-like enough
 
-### Priority 4: Refine Timing Intentionally
+### Priority 3: Refine Timing Intentionally
 
 After one spoken run:
 
@@ -259,7 +255,7 @@ After one spoken run:
 - optionally add per-slide target timing
 - identify the must-cut section if the talk runs long
 
-### Priority 5: Final Visual Polish
+### Priority 4: Final Visual Polish
 
 Once the script is more locked:
 
@@ -313,3 +309,6 @@ That means the local branch contains substantial work that is not fully synchron
 Before doing remote synchronization work, re-check with:
 
 - `git status -sb`
+
+
+To continue this session, run codex resume 019d34dc-b2c1-7501-9032-4490b50c3c91

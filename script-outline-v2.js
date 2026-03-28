@@ -44,8 +44,9 @@ const SCRIPT_OUTLINE = [
   // Slide 7: QUOTE 3 — No incurable
   `• "Incurable" = human medical judgment, not limit on divine power
 • People reported healings with no medical explanation
-• Circle of Friends documents these with clinical rigor
-• Not proof — but worth paying attention to`,
+• Community says cases are reviewed medically/scientifically
+• Not proof
+• Still worth attention`,
 
   // Slide 8: QUOTE 4 — Cannot be explained
   `• How he handled skepticism
@@ -57,29 +58,30 @@ const SCRIPT_OUTLINE = [
   `• Message went beyond healing
 • What struck me: how familiar it felt
 • Echoes older traditions
-• "The kingdom of God is within you"
+• Kingdom within
 • Living water
-• Same pattern across centuries`,
+• Grace as something received`,
 
   // Slide 10: QUOTE 5 — Thoughts are energy
   `• Not shallow positive thinking
-• Thoughts = forces that shape spiritual + physical reality
-• Thought-discipline: morally and spiritually decisive
-• Almost like cognitive training + spiritual practice`,
+• Thoughts = not just events, but forces
+• What you inwardly receive + repeat shapes life
+• Thought-discipline = morally/spiritually decisive`,
 
   // Slide 11: QUOTE 6 — Creature of love
-  `• Love = not just emotion, but condition of human life
+  `• Love = condition of life
 • "What is created in love can live only in love"
-• Health, goodness, love = not separate categories
-• His language: immediate, alive, for modern people`,
+• Health, goodness, love belong together
+• Turn from bad
+• Open to good
+• Let the healing stream in`,
 
   // Slide 12: Cosmic stakes
-  `• Harder edge to his teaching
+  `• Tone changes here
 • Healing sits inside a cosmic drama
 • Love vs. destruction
 • God vs. evil
 • Freedom vs. passivity
-• "As true as there is the Lord, there is also the Satan"
 • Evil = real opposing force, not metaphor`,
 
   // Slide 13: QUOTE 7 — Free will
@@ -107,16 +109,21 @@ const SCRIPT_OUTLINE = [
   ``,
 
   // Slide 17: Closing message
-  `• Core message is breathtakingly simple
-• Help is available — if we learn how to receive it
-• That's it. That's the whole thing.
-• Don't have to earn it or be worthy
-• Goodness flowing through the world
-• When a person truly opens — something can change`,
+  `• Not just healing
+• Human being is open
+• Open to thought
+• Open to love
+• Open to destruction
+• Perhaps open to grace
+• Bigger than one unusual man
+• The man said: you can receive help
+• Deeper claim: help is available`,
 
   // Slide 18: Invitation
-  `• A message worth considering
-• Not as dogma, not as religion — just as a possibility
+  `• Worth considering
+• Not dogma
+• Not religion
+• A possibility
 • Circle of Friends of Bruno Gröning — active worldwide
 • They welcome anyone who wants to learn more`,
 

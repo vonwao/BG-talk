@@ -1,4 +1,4 @@
-# More Than a Healer
+# The Man Who Said You Can Receive Help
 *The message of Bruno Gröning*
 
 **Speaker script — DRAFT v2**
@@ -22,7 +22,7 @@ And one of the first things he said to those crowds was this:
 
 > "No human being can heal; it is always only the One, God."
 
-That's a strange thing to say when people are lining up to be healed by you. He didn't claim to be a healer. He insisted he was an instrument — a helper — and that the real source of help was something far beyond any single person.
+That's a strange thing to say when people are lining up to be healed by you. He kept insisting that he was not the source. At most, he was a helper, an instrument. The real source of help, he said, was beyond any single person.
 
 That one idea is the key to understanding everything else about him.
 
@@ -36,7 +36,7 @@ His central invitation was simple:
 
 > "Trust and believe, the divine power helps and heals."
 
-For him, trust wasn't a nice sentiment. It was part of the mechanism. He proposed that healing begins with inner receptivity — a turning away from what weighs you down and an opening toward something good. He called this force the *Heilstrom*, the "healing stream" — a spiritual energy he said was always present, always available, but that most people had cut themselves off from.
+For him, trust wasn't a nice sentiment. It was part of the mechanism. In his view, healing begins with receptivity: turning away from what weighs you down and opening toward something good. He called this force the *Heilstrom*, the "healing stream" — a current he said was always present, but that most people had cut themselves off from.
 
 And then he went further. He insisted:
 
@@ -60,15 +60,15 @@ He said:
 
 > "It is so important which thoughts a person accepts, for thoughts are energy."
 
-That line stopped me. He wasn't talking about positive thinking in some shallow self-help sense. He proposed that thoughts are forces — that what a person inwardly receives and entertains shapes their spiritual and even physical reality. In his teaching, thought-discipline was not optional. It was morally and spiritually decisive.
+That line stopped me. He wasn't talking about positive thinking in some shallow self-help sense. He meant that thoughts are forces — that what a person inwardly receives and repeats begins to shape spiritual and even physical life. In his teaching, thought-discipline was not optional. It was morally and spiritually decisive.
 
 And underneath all of that was an even more fundamental claim:
 
 > "The human being is a creature of love. What is created in love can live only in love."
 
-That's almost hymn-like. It takes love from being just an emotion and turns it into the condition of human life itself. In his worldview, health, goodness, and love are not separate categories. They belong together. When a person is aligned with love — with the good — the Heilstrom can flow. When they're not, it can't.
+That's almost hymn-like. It takes love from being just an emotion and turns it into a condition of life. In his worldview, health, goodness, and love are not separate categories. They belong together. When a person is aligned with the good, the Heilstrom can flow. When they're not, it can't.
 
-The Heilstrom itself is worth pausing on. Think of it as a current of divine goodness. He taught that it's always present, that it seeks out exactly the places where it's needed — but that a person has to be open to receive it. Not through effort or willpower, but through a kind of inner stillness and trust.
+The Heilstrom itself is worth pausing on. Think of it as a current of divine goodness. He taught that it is always present, that it moves toward exactly the places where help is needed, but that a person has to become inwardly open to receive it. Not through effort or willpower, but through stillness and trust.
 
 ---
 
@@ -94,7 +94,7 @@ That's what separates him from a simple faith healer. He placed healing inside a
 
 I should tell you why I'm up here talking about this.
 
-I'm a software engineer. I've spent 25 years building technology — logic, systems, code. That's my world.
+I'm a software engineer. I've spent 25 years building technology — and more recently AI systems. Logic, systems, code. That's my world.
 
 But for years, I've also been drawn to a different kind of question: what is the human being, really? Is there more to us than what fits in a materialist framework?
 
@@ -106,11 +106,11 @@ I'm not asking you to take my word for it. I'm telling you what I found.
 
 ## 6. Closing (~1 min)
 
-Bruno Gröning was compelling not just because he spoke about healing, but because he offered a complete vision of the human being: what health is, what thought is, what love is, and what happens when a person turns away from the good.
+Bruno Gröning was compelling not just because he spoke about healing. It was because he said the human being is open. Open to thought. Open to love. Open to destruction. And perhaps open to grace.
 
-His message, at its core, was that we are not closed machines. We are open — to thought, to love, to destruction, and perhaps to grace. And that help is available, if we learn how to receive it.
+That makes his message larger than the story of one unusual man. The man said you can receive help. The deeper claim was that help is available, if we learn how to receive it.
 
-That's a message worth considering. Not as dogma. Not as religion. Just as a possibility.
+I think that's worth considering. Not as dogma. Not as religion. Just as a possibility.
 
 And if something in this resonated tonight — the Circle of Friends of Bruno Gröning is active around the world, and they welcome anyone who wants to learn more.
 
