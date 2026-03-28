@@ -501,7 +501,7 @@
     <div>
       <p class="eyebrow">Image Selector</p>
       <h1>BG Talk</h1>
-      <p class="sidebar-copy">Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.</p>
+      <p id="sidebar-copy" class="sidebar-copy">Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.</p>
     </div>
 
     <div class="stack">
@@ -568,6 +568,7 @@
 
   var query = new URLSearchParams(window.location.search);
   var currentSlideIndex = Math.max(0, Math.min(talkSlides.length - 1, Number(query.get('slide') || '1') - 1));
+  var directSaveAvailable = ['127.0.0.1', 'localhost', '::1'].indexOf(window.location.hostname) !== -1;
 
   function currentSlide() {
     return talkSlides[currentSlideIndex] || {};
@@ -614,6 +615,25 @@
     status.style.color = isError ? '#9b2c2c' : '#786347';
   }
 
+  function configureSaveMode() {
+    var sidebarCopy = document.getElementById('sidebar-copy');
+    var saveButton = document.getElementById('save-button');
+    var downloadButton = document.getElementById('download-button');
+
+    if (directSaveAvailable) {
+      sidebarCopy.innerHTML = 'Choose from a short prioritized set of image options for each slide, adjust crop and dim inside a 16:9 frame, and save to <code>slide-image-selections.js</code>.';
+      saveButton.textContent = 'Save Selections';
+      downloadButton.hidden = false;
+      setStatus('Local save mode');
+      return;
+    }
+
+    sidebarCopy.innerHTML = 'This hosted selector is export-only. Adjust the slide image choices here, then download <code>slide-image-selections.js</code> and replace the local file in the repo.';
+    saveButton.textContent = 'Download File';
+    downloadButton.hidden = true;
+    setStatus('Hosted mode: download the updated file', true);
+  }
+
   function updateQueryState() {
     var next = new URLSearchParams(window.location.search);
     next.set('slide', String(currentSlideIndex + 1));
@@ -649,6 +669,11 @@
   }
 
   async function saveSelectionsFile() {
+    if (!directSaveAvailable) {
+      downloadSelectionsFile();
+      return;
+    }
+
     var payload = serializeSelections();
     try {
       var response = await fetch('/api/save-slide-image-selections', {
@@ -964,6 +989,7 @@
     }
   });
 
+  configureSaveMode();
   render();
 </script>
 </body>

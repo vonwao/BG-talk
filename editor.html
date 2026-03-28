@@ -297,7 +297,7 @@
     <div>
       <p class="eyebrow">Inline Editor</p>
       <h1>BG Talk</h1>
-      <p class="sidebar-copy">Pick a slide on the left. Edit only that slide’s text on the right. Save writes directly to <code>talk-content.js</code>.</p>
+      <p id="sidebar-copy" class="sidebar-copy">Pick a slide on the left. Edit only that slide’s text on the right. Save writes directly to <code>talk-content.js</code>.</p>
     </div>
 
     <div class="stack">
@@ -340,6 +340,7 @@
   var query = new URLSearchParams(window.location.search);
   var currentSlideIndex = Math.max(0, Math.min(state.slides.length - 1, Number(query.get('slide') || '1') - 1));
   var returnUrl = query.get('return') || 'slides-v0.3.html';
+  var directSaveAvailable = ['127.0.0.1', 'localhost', '::1'].indexOf(window.location.hostname) !== -1;
 
   document.getElementById('back-link').href = returnUrl;
 
@@ -351,6 +352,25 @@
     var status = document.getElementById('status');
     status.textContent = message;
     status.style.color = isError ? '#9b2c2c' : '#786347';
+  }
+
+  function configureSaveMode() {
+    var sidebarCopy = document.getElementById('sidebar-copy');
+    var saveButton = document.getElementById('save-button');
+    var downloadButton = document.getElementById('download-button');
+
+    if (directSaveAvailable) {
+      sidebarCopy.innerHTML = 'Pick a slide on the left. Edit only that slide&#8217;s text on the right. Save writes directly to <code>talk-content.js</code>.';
+      saveButton.textContent = 'Save To Disk';
+      downloadButton.hidden = false;
+      setStatus('Local save mode');
+      return;
+    }
+
+    sidebarCopy.innerHTML = 'This hosted editor is export-only. Edit here, then download <code>talk-content.js</code> and replace the local file in the repo.';
+    saveButton.textContent = 'Download File';
+    downloadButton.hidden = true;
+    setStatus('Hosted mode: download the edited file', true);
   }
 
   function serializeTalkContent() {
@@ -375,6 +395,11 @@
   }
 
   async function saveContentFile() {
+    if (!directSaveAvailable) {
+      downloadContentFile();
+      return;
+    }
+
     var payload = serializeTalkContent();
     try {
       var response = await fetch('/api/save-talk-content', {
@@ -529,7 +554,9 @@
     document.getElementById('editor-index').textContent = 'Slide ' + (currentSlideIndex + 1) + ' of ' + state.slides.length;
     document.getElementById('editor-type').textContent = (slide.editorLabel || slide.slug || '').trim();
     document.getElementById('editor-title').textContent = slide.editorLabel || slide.slug || ('Slide ' + (currentSlideIndex + 1));
-    document.getElementById('editor-note').textContent = 'Edit the slide text here. Save writes back to talk-content.js, which the deck and audio workflow load directly.';
+    document.getElementById('editor-note').textContent = directSaveAvailable
+      ? 'Edit the slide text here. Save writes back to talk-content.js, which the deck and audio workflow load directly.'
+      : 'Edit the slide text here, then download the updated talk-content.js file. The live site can preview edits, but only the local editor server can write to disk.';
 
     fields.innerHTML = '';
 
@@ -581,6 +608,7 @@
     }
   });
 
+  configureSaveMode();
   render();
 </script>
 </body>
