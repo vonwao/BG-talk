@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bruno Gröning Gallery Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+    :root {
+      --paper: #f5efe4;
+      --paper-2: #fbf8f1;
+      --ink: #1f1b17;
+      --muted: #6f6559;
+      --line: rgba(78, 61, 39, 0.14);
+      --accent: #8d6b3b;
+      --accent-strong: #5c421f;
+      --chip: rgba(141, 107, 59, 0.11);
+      --shadow: 0 18px 48px rgba(37, 27, 14, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(183, 149, 98, 0.18), transparent 28%),
+        linear-gradient(180deg, #f7f1e6 0%, #f4ead8 100%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(93, 71, 44, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(93, 71, 44, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent);
+    }
+
+    main {
+      width: min(1780px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 18px 0 30px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(290px, 360px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      padding-right: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(141, 107, 59, 0.35) transparent;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(141, 107, 59, 0.35);
+      border-radius: 999px;
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px 24px 20px;
+      background: rgba(251, 248, 241, 0.92);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font: 600 clamp(2.2rem, 3.6vw, 3.5rem)/0.95 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: 0.02em;
+    }
+
+    .hero p {
+      max-width: 74ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .toolbar {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .search-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    .search-row input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      font: 500 1rem/1.2 'Source Sans 3', sans-serif;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      color: var(--muted);
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .toggle input {
+      accent-color: var(--accent-strong);
+    }
+
+    .count {
+      color: var(--accent-strong);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+    }
+
+    .filter-strip {
+      display: grid;
+      gap: 10px;
+    }
+
+    .filter-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip-button {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      padding: 10px 14px;
+      color: var(--muted);
+      cursor: pointer;
+      font: 600 0.93rem/1 'Source Sans 3', sans-serif;
+      transition: transform 120ms ease, border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+
+    .chip-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(92, 66, 31, 0.28);
+      color: var(--accent-strong);
+    }
+
+    .chip-button.is-active {
+      background: linear-gradient(135deg, var(--accent) 0%, #b59261 100%);
+      border-color: transparent;
+      color: #fffaf3;
+      box-shadow: 0 10px 24px rgba(92, 66, 31, 0.2);
+    }
+
+    .deck-map {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .section-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      background: rgba(255, 255, 255, 0.56);
+      box-shadow: 0 8px 24px rgba(57, 42, 22, 0.06);
+    }
+
+    .section-card h2 {
+      margin: 0 0 6px;
+      font: 600 1.2rem/1 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .section-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .section-card .slides {
+      color: var(--accent-strong);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .content-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 6px 4px 0;
+    }
+
+    .content-header h2 {
+      margin: 0;
+      font: 600 clamp(1.7rem, 2.4vw, 2.35rem)/0.98 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: 0.02em;
+    }
+
+    .content-header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      max-width: 72ch;
+      line-height: 1.4;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      display: grid;
+      gap: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 30px rgba(48, 35, 18, 0.08);
+    }
+
+    .card-image {
+      display: block;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ede3d2;
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(78, 61, 39, 0.08);
+    }
+
+    .card-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 180ms ease;
+    }
+
+    .card-image:hover img {
+      transform: scale(1.02);
+    }
+
+    .eyebrow {
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin: 4px 0 0;
+      font: 600 1.5rem/1.05 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .caption {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.42;
+      font-size: 0.98rem;
+    }
+
+    .why {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(141, 107, 59, 0.08);
+      color: #5a4527;
+      font-weight: 600;
+      line-height: 1.36;
+    }
+
+    .meta-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .meta-title {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .tag-list,
+    .slide-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag,
+    .slide-tag {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      line-height: 1.2;
+    }
+
+    .tag {
+      background: var(--chip);
+      color: var(--accent-strong);
+      border: 1px solid rgba(141, 107, 59, 0.14);
+    }
+
+    .slide-tag {
+      background: rgba(39, 30, 18, 0.06);
+      border: 1px solid rgba(39, 30, 18, 0.08);
+      color: var(--ink);
+    }
+
+    details {
+      border-top: 1px solid rgba(78, 61, 39, 0.09);
+      padding-top: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--accent-strong);
+      font-weight: 700;
+    }
+
+    blockquote {
+      margin: 12px 0 0;
+      padding-left: 14px;
+      border-left: 3px solid rgba(141, 107, 59, 0.28);
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      border: 1px dashed rgba(78, 61, 39, 0.25);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      main {
+        width: min(100vw - 24px, 1480px);
+        padding-top: 20px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+      }
+
+      .hero {
+        padding: 20px 18px 18px;
+      }
+
+      .content-header {
+        padding-inline: 0;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="layout">
+      <aside class="sidebar">
+        <section class="hero">
+          <h1>Bruno Gröning Gallery Guide</h1>
+          <p>
+            First-pass curation for <code>slides-v0.3.html</code>. Each card shows the image, the theme tags it most naturally fits,
+            the slide numbers it could work on, and the current slide quote when that slide is a quote slide. This is intentionally a
+            decision aid, not a final design commitment.
+          </p>
+
+          <div class="toolbar">
+            <div class="search-row">
+              <input id="search" type="search" placeholder="Search by caption, theme, slide, or quote">
+              <label class="toggle">
+                <input id="quote-only" type="checkbox">
+                Quote cards only
+              </label>
+              <div class="count" id="count"></div>
+            </div>
+
+            <div class="filter-strip">
+              <div class="filter-label">Filter By Deck Section</div>
+              <div class="chips" id="section-filters"></div>
+            </div>
+
+            <div class="filter-strip">
+              <div class="filter-label">Filter By Theme</div>
+              <div class="chips" id="theme-filters"></div>
+            </div>
+
+            <div class="filter-strip">
+              <div class="filter-label">Deck Map</div>
+              <div class="deck-map" id="deck-map"></div>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <div class="content-header">
+          <div>
+            <h2>Photo Fits For The Current Deck</h2>
+            <p>Use the left panel to narrow by section, theme, or quote-only images. The cards on the right are meant to be scanned quickly while you decide what belongs in the presentation.</p>
+          </div>
+        </div>
+
+        <section class="gallery" id="gallery"></section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const slides = [{"number":1,"section":"Title","title":"Title","blurb":"The Man Who Said You Can Receive Help"},{"number":2,"section":"Identity","title":"Opening hook","blurb":"Imagine you're sick and nothing has worked."},{"number":3,"section":"Identity","title":"Herford 1949","blurb":"Thousands showed up in Herford looking for help."},{"number":4,"section":"Identity","title":"Identity anchor","quote":"No human being can heal; it is always only the One, God."},{"number":5,"section":"Healing","title":"Pain and hopelessness","blurb":"Why people came: suffering, ruins, need."},{"number":6,"section":"Healing","title":"Healing anchor","quote":"Trust and believe, the divine power helps and heals."},{"number":7,"section":"Healing","title":"Heilstrom","blurb":"Stop clinging to what is wrong and learn to receive."},{"number":8,"section":"Healing","title":"Radical hope","quote":"There is no incurable."},{"number":9,"section":"Healing","title":"Mystery and skepticism","quote":"There is much that cannot be explained, but nothing that cannot happen."},{"number":10,"section":"Inner Life","title":"Older spiritual echoes","blurb":"Kingdom within, living water, grace received."},{"number":11,"section":"Inner Life","title":"Thoughts are energy","quote":"It is so important which thoughts a person accepts, for thoughts are energy."},{"number":12,"section":"Inner Life","title":"Creature of love","quote":"The human being is a creature of love."},{"number":13,"section":"Cosmic Stakes","title":"Cosmic drama","blurb":"Love against destruction, God against evil."},{"number":14,"section":"Cosmic Stakes","title":"Free will","quote":"Man has a sacrosanct free will."},{"number":15,"section":"Personal","title":"Why I am talking about this","blurb":"Engineer, systems, code, and the question of the human being."},{"number":16,"section":"Personal","title":"Personal testimony","blurb":"I'm telling you what I found."},{"number":17,"section":"Personal","title":"Pause","blurb":"Silence and reset."},{"number":18,"section":"Closing","title":"Help is available","blurb":"Human beings are open, and help is available."},{"number":19,"section":"Closing","title":"Invitation","blurb":"Worth considering; the Circle of Friends is active worldwide."},{"number":20,"section":"Closing","title":"Thank you","blurb":"Closing slide."}];
+    const gallery = [{"id":"001","filename":"bild01.jpg","imagePath":"assets/bruno-groening-gallery/bild01.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"002","filename":"bild02.jpg","imagePath":"assets/bruno-groening-gallery/bild02.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"003","filename":"bild03.jpg","imagePath":"assets/bruno-groening-gallery/bild03.jpg","caption":"Bruno Gröning at Herford on the balcony of the house at Wilhelmplatz 7","displayTitle":"Bruno Gröning at Herford on the balcony of the house at Wilhelmplatz 7","inlineQuote":null,"isQuoteCard":false,"themes":["Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"bruno groning at herford on the balcony of the house at wilhelmplatz 7 bruno groning at herford on the balcony of the house at wilhelmplatz 7 herford 1949 slide 3: herford 1949 slide 5: pain and hopelessness slide 4: \"no human being can heal; it is always only the one, god.\""},{"id":"004","filename":"bild04.jpg","imagePath":"assets/bruno-groening-gallery/bild04.jpg","caption":"Bruno Gröning at Herford March - June 1949","displayTitle":"Bruno Gröning at Herford March - June 1949","inlineQuote":null,"isQuoteCard":false,"themes":["Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"bruno groning at herford march - june 1949 bruno groning at herford march - june 1949 herford 1949 slide 3: herford 1949 slide 5: pain and hopelessness slide 4: \"no human being can heal; it is always only the one, god.\""},{"id":"005","filename":"bild05.jpg","imagePath":"assets/bruno-groening-gallery/bild05.jpg","caption":"The last hope for countless sufferers. People seeking help at Herford","displayTitle":"The last hope for countless sufferers. People seeking help at Herford","inlineQuote":null,"isQuoteCard":false,"themes":["Crowds / desperation","Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":2,"summary":"Slide 2: Opening hook","section":"Identity"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"the last hope for countless sufferers. people seeking help at herford the last hope for countless sufferers. people seeking help at herford crowds / desperation herford 1949 slide 3: herford 1949 slide 5: pain and hopelessness slide 2: opening hook slide 4: \"no human being can heal; it is always only the one, god.\""},{"id":"006","filename":"bild06.jpg","imagePath":"assets/bruno-groening-gallery/bild06.jpg","caption":"A healed person at Herford","displayTitle":"A healed person at Herford","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony","Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"a healed person at herford a healed person at herford healing testimony herford 1949 slide 3: herford 1949 slide 6: \"trust and believe, the divine power helps and heals.\" slide 5: pain and hopelessness slide 8: \"there is no incurable.\""},{"id":"007","filename":"bild07.jpg","imagePath":"assets/bruno-groening-gallery/bild07.jpg","caption":"A healed person at Herford","displayTitle":"A healed person at Herford","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony","Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"a healed person at herford a healed person at herford healing testimony herford 1949 slide 3: herford 1949 slide 6: \"trust and believe, the divine power helps and heals.\" slide 5: pain and hopelessness slide 8: \"there is no incurable.\""},{"id":"008","filename":"bild08.jpg","imagePath":"assets/bruno-groening-gallery/bild08.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"009","filename":"bild09.jpg","imagePath":"assets/bruno-groening-gallery/bild09.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"010","filename":"bild10.jpg","imagePath":"assets/bruno-groening-gallery/bild10.jpg","caption":"Requests for healing at Herford","displayTitle":"Requests for healing at Herford","inlineQuote":null,"isQuoteCard":false,"themes":["Crowds / desperation","Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":2,"summary":"Slide 2: Opening hook","section":"Identity"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"requests for healing at herford requests for healing at herford crowds / desperation herford 1949 slide 3: herford 1949 slide 5: pain and hopelessness slide 2: opening hook slide 4: \"no human being can heal; it is always only the one, god.\""},{"id":"011","filename":"bild11.jpg","imagePath":"assets/bruno-groening-gallery/bild11.jpg","caption":"A flood of letters asking for help","displayTitle":"A flood of letters asking for help","inlineQuote":null,"isQuoteCard":false,"themes":["Crowds / desperation"],"slideFits":[{"number":2,"summary":"Slide 2: Opening hook","section":"Identity"},{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"}],"sections":["Identity","Healing"],"why":"Shows the scale of need and why people were drawn to him.","searchBlob":"a flood of letters asking for help a flood of letters asking for help crowds / desperation slide 2: opening hook slide 3: herford 1949 slide 5: pain and hopelessness"},{"id":"012","filename":"bild12.jpg","imagePath":"assets/bruno-groening-gallery/bild12.jpg","caption":"Requests for healing at Herford, Wilhelmsplatz 7","displayTitle":"Requests for healing at Herford, Wilhelmsplatz 7","inlineQuote":null,"isQuoteCard":false,"themes":["Crowds / desperation","Herford 1949"],"slideFits":[{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":2,"summary":"Slide 2: Opening hook","section":"Identity"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"}],"sections":["Identity","Healing"],"why":"Anchors the story in the original Herford setting and public appearance.","searchBlob":"requests for healing at herford, wilhelmsplatz 7 requests for healing at herford, wilhelmsplatz 7 crowds / desperation herford 1949 slide 3: herford 1949 slide 5: pain and hopelessness slide 2: opening hook slide 4: \"no human being can heal; it is always only the one, god.\""},{"id":"013","filename":"bild13.jpg","imagePath":"assets/bruno-groening-gallery/bild13.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"014","filename":"bild14.jpg","imagePath":"assets/bruno-groening-gallery/bild14.jpg","caption":"Bruno Gröning visits a person seeking help at home","displayTitle":"Bruno Gröning visits a person seeking help at home","inlineQuote":null,"isQuoteCard":false,"themes":["Healing encounter"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"}],"sections":["Healing"],"why":"Puts the healing story into a direct human scene.","searchBlob":"bruno groning visits a person seeking help at home bruno groning visits a person seeking help at home healing encounter slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\""},{"id":"015","filename":"bild15.jpg","imagePath":"assets/bruno-groening-gallery/bild15.jpg","caption":"Up to 30'000 people at Traberhof outside Rosenheim near Munich in September 1949, where many mass and distant healings occurred","displayTitle":"Up to 30'000 people at Traberhof outside Rosenheim near Munich in September 1949, where many mass and distant healings occurred","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony","Mass healings / public phenomenon"],"slideFits":[{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"up to 30'000 people at traberhof outside rosenheim near munich in september 1949, where many mass and distant healings occurred up to 30'000 people at traberhof outside rosenheim near munich in september 1949, where many mass and distant healings occurred healing testimony mass healings / public phenomenon slide 8: \"there is no incurable.\" slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"016","filename":"bild16.jpg","imagePath":"assets/bruno-groening-gallery/bild16.jpg","caption":"Up to 30'000 people at Traberhof outside Rosenheim near Munich in September 1949, where many mass and distant healings occurred","displayTitle":"Up to 30'000 people at Traberhof outside Rosenheim near Munich in September 1949, where many mass and distant healings occurred","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony","Mass healings / public phenomenon"],"slideFits":[{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"up to 30'000 people at traberhof outside rosenheim near munich in september 1949, where many mass and distant healings occurred up to 30'000 people at traberhof outside rosenheim near munich in september 1949, where many mass and distant healings occurred healing testimony mass healings / public phenomenon slide 8: \"there is no incurable.\" slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"017","filename":"bild17.jpg","imagePath":"assets/bruno-groening-gallery/bild17.jpg","caption":"Bruno Gröning at Traberhof outside Rosenheim near Munich","displayTitle":"Bruno Gröning at Traberhof outside Rosenheim near Munich","inlineQuote":null,"isQuoteCard":false,"themes":["Mass healings / public phenomenon"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Shows the scale, visibility, and public nature of the movement.","searchBlob":"bruno groning at traberhof outside rosenheim near munich bruno groning at traberhof outside rosenheim near munich mass healings / public phenomenon slide 5: pain and hopelessness slide 8: \"there is no incurable.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"018","filename":"bild18.jpg","imagePath":"assets/bruno-groening-gallery/bild18.jpg","caption":"Bruno Gröning at Traberhof outside Rosenheim near Munich","displayTitle":"Bruno Gröning at Traberhof outside Rosenheim near Munich","inlineQuote":null,"isQuoteCard":false,"themes":["Mass healings / public phenomenon"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Shows the scale, visibility, and public nature of the movement.","searchBlob":"bruno groning at traberhof outside rosenheim near munich bruno groning at traberhof outside rosenheim near munich mass healings / public phenomenon slide 5: pain and hopelessness slide 8: \"there is no incurable.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"019","filename":"bild19.jpg","imagePath":"assets/bruno-groening-gallery/bild19.jpg","caption":"Bruno Gröning’s workplace. Traberhof outside Rosenheim near Munich","displayTitle":"Bruno Gröning’s workplace. Traberhof outside Rosenheim near Munich","inlineQuote":null,"isQuoteCard":false,"themes":["Mass healings / public phenomenon","Context / place"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":7,"summary":"Slide 7: Heilstrom","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Shows the scale, visibility, and public nature of the movement.","searchBlob":"bruno groning’s workplace. traberhof outside rosenheim near munich bruno groning’s workplace. traberhof outside rosenheim near munich mass healings / public phenomenon context / place slide 5: pain and hopelessness slide 7: heilstrom slide 8: \"there is no incurable.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"020","filename":"bild20.jpg","imagePath":"assets/bruno-groening-gallery/bild20.jpg","caption":"Biblical scenes. This man, who was spontaneously healed, no longer needs his wheelchair","displayTitle":"Biblical scenes. This man, who was spontaneously healed, no longer needs his wheelchair","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony"],"slideFits":[{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"biblical scenes. this man, who was spontaneously healed, no longer needs his wheelchair biblical scenes. this man, who was spontaneously healed, no longer needs his wheelchair healing testimony slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"021","filename":"bild21.jpg","imagePath":"assets/bruno-groening-gallery/bild21.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"022","filename":"bild22.jpg","imagePath":"assets/bruno-groening-gallery/bild22.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"023","filename":"bild23.jpg","imagePath":"assets/bruno-groening-gallery/bild23.jpg","caption":"A reporter interviews Bruno Gröning","displayTitle":"A reporter interviews Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Media / skepticism"],"slideFits":[{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"},{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Healing","Identity","Closing"],"why":"Best for the public-attention and skepticism material.","searchBlob":"a reporter interviews bruno groning a reporter interviews bruno groning media / skepticism slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\" slide 3: herford 1949 slide 19: invitation"},{"id":"024","filename":"bild24.jpg","imagePath":"assets/bruno-groening-gallery/bild24.jpg","caption":"A shoot for a documentary at Rosenheim","displayTitle":"A shoot for a documentary at Rosenheim","inlineQuote":null,"isQuoteCard":false,"themes":["Media / skepticism"],"slideFits":[{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"},{"number":3,"summary":"Slide 3: Herford 1949","section":"Identity"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Healing","Identity","Closing"],"why":"Best for the public-attention and skepticism material.","searchBlob":"a shoot for a documentary at rosenheim a shoot for a documentary at rosenheim media / skepticism slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\" slide 3: herford 1949 slide 19: invitation"},{"id":"025","filename":"bild25.jpg","imagePath":"assets/bruno-groening-gallery/bild25.jpg","caption":"Bruno Gröning goes his way","displayTitle":"Bruno Gröning goes his way","inlineQuote":null,"isQuoteCard":false,"themes":["Path / conviction"],"slideFits":[{"number":15,"summary":"Slide 15: Why I am talking about this","section":"Personal"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Personal","Closing"],"why":"Carries a solitary, reflective energy that fits the personal turn.","searchBlob":"bruno groning goes his way bruno groning goes his way path / conviction slide 15: why i am talking about this slide 16: personal testimony slide 18: help is available"},{"id":"026","filename":"bild26.jpg","imagePath":"assets/bruno-groening-gallery/bild26.jpg","caption":"Bruno Gröning administers healing through a train window","displayTitle":"Bruno Gröning administers healing through a train window","inlineQuote":null,"isQuoteCard":false,"themes":["Healing encounter"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"}],"sections":["Healing"],"why":"Puts the healing story into a direct human scene.","searchBlob":"bruno groning administers healing through a train window bruno groning administers healing through a train window healing encounter slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\""},{"id":"027","filename":"bild27.jpg","imagePath":"assets/bruno-groening-gallery/bild27.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"028","filename":"bild28.jpg","imagePath":"assets/bruno-groening-gallery/bild28.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"029","filename":"bild29.jpg","imagePath":"assets/bruno-groening-gallery/bild29.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"030","filename":"bild30.jpg","imagePath":"assets/bruno-groening-gallery/bild30.jpg","caption":"Bruno Gröning with a person seeking help","displayTitle":"Bruno Gröning with a person seeking help","inlineQuote":null,"isQuoteCard":false,"themes":["Healing encounter"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"}],"sections":["Healing"],"why":"Puts the healing story into a direct human scene.","searchBlob":"bruno groning with a person seeking help bruno groning with a person seeking help healing encounter slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\""},{"id":"031","filename":"bild31.jpg","imagePath":"assets/bruno-groening-gallery/bild31.jpg","caption":"A deep bond also with animals","displayTitle":"A deep bond also with animals","inlineQuote":null,"isQuoteCard":false,"themes":["Love / gentleness"],"slideFits":[{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Works best with the love theme or a softer closing tone.","searchBlob":"a deep bond also with animals a deep bond also with animals love / gentleness slide 12: \"the human being is a creature of love.\" slide 18: help is available"},{"id":"032","filename":"bild32.jpg","imagePath":"assets/bruno-groening-gallery/bild32.jpg","caption":"Bruno Gröning was very interested to receive communications from people who had been healed","displayTitle":"Bruno Gröning was very interested to receive communications from people who had been healed","inlineQuote":null,"isQuoteCard":false,"themes":["Healing testimony","Heilstrom / receiving"],"slideFits":[{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":7,"summary":"Slide 7: Heilstrom","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"}],"sections":["Healing","Inner Life"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"bruno groning was very interested to receive communications from people who had been healed bruno groning was very interested to receive communications from people who had been healed healing testimony heilstrom / receiving slide 6: \"trust and believe, the divine power helps and heals.\" slide 7: heilstrom slide 8: \"there is no incurable.\" slide 10: older spiritual echoes"},{"id":"033","filename":"bild33.jpg","imagePath":"assets/bruno-groening-gallery/bild33.jpg","caption":"Bruno Gröning: Bruno Gröning's grave in Dillenburg","displayTitle":"Bruno Gröning: Bruno Gröning's grave in Dillenburg","inlineQuote":null,"isQuoteCard":false,"themes":["Legacy"],"slideFits":[{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":20,"summary":"Slide 20: Thank you","section":"Closing"}],"sections":["Closing"],"why":"Use only if you want a reflective ending or historical coda.","searchBlob":"bruno groning: bruno groning's grave in dillenburg bruno groning: bruno groning's grave in dillenburg legacy slide 18: help is available slide 20: thank you"},{"id":"034","filename":"bild34.jpg","imagePath":"assets/bruno-groening-gallery/bild34.jpg","caption":"Bruno Gröning: Bruno Gröning's grave in Dillenburg","displayTitle":"Bruno Gröning: Bruno Gröning's grave in Dillenburg","inlineQuote":null,"isQuoteCard":false,"themes":["Legacy"],"slideFits":[{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":20,"summary":"Slide 20: Thank you","section":"Closing"}],"sections":["Closing"],"why":"Use only if you want a reflective ending or historical coda.","searchBlob":"bruno groning: bruno groning's grave in dillenburg bruno groning: bruno groning's grave in dillenburg legacy slide 18: help is available slide 20: thank you"},{"id":"035","filename":"bild35.jpg","imagePath":"assets/bruno-groening-gallery/bild35.jpg","caption":"Bruno Gröning: ‘We all live in a certain world order. Its highest law is God. When we leave this order, we lose our foundation. Our health suffers, we become sick. Only when we create order within ourselves again can we return to health.’","displayTitle":"Quote card: We all live in a certain world order. Its highest law is God. When we leave this order,…","inlineQuote":"We all live in a certain world order. Its highest law is God. When we leave this order, we lose our foundation. Our health suffers, we become sick. Only when we create order within ourselves again can we return to health.","isQuoteCard":true,"themes":["Divine order","Embodiment / restored health"],"slideFits":[{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":14,"summary":"Slide 14: \"Man has a sacrosanct free will.\"","section":"Cosmic Stakes"}],"sections":["Inner Life","Healing","Cosmic Stakes"],"why":"Best for the inner-order and free-will parts of the deck.","searchBlob":"quote card: we all live in a certain world order. its highest law is god. when we leave this order,… bruno groning: ‘we all live in a certain world order. its highest law is god. when we leave this order, we lose our foundation. our health suffers, we become sick. only when we create order within ourselves again can we return to health.’ divine order embodiment / restored health slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\" slide 5: pain and hopelessness slide 8: \"there is no incurable.\" slide 14: \"man has a sacrosanct free will.\""},{"id":"036","filename":"bild36.jpg","imagePath":"assets/bruno-groening-gallery/bild36.jpg","caption":"Bruno Gröning: ‘Man should let go of all unnatural things and completely submit himself to the natural, of which he is a part.’","displayTitle":"Quote card: Man should let go of all unnatural things and completely submit himself to the natural,…","inlineQuote":"Man should let go of all unnatural things and completely submit himself to the natural, of which he is a part.","isQuoteCard":true,"themes":["Divine order"],"slideFits":[{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"},{"number":14,"summary":"Slide 14: \"Man has a sacrosanct free will.\"","section":"Cosmic Stakes"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Inner Life","Cosmic Stakes","Closing"],"why":"Best for the inner-order and free-will parts of the deck.","searchBlob":"quote card: man should let go of all unnatural things and completely submit himself to the natural,… bruno groning: ‘man should let go of all unnatural things and completely submit himself to the natural, of which he is a part.’ divine order slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\" slide 14: \"man has a sacrosanct free will.\" slide 18: help is available"},{"id":"037","filename":"bild37.jpg","imagePath":"assets/bruno-groening-gallery/bild37.jpg","caption":"Bruno Gröning","displayTitle":"Bruno Gröning","inlineQuote":null,"isQuoteCard":false,"themes":["Portrait / identity"],"slideFits":[{"number":1,"summary":"Slide 1: Title","section":"Title"},{"number":4,"summary":"Slide 4: \"No human being can heal; it is always only the One, God.\"","section":"Identity"},{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"}],"sections":["Title","Identity","Personal"],"why":"Best when you want a face rather than a crowd or quote card.","searchBlob":"bruno groning bruno groning portrait / identity slide 1: title slide 4: \"no human being can heal; it is always only the one, god.\" slide 16: personal testimony"},{"id":"038","filename":"bild38.jpg","imagePath":"assets/bruno-groening-gallery/bild38.jpg","caption":"Bruno Gröning: ‘He who hasn't yet experienced this- life -as the holy of holies is a pitiable creature.’","displayTitle":"Quote card: He who hasn't yet experienced this- life -as the holy of holies is a pitiable creature.","inlineQuote":"He who hasn't yet experienced this- life -as the holy of holies is a pitiable creature.","isQuoteCard":true,"themes":["Spiritual anthropology"],"slideFits":[{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"},{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Best for the inner-life and human-nature parts of the talk.","searchBlob":"quote card: he who hasn't yet experienced this- life -as the holy of holies is a pitiable creature. bruno groning: ‘he who hasn't yet experienced this- life -as the holy of holies is a pitiable creature.’ spiritual anthropology slide 10: older spiritual echoes slide 12: \"the human being is a creature of love.\" slide 18: help is available"},{"id":"039","filename":"bild39.jpg","imagePath":"assets/bruno-groening-gallery/bild39.jpg","caption":"Bruno Gröning: ‘I have come for all people, regardless of nationality or religion.’","displayTitle":"Quote card: I have come for all people, regardless of nationality or religion.","inlineQuote":"I have come for all people, regardless of nationality or religion.","isQuoteCard":true,"themes":["Universality / invitation"],"slideFits":[{"number":19,"summary":"Slide 19: Invitation","section":"Closing"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Closing"],"why":"Connects directly to the closing invitation and worldwide scope.","searchBlob":"quote card: i have come for all people, regardless of nationality or religion. bruno groning: ‘i have come for all people, regardless of nationality or religion.’ universality / invitation slide 19: invitation slide 18: help is available"},{"id":"040","filename":"bild40.jpg","imagePath":"assets/bruno-groening-gallery/bild40.jpg","caption":"Bruno Gröning: ‘I am stronger than evil!’","displayTitle":"Quote card: I am stronger than evil!","inlineQuote":"I am stronger than evil!","isQuoteCard":true,"themes":["Cosmic struggle"],"slideFits":[{"number":13,"summary":"Slide 13: Cosmic drama","section":"Cosmic Stakes"},{"number":14,"summary":"Slide 14: \"Man has a sacrosanct free will.\"","section":"Cosmic Stakes"}],"sections":["Cosmic Stakes"],"why":"Best for the good-versus-evil turn in the deck.","searchBlob":"quote card: i am stronger than evil! bruno groning: ‘i am stronger than evil!’ cosmic struggle slide 13: cosmic drama slide 14: \"man has a sacrosanct free will.\""},{"id":"041","filename":"bild41.jpg","imagePath":"assets/bruno-groening-gallery/bild41.jpg","caption":"Bruno Gröning: ‘God will help if a person believes, if he has the good, divine will that he is meant to live with, and if he doesn't lose faith in God, God helps him - just believe!’","displayTitle":"Quote card: God will help if a person believes, if he has the good, divine will that he is meant to…","inlineQuote":"God will help if a person believes, if he has the good, divine will that he is meant to live with, and if he doesn't lose faith in God, God helps him - just believe!","isQuoteCard":true,"themes":["Faith / receptivity"],"slideFits":[{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Healing","Closing"],"why":"Directly supports the trust-and-receive framing.","searchBlob":"quote card: god will help if a person believes, if he has the good, divine will that he is meant to… bruno groning: ‘god will help if a person believes, if he has the good, divine will that he is meant to live with, and if he doesn't lose faith in god, god helps him - just believe!’ faith / receptivity slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\" slide 18: help is available"},{"id":"042","filename":"bild42.jpg","imagePath":"assets/bruno-groening-gallery/bild42.jpg","caption":"Bruno Gröning: ‘I will go on helping! Today I know very definitely that I can really help the helpless, and I will also do so. I regard it as my duty and obligation to help my neighbors out of pure love.’","displayTitle":"Quote card: I will go on helping! Today I know very definitely that I can really help the helpless,…","inlineQuote":"I will go on helping! Today I know very definitely that I can really help the helpless, and I will also do so. I regard it as my duty and obligation to help my neighbors out of pure love.","isQuoteCard":true,"themes":["Love / peace"],"slideFits":[{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Fits the creature-of-love material and the warmer closing slides.","searchBlob":"quote card: i will go on helping! today i know very definitely that i can really help the helpless,… bruno groning: ‘i will go on helping! today i know very definitely that i can really help the helpless, and i will also do so. i regard it as my duty and obligation to help my neighbors out of pure love.’ love / peace slide 12: \"the human being is a creature of love.\" slide 18: help is available slide 19: invitation"},{"id":"043","filename":"bild43.jpg","imagePath":"assets/bruno-groening-gallery/bild43.jpg","caption":"Bruno Gröning: ‘I consider it my duty and obligation to tell each of my neighbors what is required for his earthly life.’","displayTitle":"Quote card: I consider it my duty and obligation to tell each of my neighbors what is required for…","inlineQuote":"I consider it my duty and obligation to tell each of my neighbors what is required for his earthly life.","isQuoteCard":true,"themes":["Love / peace"],"slideFits":[{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Fits the creature-of-love material and the warmer closing slides.","searchBlob":"quote card: i consider it my duty and obligation to tell each of my neighbors what is required for… bruno groning: ‘i consider it my duty and obligation to tell each of my neighbors what is required for his earthly life.’ love / peace slide 12: \"the human being is a creature of love.\" slide 18: help is available slide 19: invitation"},{"id":"044","filename":"bild44.jpg","imagePath":"assets/bruno-groening-gallery/bild44.jpg","caption":"Bruno Gröning: ‘I have no opinion; I only have a conviction.’","displayTitle":"Quote card: I have no opinion; I only have a conviction.","inlineQuote":"I have no opinion; I only have a conviction.","isQuoteCard":true,"themes":["Conviction / testimony"],"slideFits":[{"number":16,"summary":"Slide 16: Personal testimony","section":"Personal"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Personal","Closing"],"why":"Useful when the talk turns personal and experiential.","searchBlob":"quote card: i have no opinion; i only have a conviction. bruno groning: ‘i have no opinion; i only have a conviction.’ conviction / testimony slide 16: personal testimony slide 18: help is available"},{"id":"045","filename":"bild45.jpg","imagePath":"assets/bruno-groening-gallery/bild45.jpg","caption":"Bruno Gröning: ‘I consider it my duty and obligation to tell you only that which really leads you to God. And that you have to live here in the divine order and to keep striving to do everything to stay on this path, and that you can never be attacked by the bad, by evil, if you are determined to continue on the path that truly leads you to the good, really leads you to your salvation.’","displayTitle":"Quote card: I consider it my duty and obligation to tell you only that which really leads you to Go…","inlineQuote":"I consider it my duty and obligation to tell you only that which really leads you to God. And that you have to live here in the divine order and to keep striving to do everything to stay on this path, and that you can never be attacked by the bad, by evil, if you are determined to continue on the path that truly leads you to the good, really leads you to your salvation.","isQuoteCard":true,"themes":["Divine order","Cosmic struggle"],"slideFits":[{"number":14,"summary":"Slide 14: \"Man has a sacrosanct free will.\"","section":"Cosmic Stakes"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"},{"number":13,"summary":"Slide 13: Cosmic drama","section":"Cosmic Stakes"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Cosmic Stakes","Inner Life","Closing"],"why":"Best for the inner-order and free-will parts of the deck.","searchBlob":"quote card: i consider it my duty and obligation to tell you only that which really leads you to go… bruno groning: ‘i consider it my duty and obligation to tell you only that which really leads you to god. and that you have to live here in the divine order and to keep striving to do everything to stay on this path, and that you can never be attacked by the bad, by evil, if you are determined to continue on the path that truly leads you to the good, really leads you to your salvation.’ divine order cosmic struggle slide 14: \"man has a sacrosanct free will.\" slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\" slide 13: cosmic drama slide 18: help is available"},{"id":"046","filename":"bild46.jpg","imagePath":"assets/bruno-groening-gallery/bild46.jpg","caption":"Bruno Gröning: ‘It is necessary for man to absorb the divine into himself. It is necessary for the divine already in him to prevail. That is how God intended it for him, for all people.’","displayTitle":"Quote card: It is necessary for man to absorb the divine into himself. It is necessary for the divi…","inlineQuote":"It is necessary for man to absorb the divine into himself. It is necessary for the divine already in him to prevail. That is how God intended it for him, for all people.","isQuoteCard":true,"themes":["Universality / invitation","Heilstrom / receiving"],"slideFits":[{"number":7,"summary":"Slide 7: Heilstrom","section":"Healing"},{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"}],"sections":["Healing","Inner Life","Closing"],"why":"Connects directly to the closing invitation and worldwide scope.","searchBlob":"quote card: it is necessary for man to absorb the divine into himself. it is necessary for the divi… bruno groning: ‘it is necessary for man to absorb the divine into himself. it is necessary for the divine already in him to prevail. that is how god intended it for him, for all people.’ universality / invitation heilstrom / receiving slide 7: heilstrom slide 10: older spiritual echoes slide 19: invitation slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\""},{"id":"047","filename":"bild47.jpg","imagePath":"assets/bruno-groening-gallery/bild47.jpg","caption":"Bruno Gröning: ‘I have helped many people - thanks to God!’","displayTitle":"Quote card: I have helped many people - thanks to God!","inlineQuote":"I have helped many people - thanks to God!","isQuoteCard":true,"themes":["Healing testimony"],"slideFits":[{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":9,"summary":"Slide 9: \"There is much that cannot be explained, but nothing that cannot happen.\"","section":"Healing"}],"sections":["Healing"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"quote card: i have helped many people - thanks to god! bruno groning: ‘i have helped many people - thanks to god!’ healing testimony slide 6: \"trust and believe, the divine power helps and heals.\" slide 8: \"there is no incurable.\" slide 9: \"there is much that cannot be explained, but nothing that cannot happen.\""},{"id":"048","filename":"bild48.jpg","imagePath":"assets/bruno-groening-gallery/bild48.jpg","caption":"Bruno Gröning: ‘Later it will come about that all nations will be included. That's what is important to me.’","displayTitle":"Quote card: Later it will come about that all nations will be included. That's what is important to…","inlineQuote":"Later it will come about that all nations will be included. That's what is important to me.","isQuoteCard":true,"themes":["Universality / invitation"],"slideFits":[{"number":19,"summary":"Slide 19: Invitation","section":"Closing"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"}],"sections":["Closing"],"why":"Connects directly to the closing invitation and worldwide scope.","searchBlob":"quote card: later it will come about that all nations will be included. that's what is important to… bruno groning: ‘later it will come about that all nations will be included. that's what is important to me.’ universality / invitation slide 19: invitation slide 18: help is available"},{"id":"049","filename":"bild49.jpg","imagePath":"assets/bruno-groening-gallery/bild49.jpg","caption":"Bruno Gröning: ‘There always has to be peace and quiet, then I can work. Where everything is chaotic there can be no blessing. The power works best where love and peace at heart prevail.’","displayTitle":"Quote card: There always has to be peace and quiet, then I can work. Where everything is chaotic th…","inlineQuote":"There always has to be peace and quiet, then I can work. Where everything is chaotic there can be no blessing. The power works best where love and peace at heart prevail.","isQuoteCard":true,"themes":["Love / peace"],"slideFits":[{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Fits the creature-of-love material and the warmer closing slides.","searchBlob":"quote card: there always has to be peace and quiet, then i can work. where everything is chaotic th… bruno groning: ‘there always has to be peace and quiet, then i can work. where everything is chaotic there can be no blessing. the power works best where love and peace at heart prevail.’ love / peace slide 12: \"the human being is a creature of love.\" slide 18: help is available slide 19: invitation"},{"id":"050","filename":"bild50.jpg","imagePath":"assets/bruno-groening-gallery/bild50.jpg","caption":"Bruno Gröning: ‘I will give back to you the ancient, the true human instinct. Then we will have everything. Then we will have peace on this earth regardless of religion, regardless of nation. That is God's blessing!’","displayTitle":"Quote card: I will give back to you the ancient, the true human instinct. Then we will have everyth…","inlineQuote":"I will give back to you the ancient, the true human instinct. Then we will have everything. Then we will have peace on this earth regardless of religion, regardless of nation. That is God's blessing!","isQuoteCard":true,"themes":["Universality / invitation","Spiritual anthropology"],"slideFits":[{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Inner Life","Closing"],"why":"Connects directly to the closing invitation and worldwide scope.","searchBlob":"quote card: i will give back to you the ancient, the true human instinct. then we will have everyth… bruno groning: ‘i will give back to you the ancient, the true human instinct. then we will have everything. then we will have peace on this earth regardless of religion, regardless of nation. that is god's blessing!’ universality / invitation spiritual anthropology slide 10: older spiritual echoes slide 18: help is available slide 12: \"the human being is a creature of love.\" slide 19: invitation"},{"id":"051","filename":"bild51.jpg","imagePath":"assets/bruno-groening-gallery/bild51.jpg","caption":"Bruno Gröning: ‘Without our God we humans are nothing, we are nothing at all. We cannot imagine God away. All of us are and will remain Children of God. The only Father we have is and will remain our Lord God.’","displayTitle":"Quote card: Without our God we humans are nothing, we are nothing at all. We cannot imagine God awa…","inlineQuote":"Without our God we humans are nothing, we are nothing at all. We cannot imagine God away. All of us are and will remain Children of God. The only Father we have is and will remain our Lord God.","isQuoteCard":true,"themes":["Quote card / alternate copy"],"slideFits":[{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":19,"summary":"Slide 19: Invitation","section":"Closing"}],"sections":["Closing"],"why":"Useful as alternate textual art if you swap in a photo-quote slide.","searchBlob":"quote card: without our god we humans are nothing, we are nothing at all. we cannot imagine god awa… bruno groning: ‘without our god we humans are nothing, we are nothing at all. we cannot imagine god away. all of us are and will remain children of god. the only father we have is and will remain our lord god.’ quote card / alternate copy slide 18: help is available slide 19: invitation"},{"id":"052","filename":"bild52.jpg","imagePath":"assets/bruno-groening-gallery/bild52.jpg","caption":"Bruno Gröning: ‘Pay more attention to your body every day, every hour, every minute, every second!’","displayTitle":"Quote card: Pay more attention to your body every day, every hour, every minute, every second!","inlineQuote":"Pay more attention to your body every day, every hour, every minute, every second!","isQuoteCard":true,"themes":["Embodiment / restored health"],"slideFits":[{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"}],"sections":["Healing","Inner Life"],"why":"Supports the health-and-healing logic without needing a crowd scene.","searchBlob":"quote card: pay more attention to your body every day, every hour, every minute, every second! bruno groning: ‘pay more attention to your body every day, every hour, every minute, every second!’ embodiment / restored health slide 5: pain and hopelessness slide 8: \"there is no incurable.\" slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\""},{"id":"053","filename":"bild53.jpg","imagePath":"assets/bruno-groening-gallery/bild53.jpg","caption":"Bruno Gröning: ‘I also still maintain the divine calm, the divine patience. But I also want that from every friend, so that he doesn't lose it. But first he has to absorb it.’","displayTitle":"Quote card: I also still maintain the divine calm, the divine patience. But I also want that from e…","inlineQuote":"I also still maintain the divine calm, the divine patience. But I also want that from every friend, so that he doesn't lose it. But first he has to absorb it.","isQuoteCard":true,"themes":["Heilstrom / receiving"],"slideFits":[{"number":7,"summary":"Slide 7: Heilstrom","section":"Healing"},{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"}],"sections":["Healing","Inner Life"],"why":"Pairs well with slides about receptivity, thought, and inner stillness.","searchBlob":"quote card: i also still maintain the divine calm, the divine patience. but i also want that from e… bruno groning: ‘i also still maintain the divine calm, the divine patience. but i also want that from every friend, so that he doesn't lose it. but first he has to absorb it.’ heilstrom / receiving slide 7: heilstrom slide 10: older spiritual echoes slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\""},{"id":"054","filename":"bild54.jpg","imagePath":"assets/bruno-groening-gallery/bild54.jpg","caption":"Bruno Gröning: ‘Every person should know on his own that he is a natural, divine creature and therefore is also subject to the divine law.’","displayTitle":"Quote card: Every person should know on his own that he is a natural, divine creature and therefore…","inlineQuote":"Every person should know on his own that he is a natural, divine creature and therefore is also subject to the divine law.","isQuoteCard":true,"themes":["Divine order","Spiritual anthropology"],"slideFits":[{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"},{"number":18,"summary":"Slide 18: Help is available","section":"Closing"},{"number":12,"summary":"Slide 12: \"The human being is a creature of love.\"","section":"Inner Life"}],"sections":["Inner Life","Closing"],"why":"Best for the inner-order and free-will parts of the deck.","searchBlob":"quote card: every person should know on his own that he is a natural, divine creature and therefore… bruno groning: ‘every person should know on his own that he is a natural, divine creature and therefore is also subject to the divine law.’ divine order spiritual anthropology slide 10: older spiritual echoes slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\" slide 18: help is available slide 12: \"the human being is a creature of love.\""},{"id":"055","filename":"bild55.jpg","imagePath":"assets/bruno-groening-gallery/bild55.jpg","caption":"Bruno Gröning: ‘The times and the increase in healings are turning me into a ‘great transmitter’. More and more people are receiving the healing wave. I believe that I can claim that everyone has a receiving station for this wave; he only has to know what he wants to receive. Surely there were small healing transmitters earlier, but in my opinion they were of limited power - were undeveloped - and as a result of their weakness were driven away and also broke down. To put it briefly, I would like to say by way of comparison that I have found the receiver in people and am in a position to, so to speak, overhaul the human organism. For people who have been healed by me this is a foregone conclusion, like the radio.’","displayTitle":"Quote card: The times and the increase in healings are turning me into a ‘great transmitter’. More…","inlineQuote":"The times and the increase in healings are turning me into a ‘great transmitter’. More and more people are receiving the healing wave. I believe that I can claim that everyone has a receiving station for this wave; he only has to know what he wants to receive. Surely there were small healing transmitters earlier, but in my opinion they were of limited power - were undeveloped - and as a result of their weakness were driven away and also broke down. To put it briefly, I would like to say by way of comparison that I have found the receiver in people and am in a position to, so to speak, overhaul the human organism. For people who have been healed by me this is a foregone conclusion, like the radio.","isQuoteCard":true,"themes":["Faith / receptivity","Heilstrom / receiving"],"slideFits":[{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"},{"number":7,"summary":"Slide 7: Heilstrom","section":"Healing"},{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":10,"summary":"Slide 10: Older spiritual echoes","section":"Inner Life"}],"sections":["Healing","Inner Life"],"why":"Directly supports the trust-and-receive framing.","searchBlob":"quote card: the times and the increase in healings are turning me into a ‘great transmitter’. more… bruno groning: ‘the times and the increase in healings are turning me into a ‘great transmitter’. more and more people are receiving the healing wave. i believe that i can claim that everyone has a receiving station for this wave; he only has to know what he wants to receive. surely there were small healing transmitters earlier, but in my opinion they were of limited power - were undeveloped - and as a result of their weakness were driven away and also broke down. to put it briefly, i would like to say by way of comparison that i have found the receiver in people and am in a position to, so to speak, overhaul the human organism. for people who have been healed by me this is a foregone conclusion, like the radio.’ faith / receptivity heilstrom / receiving slide 6: \"trust and believe, the divine power helps and heals.\" slide 7: heilstrom slide 8: \"there is no incurable.\" slide 10: older spiritual echoes"},{"id":"056","filename":"bild56.jpg","imagePath":"assets/bruno-groening-gallery/bild56.jpg","caption":"Bruno Gröning: ‘My dear Friends, I could tell you here of so many good things, of how people have got back the good, of how people have got back order in their body even though they - these people - had been given up by others.’","displayTitle":"Quote card: My dear Friends, I could tell you here of so many good things, of how people have got b…","inlineQuote":"My dear Friends, I could tell you here of so many good things, of how people have got back the good, of how people have got back order in their body even though they - these people - had been given up by others.","isQuoteCard":true,"themes":["Healing testimony","Divine order","Embodiment / restored health"],"slideFits":[{"number":8,"summary":"Slide 8: \"There is no incurable.\"","section":"Healing"},{"number":11,"summary":"Slide 11: \"It is so important which thoughts a person accepts, for thoughts are energy.\"","section":"Inner Life"},{"number":5,"summary":"Slide 5: Pain and hopelessness","section":"Healing"},{"number":6,"summary":"Slide 6: \"Trust and believe, the divine power helps and heals.\"","section":"Healing"}],"sections":["Healing","Inner Life"],"why":"Fits the slides about healing reports, radical hope, and unexplained change.","searchBlob":"quote card: my dear friends, i could tell you here of so many good things, of how people have got b… bruno groning: ‘my dear friends, i could tell you here of so many good things, of how people have got back the good, of how people have got back order in their body even though they - these people - had been given up by others.’ healing testimony divine order embodiment / restored health slide 8: \"there is no incurable.\" slide 11: \"it is so important which thoughts a person accepts, for thoughts are energy.\" slide 5: pain and hopelessness slide 6: \"trust and believe, the divine power helps and heals.\""}];
+
+    const sectionOrder = ['All', ...Array.from(new Set(slides.map((slide) => slide.section)))];
+    const themeOrder = ['All', ...Array.from(new Set(gallery.flatMap((item) => item.themes))).sort((a, b) => a.localeCompare(b))];
+
+    const state = {
+      section: 'All',
+      theme: 'All',
+      query: '',
+      quoteOnly: false
+    };
+
+    const galleryEl = document.getElementById('gallery');
+    const countEl = document.getElementById('count');
+    const searchEl = document.getElementById('search');
+    const quoteOnlyEl = document.getElementById('quote-only');
+
+    function createButton(label, isActive, onClick) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'chip-button' + (isActive ? ' is-active' : '');
+      button.textContent = label;
+      button.addEventListener('click', onClick);
+      return button;
+    }
+
+    function renderSectionFilters() {
+      const wrap = document.getElementById('section-filters');
+      wrap.innerHTML = '';
+      sectionOrder.forEach((section) => {
+        wrap.appendChild(createButton(section, state.section === section, () => {
+          state.section = section;
+          render();
+        }));
+      });
+    }
+
+    function renderThemeFilters() {
+      const wrap = document.getElementById('theme-filters');
+      wrap.innerHTML = '';
+      themeOrder.forEach((theme) => {
+        wrap.appendChild(createButton(theme, state.theme === theme, () => {
+          state.theme = theme;
+          render();
+        }));
+      });
+    }
+
+    function renderDeckMap() {
+      const wrap = document.getElementById('deck-map');
+      const sectionSummaries = sectionOrder
+        .filter((section) => section !== 'All')
+        .map((section) => {
+          const sectionSlides = slides.filter((slide) => slide.section === section);
+          const slideNumbers = sectionSlides.map((slide) => slide.number).join(', ');
+          const blurb = sectionSlides.find((slide) => slide.quote)?.quote || sectionSlides[0].blurb || sectionSlides[0].title;
+          return { section, slideNumbers, blurb };
+        });
+
+      wrap.innerHTML = sectionSummaries.map((item) => `
+        <article class="section-card">
+          <h2>${item.section}</h2>
+          <p>${item.blurb}</p>
+          <div class="slides">Slides ${item.slideNumbers}</div>
+        </article>
+      `).join('');
+    }
+
+    function matches(item) {
+      if (state.quoteOnly && !item.isQuoteCard) {
+        return false;
+      }
+      if (state.section !== 'All' && !item.sections.includes(state.section)) {
+        return false;
+      }
+      if (state.theme !== 'All' && !item.themes.includes(state.theme)) {
+        return false;
+      }
+      if (state.query) {
+        return item.searchBlob.includes(state.query);
+      }
+      return true;
+    }
+
+    function renderCard(item) {
+      const tags = item.themes.map((theme) => `<span class="tag">${theme}</span>`).join('');
+      const slideTags = item.slideFits.map((fit) => `<span class="slide-tag">${fit.summary}</span>`).join('');
+      const quoteBlock = item.inlineQuote
+        ? `<details><summary>Image Quote</summary><blockquote>${item.inlineQuote}</blockquote></details>`
+        : '';
+
+      return `
+        <article class="card">
+          <a class="card-image" href="${item.imagePath}" target="_blank" rel="noreferrer">
+            <img src="${item.imagePath}" alt="${item.caption}">
+          </a>
+
+          <div class="meta-block">
+            <div class="eyebrow">${item.id} • ${item.filename}</div>
+            <h3>${item.displayTitle}</h3>
+            <p class="caption">${item.caption}</p>
+          </div>
+
+          <p class="why">${item.why}</p>
+
+          <div class="meta-block">
+            <div class="meta-title">Themes</div>
+            <div class="tag-list">${tags}</div>
+          </div>
+
+          <div class="meta-block">
+            <div class="meta-title">Suggested Slides</div>
+            <div class="slide-list">${slideTags}</div>
+          </div>
+
+          ${quoteBlock}
+        </article>
+      `;
+    }
+
+    function render() {
+      const filtered = gallery.filter(matches);
+      countEl.textContent = `${filtered.length} of ${gallery.length} images`;
+
+      if (!filtered.length) {
+        galleryEl.innerHTML = '<div class="empty">No images match the current filters.</div>';
+        renderSectionFilters();
+        renderThemeFilters();
+        return;
+      }
+
+      galleryEl.innerHTML = filtered.map(renderCard).join('');
+      renderSectionFilters();
+      renderThemeFilters();
+    }
+
+    searchEl.addEventListener('input', (event) => {
+      state.query = event.target.value.trim().toLowerCase();
+      render();
+    });
+
+    quoteOnlyEl.addEventListener('change', (event) => {
+      state.quoteOnly = event.target.checked;
+      render();
+    });
+
+    renderDeckMap();
+    render();
+  </script>
+</body>
+</html>
