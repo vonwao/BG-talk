@@ -52,28 +52,50 @@ const SLIDE_IMAGE_SELECTIONS = {
       "tone": "dark"
     },
     "thoughts": {
-      "candidateId": "bild37"
+      "candidateId": "bild27",
+      "focusX": 50,
+      "focusY": 40,
+      "scale": 1,
+      "dim": 0.24,
+      "tone": "dark"
     },
     "love": {
-      "candidateId": "bild31"
+      "candidateId": "bild31",
+      "dim": 0.21,
+      "scale": 1,
+      "focusY": 39,
+      "focusX": 39
     },
     "stakes": {
-      "candidateId": "bild40"
+      "candidateId": "bild40",
+      "focusY": 45,
+      "focusX": 38
     },
     "free-will": {
-      "candidateId": "bild25"
+      "candidateId": "bild44",
+      "focusX": 43,
+      "focusY": 46,
+      "scale": 1,
+      "dim": 0.2,
+      "tone": "dark"
     },
     "personal": {
       "candidateId": "bild37"
     },
     "found": {
-      "candidateId": "bild22"
+      "candidateId": "bild28",
+      "focusX": 50,
+      "focusY": 18,
+      "scale": 1.1,
+      "dim": 0.68,
+      "tone": "dark"
     },
     "pause": {
       "candidateId": "bild31"
     },
     "closing": {
-      "candidateId": "bild39"
+      "candidateId": "bild39",
+      "scale": 1
     },
     "invitation": {
       "candidateId": "bild48"

@@ -145,35 +145,37 @@
 <main>
   <section class="hero">
     <p class="eyebrow">Audio Preview</p>
-    <h1>The Man Who Said You Can Receive Help</h1>
-    <p class="subtitle">Quick browser players for the first generated narration samples, plus jump links into the full audio-enabled deck.</p>
+    <h1 id="hero-title"></h1>
+    <p class="subtitle">Quick browser players for generated narration, plus jump links into the full audio-enabled deck.</p>
   </section>
 
-  <section class="samples">
-    <article class="sample">
-      <p class="sample-label">Slide 1</p>
-      <h2>Title</h2>
-      <p>Short title-card read. Useful for hearing the raw voice, but not long enough to judge pacing well.</p>
-      <audio controls preload="metadata" src="audio/slides/slide-01-title.mp3"></audio>
-      <div class="actions">
-        <a href="audio/slides/slide-01-title.mp3">Open MP3</a>
-        <a href="slides-v0.3.html?audio=1#/0">Open In Audio Deck</a>
-        <a href="editor.html?slide=1&return=audio-preview.html">Edit This Slide</a>
-      </div>
-    </article>
+  <section class="samples" id="samples"></section>
+  <script src="talk-content.js"></script>
+  <script>
+    document.getElementById('hero-title').textContent = TALK_CONTENT.meta.title;
+    const container = document.getElementById('samples');
+    TALK_CONTENT.slides.forEach((slide, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      const mp3 = `audio/slides/slide-${num}-${slide.slug}.mp3`;
+      const label = slide.editorLabel || slide.slug;
+      const hasAudio = slide.audio && slide.audio.trim();
+      if (!hasAudio) return;
 
-    <article class="sample">
-      <p class="sample-label">Slide 2</p>
-      <h2>Opening Hook</h2>
-      <p>The first real spoken sample. This is the better one for evaluating cadence, gravity, and whether the voice fits the talk.</p>
-      <audio controls preload="metadata" src="audio/slides/slide-02-opening.mp3"></audio>
-      <div class="actions">
-        <a href="audio/slides/slide-02-opening.mp3">Open MP3</a>
-        <a href="slides-v0.3.html?audio=1#/1">Open In Audio Deck</a>
-        <a href="editor.html?slide=2&return=audio-preview.html">Edit This Slide</a>
-      </div>
-    </article>
-  </section>
+      const article = document.createElement('article');
+      article.className = 'sample';
+      article.innerHTML = `
+        <p class="sample-label">Slide ${i + 1}</p>
+        <h2>${label}</h2>
+        <audio controls preload="metadata" src="${mp3}"></audio>
+        <div class="actions">
+          <a href="${mp3}">Open MP3</a>
+          <a href="slides-v0.3.html?audio=1#/${i}">Open In Audio Deck</a>
+          <a href="editor.html?slide=${i + 1}&return=audio-preview.html">Edit This Slide</a>
+        </div>
+      `;
+      container.appendChild(article);
+    });
+  </script>
 
   <p class="note">If the deck link opens without sound at first, click once to satisfy browser autoplay rules, then it will play the slide narration.</p>
 </main>
