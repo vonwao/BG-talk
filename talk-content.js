@@ -54,9 +54,9 @@ const TALK_CONTENT = {
       "editorLabel": "Quote 2 — Trust",
       "quote": "Trust and believe,\nthe divine power helps and heals.",
       "attribution": "Bruno Gröning",
-      "notes": "\"Trust and believe\" — this is his central healing formula.\n\nFor Gröning, healing is not technique. It's receptivity. Trust is not a side issue — it's how it works.\n\nHe calls this force the Heilstrom — meaning the \"healing stream.\" A current of goodness that's always present, but that most people have cut themselves off from.",
+      "notes": "\"Trust and believe\" — this is his central healing formula.\n\nFor Gröning, healing is not technique. It's about being open. Trust is not a side issue — it's how it works.\n\nHe calls this force the Heilstrom — meaning the \"healing stream.\" A current of goodness that's always present, but that most people have cut themselves off from.",
       "outline": "• Central healing formula\n• Trust = part of the mechanism, not side issue\n• Heilstrom = \"healing stream\"\n• Spiritual energy always present\n• Most people cut off from it",
-      "audio": "\"Trust and believe\" — this is his central healing formula.\n\nFor Gröning, healing is not technique. It's receptivity. Trust is not a side issue — it's how it works.\n\nHe calls this force the Heilstrom — meaning the \"healing stream.\" A current of goodness that's always present, but that most people have cut themselves off from."
+      "audio": "\"Trust and believe\" — this is his central healing formula.\n\nFor Gröning, healing is not technique. It's about being open. Trust is not a side issue — it's how it works.\n\nHe calls this force the Heilstrom — meaning the \"healing stream.\" A current of goodness that's always present, but that most people have cut themselves off from."
     },
     {
       "slug": "receive",
@@ -72,9 +72,9 @@ const TALK_CONTENT = {
       "editorLabel": "Quote 3 — Incurable",
       "quote": "There is no incurable.",
       "attribution": "Bruno Gröning",
-      "notes": "This is one of his most provocative claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings that have no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific community process.",
+      "notes": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings that have no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports with real medical documentation.",
       "outline": "• \"Incurable\" = human medical judgment, not limit on divine power\n• People reported healings with no medical explanation\n• Community says cases are reviewed medically/scientifically\n• Not proof\n• Still worth attention",
-      "audio": "This is one of his most provocative claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings that have no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports through a medical-scientific community process."
+      "audio": "This is one of his boldest claims. In his view, \"incurable\" is a human medical judgment — not a limit on divine power.\n\nPeople report extraordinary things. Healings that have no medical explanation. Changes that seem to come from the inside out.\n\nAnd these are not just stories — the community that carries on his work documents such reports with real medical documentation."
     },
     {
       "slug": "mystery",
@@ -90,9 +90,9 @@ const TALK_CONTENT = {
       "slug": "echoes",
       "type": "visual",
       "editorLabel": "Inner Life Transition",
-      "notes": "Bruno Gröning's message goes beyond miraculous healing.\n\nWhen I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because parts of it echoed much older spiritual traditions.\n\nThe kingdom within. Living water. Grace as a gift from God, not as a consumable commodity. The pattern is the same.",
+      "notes": "Bruno Gröning's message goes beyond miraculous healing.\n\nWhen I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because parts of it echoed much older spiritual traditions.\n\nThe kingdom within. Living water. Grace as a gift from God, not something you earn or buy. The pattern is the same.",
       "outline": "• Message went beyond healing\n• What struck me: how familiar it felt\n• Echoes older traditions\n• Kingdom within\n• Living water\n• Grace as something received",
-      "audio": "Bruno Gröning's message goes beyond miraculous healing.\n\nWhen I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because parts of it echoed much older spiritual traditions.\n\nThe kingdom within. Living water. Grace as a gift from God, not as a consumable commodity. The pattern is the same."
+      "audio": "Bruno Gröning's message goes beyond miraculous healing.\n\nWhen I first encountered his teaching, what struck me was how familiar it felt. Not because I'd heard of him before — I hadn't. But because parts of it echoed much older spiritual traditions.\n\nThe kingdom within. Living water. Grace as a gift from God, not something you earn or buy. The pattern is the same."
     },
     {
       "slug": "thoughts",
@@ -100,9 +100,9 @@ const TALK_CONTENT = {
       "editorLabel": "Quote 5 — Thoughts",
       "quote": "It is so important which thoughts\na person accepts,\nfor thoughts are energy.",
       "attribution": "Bruno Gröning",
-      "notes": "This is crucial to understanding him. Thoughts, for Gröning, are not just mental events. They are forces.\n\nHe teaches that what a person inwardly receives and repeats begins to shape their life.\n\nIn his view, thought-discipline is not optional or merely psychological. It is morally and spiritually decisive.",
+      "notes": "This is crucial to understanding him. Thoughts, for Gröning, are not just mental events. They are forces.\n\nHe teaches that what a person inwardly receives and repeats begins to shape their life.\n\nIn his view, watching your thoughts isn't optional — and it isn't just psychology. It's a spiritual matter.",
       "outline": "• Not shallow positive thinking\n• Thoughts = not just events, but forces\n• What you inwardly receive + repeat shapes life\n• Thought-discipline = morally/spiritually decisive",
-      "audio": "This is crucial to understanding him. Thoughts, for Gröning, are not just mental events. They are forces.\n\nHe teaches that what a person inwardly receives and repeats begins to shape their life.\n\nIn his view, thought-discipline is not optional or merely psychological. It is morally and spiritually decisive."
+      "audio": "This is crucial to understanding him. Thoughts, for Gröning, are not just mental events. They are forces.\n\nHe teaches that what a person inwardly receives and repeats begins to shape their life.\n\nIn his view, watching your thoughts isn't optional — and it isn't just psychology. It's a spiritual matter."
     },
     {
       "slug": "love",
@@ -118,9 +118,9 @@ const TALK_CONTENT = {
       "slug": "stakes",
       "type": "visual",
       "editorLabel": "Cosmic Stakes",
-      "notes": "And this is where the tone changes.\n\nHe places healing inside a cosmic drama: love against destruction, God against evil, freedom against passivity.\n\nHe said: \"As true as it is that there is the Lord, there is also the Satan.\" He doesn't treat evil as a metaphor. He treats it as a real opposing force.",
+      "notes": "And this is where the tone changes.\n\nHe places healing inside a cosmic drama: love against destruction, God against evil, freedom against giving up.\n\nHe said: \"As true as it is that there is the Lord, there is also the Satan.\" He doesn't treat evil as a metaphor. He treats it as a real opposing force.",
       "outline": "• Tone changes here\n• Healing sits inside a cosmic drama\n• Love vs. destruction\n• God vs. evil\n• Freedom vs. passivity\n• Evil = real opposing force, not metaphor",
-      "audio": "And this is where the tone changes.\n\nHe places healing inside a cosmic drama: love against destruction, God against evil, freedom against passivity.\n\nHe said: \"As true as it is that there is the Lord, there is also the Satan.\" He doesn't treat evil as a metaphor. He treats it as a real opposing force."
+      "audio": "And this is where the tone changes.\n\nHe places healing inside a cosmic drama: love against destruction, God against evil, freedom against giving up.\n\nHe said: \"As true as it is that there is the Lord, there is also the Satan.\" He doesn't treat evil as a metaphor. He treats it as a real opposing force."
     },
     {
       "slug": "free-will",
@@ -136,9 +136,9 @@ const TALK_CONTENT = {
       "slug": "personal",
       "type": "blank",
       "editorLabel": "Personal Reflection",
-      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework.",
+      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist picture of the world.",
       "outline": "• Why I'm up here talking about this\n• Software engineer, 25 years building technology, AI systems\n• Logic, systems, code — that's my world\n• But also drawn to: what IS the human being?\n• More to us than materialist framework?",
-      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist framework."
+      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently, building AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different kind of question. The question of what the human being actually is. Whether there's more to us than what fits in a materialist picture of the world."
     },
     {
       "slug": "found",
