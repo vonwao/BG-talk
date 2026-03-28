@@ -24,16 +24,32 @@ const SLIDE_IMAGE_SELECTIONS = {
       "candidateId": "bild30"
     },
     "receive": {
-      "candidateId": "bild26"
+      "candidateId": "bild26",
+      "scale": 1,
+      "dim": 0.18
     },
     "incurable": {
-      "candidateId": "bild20"
+      "candidateId": "bild20",
+      "scale": 1,
+      "focusY": 29,
+      "focusX": 50,
+      "dim": 0.23
     },
     "mystery": {
-      "candidateId": "bild23"
+      "candidateId": "bild16",
+      "focusX": 50,
+      "focusY": 42,
+      "scale": 1,
+      "dim": 0.35,
+      "tone": "dark"
     },
     "echoes": {
-      "candidateId": "bild25"
+      "candidateId": "bild37",
+      "focusX": 36,
+      "focusY": 44,
+      "scale": 1,
+      "dim": 0.36,
+      "tone": "dark"
     },
     "thoughts": {
       "candidateId": "bild37"
