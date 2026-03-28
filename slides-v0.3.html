@@ -159,11 +159,18 @@
     margin: 0 !important;
   }
 
-  #edit-link {
+  #edit-actions {
     position: fixed;
     top: 14px;
     left: 14px;
     z-index: 120;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  #edit-link,
+  #edit-pics-link {
     padding: 0.6rem 0.9rem;
     border-radius: 999px;
     border: 1px solid rgba(140, 118, 80, 0.22);
@@ -184,7 +191,7 @@
     width: 100vw !important;
   }
 
-  body.audio-mode #edit-link {
+  body.audio-mode #edit-actions {
     top: 18px;
     left: 18px;
   }
@@ -749,7 +756,10 @@
 
 </div>
 </div>
-<a id="edit-link" href="editor.html">Edit Text</a>
+<div id="edit-actions">
+  <a id="edit-link" href="editor.html">Edit Text</a>
+  <a id="edit-pics-link" href="image-selector.html" target="_blank" rel="noopener noreferrer">Edit Pics</a>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.js"></script>
 <script>
@@ -1357,13 +1367,15 @@
 
   function updateEditLink() {
     var editLink = document.getElementById('edit-link');
-    if (!editLink) {
+    var editPicsLink = document.getElementById('edit-pics-link');
+    if (!editLink || !editPicsLink) {
       return;
     }
 
     var idx = Reveal.getIndices().h + 1;
     var returnUrl = window.location.pathname + window.location.search + window.location.hash;
     editLink.href = 'editor.html?slide=' + idx + '&return=' + encodeURIComponent(returnUrl);
+    editPicsLink.href = 'image-selector.html?slide=' + idx;
   }
 
   document.querySelectorAll('#script-panel .mode-button').forEach(function(button) {
