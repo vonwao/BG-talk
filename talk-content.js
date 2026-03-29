@@ -26,9 +26,9 @@ const TALK_CONTENT = {
       "slug": "herford",
       "type": "visual",
       "editorLabel": "Herford 1949",
-      "notes": "But in 1949, in the northern German town of Herford, thousands showed up to hear exactly that. Thousands.\n\nNot because they were gullible. But because they were desperate. And because something was happening around him that no one could explain.\n\nHis name was Bruno Gröning.",
-      "outline": "• In 1949, in the town of Herford, thousands came to hear exactly that\n• Not because they were gullible\n• But because they were desperate\n• And because something around him was hard to explain\n• His name was Bruno Gröning",
-      "audio": "But in 1949, in the northern German town of Herford, thousands showed up to hear exactly that. Thousands.\n\nNot because they were gullible. But because they were desperate. And because something was happening around him that no one could explain.\n\nHis name was Bruno Gröning."
+      "notes": "But in 1949, in a small town in northern Germany called Herford, thirty thousand people showed up. Thirty thousand. The police were called. Traffic stopped. The government got involved.\n\nNot because these people were gullible. But because they were desperate. And because something was happening around this man that nobody could explain.\n\nHis name was Bruno Gröning.",
+      "outline": "• In 1949, in Herford, thirty thousand people showed up\n• Police were called, traffic stopped, government got involved\n• Not because they were gullible\n• But because they were desperate\n• Something was happening that nobody could explain\n• His name was Bruno Gröning",
+      "audio": "But in 1949, in a small town in northern Germany called Herford, thirty thousand people showed up. Thirty thousand. The police were called. Traffic stopped. The government got involved.\n\nNot because these people were gullible. But because they were desperate. And because something was happening around this man that nobody could explain.\n\nHis name was Bruno Gröning."
     },
     {
       "slug": "source",
@@ -65,6 +65,14 @@ const TALK_CONTENT = {
       "notes": "His teaching isn't complicated. It comes down to a few things:\n\nFirst: stop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\nSecond: turn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through an inner stillness that lets something flow in.",
       "outline": "• His teaching is simple and comes down to a few moves\n• First: stop clinging to what is wrong\n• Do not make illness or the problem the center of your identity\n• Second: turn toward what is good\n• Not wishful thinking, but an inner act of trust\n• Then receive\n• Not through effort or willpower, but through openness and inner stillness",
       "audio": "His teaching isn't complicated. It comes down to a few things:\n\nFirst: stop clinging to what's wrong. Don't make your illness or your problem the center of your identity.\n\nSecond: turn toward what is good. Not as wishful thinking — but as an inner act of trust.\n\nAnd then — receive. Not through effort or willpower, but through openness. Through an inner stillness that lets something flow in."
+    },
+    {
+      "slug": "pictures",
+      "type": "visual",
+      "editorLabel": "Pictures & Objects",
+      "notes": "And here's where it gets really strange — even for people who already accept the idea of spiritual healing.\n\nGröning said that this healing stream could be absorbed by physical objects. That a photograph of him, a small ball of tinfoil he'd held — could carry and transmit this power. That people far away, who never met him, could receive help through these objects.\n\nI know how that sounds. But the healing reports include people who received help exactly this way — sometimes decades after his death in 1959.",
+      "outline": "• Here is where it gets really strange\n• He said the Heilstrom could be absorbed by physical objects\n• A photograph, a small ball of tinfoil he had held\n• People far away, who never met him, could receive help this way\n• I know how that sounds\n• But healing reports include exactly these cases\n• Sometimes decades after his death in 1959",
+      "audio": "And here's where it gets really strange — even for people who already accept the idea of spiritual healing.\n\nGröning said that this healing stream could be absorbed by physical objects. That a photograph of him, a small ball of tinfoil he'd held — could carry and transmit this power. That people far away, who never met him, could receive help through these objects.\n\nI know how that sounds. But the healing reports include people who received help exactly this way — sometimes decades after his death in 1959."
     },
     {
       "slug": "incurable",
@@ -136,9 +144,9 @@ const TALK_CONTENT = {
       "slug": "personal",
       "type": "blank",
       "editorLabel": "Personal Reflection",
-      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different question. What is the human being, actually? Is there more to us than what fits inside a materialist picture of the world?",
-      "outline": "• Why am I up here talking about this\n• I'm a software engineer\n• I've spent 25 years building technology, and more recently AI systems\n• Logic, systems, code — that is my world\n• But I have long been drawn to a different question\n• What is the human being, actually\n• Is there more to us than a materialist picture allows",
-      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently AI systems. That's my world. Logic, systems, code.\n\nBut for years, I've also been drawn to a different question. What is the human being, actually? Is there more to us than what fits inside a materialist picture of the world?"
+      "notes": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently AI systems. I'm probably the last person you'd expect to be standing up here talking about a healing stream from God.\n\nBut I spend my days building systems that simulate human thought. And I've come to believe that what a human being actually is — is something no system can simulate. There's something in us that's open to a dimension machines will never touch.",
+      "outline": "• Why am I up here talking about this\n• I'm a software engineer — 25 years in technology, now building AI\n• Probably the last person you'd expect up here talking about a healing stream from God\n• But I build systems that simulate thought\n• And I've come to believe what a human being is — no system can simulate\n• There is something in us open to a dimension machines will never touch",
+      "audio": "I should tell you why I'm up here talking about this.\n\nI'm a software engineer. I've spent 25 years building technology — and more recently AI systems. I'm probably the last person you'd expect to be standing up here talking about a healing stream from God.\n\nBut I spend my days building systems that simulate human thought. And I've come to believe that what a human being actually is — is something no system can simulate. There's something in us that's open to a dimension machines will never touch."
     },
     {
       "slug": "found",
@@ -162,9 +170,9 @@ const TALK_CONTENT = {
       "slug": "closing",
       "type": "visual",
       "editorLabel": "Closing Message",
-      "notes": "Bruno Gröning is compelling not just because he speaks about healing.\n\nIt's because he says the human being is open. Open to thought. Open to love. Open to destruction. And perhaps to grace.\n\nThat makes his message larger than the story of one unusual man.\n\nThe man said you can receive help. The deeper claim is that help is available — if we learn how to receive it.",
-      "outline": "• He is compelling not just because he speaks about healing\n• He says the human being is open\n• Open to thought\n• Open to love\n• Open to destruction\n• And perhaps to grace\n• So his message is larger than one unusual man\n• The man said you can receive help\n• The deeper claim is that help is available if we learn how to receive it",
-      "audio": "Bruno Gröning is compelling not just because he speaks about healing.\n\nIt's because he says the human being is open. Open to thought. Open to love. Open to destruction. And perhaps to grace.\n\nThat makes his message larger than the story of one unusual man.\n\nThe man said you can receive help. The deeper claim is that help is available — if we learn how to receive it."
+      "notes": "Bruno Gröning died in 1959. And the healings didn't stop.\n\nThat fact alone tells you something. His message was never really about one man. It was about what flows through when a person becomes open. Open to thought. Open to love. Open to destruction. And perhaps to grace.\n\nThe man said you can receive help. The deeper claim is that help is available — if we learn how to receive it.",
+      "outline": "• Bruno Gröning died in 1959\n• And the healings didn't stop\n• That tells you something\n• His message was never about one man\n• It was about what flows through when a person becomes open\n• Open to thought, love, destruction — and perhaps grace\n• The man said you can receive help\n• The deeper claim is that help is available if we learn how to receive it",
+      "audio": "Bruno Gröning died in 1959. And the healings didn't stop.\n\nThat fact alone tells you something. His message was never really about one man. It was about what flows through when a person becomes open. Open to thought. Open to love. Open to destruction. And perhaps to grace.\n\nThe man said you can receive help. The deeper claim is that help is available — if we learn how to receive it."
     },
     {
       "slug": "invitation",

@@ -28,6 +28,12 @@ const SLIDE_IMAGE_SELECTIONS = {
       "scale": 1,
       "dim": 0.18
     },
+    "pictures": {
+      "candidateId": "bild25",
+      "scale": 1,
+      "dim": 0.22,
+      "tone": "dark"
+    },
     "incurable": {
       "candidateId": "bild20",
       "scale": 1,
