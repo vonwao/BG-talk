@@ -12,6 +12,7 @@
 <style>
   :root {
     --panel-width: clamp(320px, 24vw, 420px);
+    --panel-width-collapsed: 88px;
     --panel-bg: linear-gradient(180deg, rgba(10, 10, 12, 0.98), rgba(20, 18, 15, 0.98));
     --panel-border: rgba(215, 194, 154, 0.18);
     --panel-text: #f2ece0;
@@ -103,6 +104,30 @@
     border-color: var(--panel-accent);
     color: #1b1711;
   }
+  body.panel-hidden #script-panel {
+    width: var(--panel-width-collapsed);
+    padding: 0.8rem 0.55rem 0.85rem;
+    gap: 0.5rem;
+  }
+  body.panel-hidden #script-panel .panel-header {
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.55rem;
+  }
+  body.panel-hidden #script-panel .panel-status {
+    display: none;
+  }
+  body.panel-hidden #script-panel .panel-modes {
+    flex-direction: column;
+    width: 100%;
+  }
+  body.panel-hidden #script-panel .mode-button {
+    width: 100%;
+    padding: 0.62rem 0.35rem;
+    line-height: 1;
+  }
   #script-text {
     flex: 1 1 auto;
     min-height: 0;
@@ -157,6 +182,12 @@
   .reveal {
     width: calc(100vw - var(--panel-width)) !important;
     margin: 0 !important;
+  }
+  body.panel-hidden .reveal {
+    width: calc(100vw - var(--panel-width-collapsed)) !important;
+  }
+  body.panel-hidden #script-text {
+    display: none;
   }
 
   #edit-actions {
@@ -620,6 +651,7 @@
     <div class="panel-modes" role="group" aria-label="Speaker notes mode">
       <button type="button" class="mode-button is-active" data-mode="full">Full</button>
       <button type="button" class="mode-button" data-mode="outline">Outline</button>
+      <button type="button" class="mode-button" data-mode="hidden">Hide</button>
     </div>
   </div>
   <div id="script-text"></div>
@@ -784,7 +816,7 @@
     height: 1080
   });
 
-  var panelMode = 'full'; // 'full' or 'outline'
+  var panelMode = 'full'; // 'full', 'outline', or 'hidden'
   var sizeFrame = null;
   var timingModel = buildTimingModel();
 
@@ -1022,6 +1054,12 @@
   function renderPanelContent(target, content) {
     target.classList.toggle('is-outline', panelMode === 'outline');
 
+    if (panelMode === 'hidden') {
+      target.textContent = '';
+      target.innerHTML = '';
+      return;
+    }
+
     if (panelMode !== 'outline') {
       target.textContent = content;
       return;
@@ -1057,6 +1095,11 @@
     renderPanelContent(measure, content);
     text.style.lineHeight = lineHeight;
     measure.style.lineHeight = lineHeight;
+
+    if (panelMode === 'hidden') {
+      text.scrollTop = 0;
+      return;
+    }
 
     if (!content.trim()) {
       text.style.fontSize = '26px';
@@ -1105,6 +1148,10 @@
   }
 
   function getNotesForSlide(idx) {
+    if (panelMode === 'hidden') {
+      return '';
+    }
+
     if (panelMode === 'outline') {
       return getSlideContent(idx).outline || '';
     }
@@ -1114,6 +1161,7 @@
   function updateScriptPanel() {
     var idx = Reveal.getIndices().h;
     var total = Reveal.getTotalSlides();
+    document.body.classList.toggle('panel-hidden', panelMode === 'hidden');
     document.querySelector('#script-panel .slide-label').textContent = 'Slide ' + (idx + 1) + ' of ' + total;
     document.getElementById('time-label').textContent = formatTime(timingModel.cumulativeBySlide[idx] || 0) + ' / ' + formatTime(timingModel.totalSeconds);
     renderPanelContent(document.getElementById('script-text'), getNotesForSlide(idx));
@@ -1130,16 +1178,32 @@
   }
 
   function setMode(mode) {
-    if (mode !== 'full' && mode !== 'outline' || mode === panelMode) {
+    if ((mode !== 'full' && mode !== 'outline' && mode !== 'hidden') || mode === panelMode) {
       return;
     }
 
     panelMode = mode;
     updateScriptPanel();
+
+    requestAnimationFrame(function() {
+      if (typeof Reveal !== 'undefined' && Reveal.layout) {
+        Reveal.layout();
+      }
+    });
   }
 
   function toggleMode() {
-    setMode(panelMode === 'full' ? 'outline' : 'full');
+    if (panelMode === 'full') {
+      setMode('outline');
+      return;
+    }
+
+    if (panelMode === 'outline') {
+      setMode('hidden');
+      return;
+    }
+
+    setMode('full');
   }
 
   var currentAudio = null;
