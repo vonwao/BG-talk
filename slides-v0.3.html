@@ -1147,6 +1147,55 @@
   var audioEnabled = true;
   var autoplay = true;
   var userHasInteracted = false;
+  var AUDIO_VARIANTS = {
+    practice: {
+      dir: 'audio/slides',
+      label: 'Practice'
+    },
+    slow: {
+      dir: 'audio/slides/originals',
+      label: 'Slow'
+    }
+  };
+  var audioVariantKey = getInitialAudioVariantKey();
+
+  function getInitialAudioVariantKey() {
+    var params = new URLSearchParams(window.location.search);
+    var fromUrl = params.get('audioSet');
+    var stored = '';
+
+    try {
+      stored = window.localStorage.getItem('bgTalkAudioVariant') || '';
+    } catch (error) {
+      stored = '';
+    }
+
+    if (fromUrl && AUDIO_VARIANTS[fromUrl]) {
+      return fromUrl;
+    }
+
+    if (stored && AUDIO_VARIANTS[stored]) {
+      return stored;
+    }
+
+    return 'practice';
+  }
+
+  function getAudioVariant() {
+    return AUDIO_VARIANTS[audioVariantKey] || AUDIO_VARIANTS.practice;
+  }
+
+  function persistAudioVariant() {
+    var params = new URLSearchParams(window.location.search);
+    params.set('audioSet', audioVariantKey);
+    history.replaceState(null, '', window.location.pathname + '?' + params.toString() + window.location.hash);
+
+    try {
+      window.localStorage.setItem('bgTalkAudioVariant', audioVariantKey);
+    } catch (error) {
+      // Ignore storage failures and keep runtime state only.
+    }
+  }
 
   function getAudioEntry(idx) {
     return getSlideContent(idx) || null;
@@ -1158,7 +1207,7 @@
       return '';
     }
 
-    return 'audio/slides/slide-' + String(idx + 1).padStart(2, '0') + '-' + entry.slug + '.mp3';
+    return getAudioVariant().dir + '/slide-' + String(idx + 1).padStart(2, '0') + '-' + entry.slug + '.mp3';
   }
 
   function clearSilentAdvance() {
@@ -1184,17 +1233,24 @@
     var playButton = document.getElementById('ctl-play');
     var statusEl = document.getElementById('ctl-status');
     var autoButton = document.getElementById('ctl-auto');
+    var variantButton = document.getElementById('ctl-variant');
     if (!playButton) {
       return;
     }
 
     var slideIdx = Reveal.getIndices().h;
     var total = Reveal.getTotalSlides();
+    var variant = getAudioVariant();
 
     playButton.innerHTML = currentAudio && !currentAudio.paused ? '&#9208;' : '&#9654;';
     statusEl.textContent = (slideIdx + 1) + '/' + total;
     autoButton.style.opacity = autoplay ? '1' : '0.45';
     autoButton.style.borderColor = autoplay ? '#aa9877' : 'rgba(255,255,255,0.2)';
+    if (variantButton) {
+      variantButton.textContent = variant.label;
+      variantButton.style.borderColor = audioVariantKey === 'slow' ? '#d5b27b' : 'rgba(255,255,255,0.2)';
+      variantButton.style.opacity = '1';
+    }
   }
 
   function showStartOverlay() {
@@ -1282,6 +1338,7 @@
       + '<button id="ctl-play" style="' + buttonStyle + 'min-width:48px;" title="Play or pause">&#9654;</button>'
       + '<button id="ctl-next" style="' + buttonStyle + '" title="Next">&#9654;&#9615;</button>'
       + '<span id="ctl-status" style="padding:0 8px;opacity:0.7;font-size:13px;white-space:nowrap;"></span>'
+      + '<button id="ctl-variant" style="' + buttonStyle + 'font-size:13px;min-width:78px;" title="Toggle between practice and slow narration"></button>'
       + '<button id="ctl-auto" style="' + buttonStyle + 'font-size:13px;" title="Toggle autoplay">auto</button>';
 
     document.body.appendChild(bar);
@@ -1302,6 +1359,15 @@
       e.stopPropagation();
       userHasInteracted = true;
       toggleAudioPlayback();
+    });
+
+    document.getElementById('ctl-variant').addEventListener('click', function(e) {
+      e.stopPropagation();
+      userHasInteracted = true;
+      audioVariantKey = audioVariantKey === 'practice' ? 'slow' : 'practice';
+      persistAudioVariant();
+      playSlideAudio(Reveal.getIndices().h);
+      updateAudioControls();
     });
 
     document.getElementById('ctl-auto').addEventListener('click', function(e) {
@@ -1364,6 +1430,7 @@
   }
 
   function initAudioMode() {
+    persistAudioVariant();
     createAudioControls();
     updateAudioControls();
     playSlideAudio(Reveal.getIndices().h);

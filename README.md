@@ -34,6 +34,7 @@
 ## Audio Practice / TTS
 - `slides-v0.3-audio.html` redirects to the audio-enabled deck
 - `slides-v0.3.html?audio=1` runs the current deck in auto-narrated mode
+- The audio deck now includes a `Practice` / `Slow` switch for `audio/slides/` vs `audio/slides/originals/`
 - `audio-preview.html` gives direct in-browser players for generated sample slides
 - `talk-content.js` is now the canonical source of truth for deck text, notes, outline, and audio
 - `node generate-audio.mjs` generates slide MP3s into `audio/slides/`
